@@ -1,0 +1,19 @@
+TODO:
+======
+
+USERS
+    * Add 'active' flag - only set on email confirmation
+
+SECURITY
+    * Validate user SP & function
+    * Register user SP & function
+    * Send registration confirmation email 
+    * Update from registration confirmation link
+    * Create session table
+    * Generate session cookie
+    * Match session cookie
+    * Remove session cookie
+
+SETTINGS
+    * Environment settings class
+
