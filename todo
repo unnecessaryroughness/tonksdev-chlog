@@ -2,10 +2,10 @@ TODO:
 ======
 
 USERS
-    * Add 'active' flag - only set on email confirmation
+    * Add 'join date' 
+    * Add function to flip the "active" flag
 
 SECURITY
-    * Validate user SP & function
     * Register user SP & function
     * Send registration confirmation email 
     * Update from registration confirmation link

@@ -34,41 +34,15 @@
         const SALT = "1009700e1675853b167ea786dc4c3f35";
         
     /*  ============================================
-        FUNCTION:   validateUser (STATIC)
-        PARAMS:     dbc - database connection object
-                    uid - user id
-                    pwd - password
-        RETURNS:    User object
+        FUNCTION:   tcashHash (STATIC)
+        PARAMS:     data - data to be hashed
+        RETURNS:    string - hashed value
         ============================================  */
-        public static function validateUser($dbc, $uid, $pwd) {
-            
-            try {
-                $sql = "CALL validateUser(:uid, :pwd)";
-                $qry = $dbc->prepare($sql);
-                $qry->bindValue(":uid", $uid);
-                $qry->bindValue(":pwd", $pwd);
-                $qry->execute();
-                
-                $userdata = $qry->fetch(\PDO::FETCH_ASSOC);
-
-                if ($userdata) {
-                    $user = new User($userdata["id"], 
-                                     $userdata["fullname"], 
-                                     $userdata["email"]);
-
-                    Logger::log(new LogMessage("User " . $uid . " validated"));
-                    return $user;   
-                } else { 
-                    Logger::log(new LogMessage("Failed to validate user " . $uid));
-                    return false;
-                }
-            } 
-            catch (\PDOException $e) {
-                throw new TCASHException('Unable to validate user ' . $uid, $e);
-		        exit();
-            }
+        public static function chlogHash($data) {
+           return hash_hmac('sha256', $data, Security::SALT); 
         }
-       
+
+        
     /*  ============================================
         FUNCTION:   registerUser (STATIC)
         PARAMS:     dbc - database connection object
@@ -312,14 +286,6 @@
         
         
         
-    /*  ============================================
-        FUNCTION:   tcashHash (STATIC)
-        PARAMS:     data - data to be hashed
-        RETURNS:    string - hashed value
-        ============================================  */
-        public static function tcashHash($data) {
-           return hash_hmac('sha256', $data, Security::SALT); 
-        }
         
         
     /*  ============================================

@@ -4,10 +4,13 @@
 
     class User {
         
-        protected $email;
-        protected $nickname;
-        protected $isadmin;
-        protected $dbconn;
+        protected $email     = "";
+        protected $nickname  = "";
+        protected $isadmin   = 0;
+        protected $isactive  = 0;
+        protected $biography = "";
+        protected $dbconn    = null;
+        protected $isdirty   = false;
         
     /*  ============================================
         FUNCTION:   __construct 
@@ -16,55 +19,142 @@
                     adm - is admin
         RETURNS:    boolean
         ============================================  */
-        public function __construct($eml="invalid", $nnm="unnamed", $adm=0) {
+        public function __construct($eml="invalid", $nnm="unnamed", $adm=0, $act=1, $bio="") {
             $this->email = $eml;
             $this->nickname = $nnm;
             $this->isadmin = $adm;
+            $this->isactive = $act;
+            $this->biography = $bio;
         }
 
         
     /*  Simple GET methods */
-        
-        public function getEmail()    { return $this->email; }
-        public function getNickname() { return $this->nickname; }
-        public function getIsAdmin()  { return $this->isadmin; }
+        public function Email()     { return $this->email; }
+        public function Nickname()  { return $this->nickname; }
+        public function Biography() { return $this->biography; }
+        public function IsAdmin()   { return $this->isadmin; }
+        public function IsActive()  { return $this->isactive; }
+        public function IsDirty()   { return $this->isdirty; }
+        public function DBConn()    { return is_null($this->dbconn) ? Database::connect() : $this->dbconn; }
+
         
     /*  Simple SET methods */
+        public function setEmail($eml)       { $this->email = $eml;     $this->isdirty = true; return $this; }
+        public function setNickName($nnm)    { $this->nickname = $nnm;  $this->isdirty = true; return $this; }
+        public function setBiography($bio)   { $this->biography = $bio; $this->isdirty = true; return $this; }
+        public function setDBConn(\PDO $dbc) { $this->dbconn = $dbc;    return $this; }
+        public function disconnectDB()       { $this->dbconn = null;    return $this; }
+            
         
-        public function setEmail($eml) {
-            $this->email = $eml;
-            return $this;
+    /*  ============================================
+        FUNCTION:   setPassword 
+        PARAMS:     pwd - old password
+                    npw - new password
+                    np2 - new password check
+        RETURNS:    (this) allows for method chaining
+        ============================================  */
+        public function setPassword($pwd, $npw=null, $np2=null) {
+        
+            //Default the new password fields to the current password if the 
+            //primary new password field is null
+            if (is_null($npw)) {
+                $errmsg = "Error changing password - supplied password was null";
+                Logger::log($errmsg); throw new \Exception ($errmsg); 
+            } else {
+                //check passwords match
+                if ($npw != $np2) {
+                    $errmsg = "Error changing password - supplied passwords did not match";
+                    Logger::log($errmsg); throw new \Exception ($errmsg); 
+                } else {
+                    //Update the password in the database. Update will be rejected
+                    //if the old password doesn't match the supplied parameter
+                    try {
+                        $sql = "CALL updateUserPassword(:eml, :pwd, :npw)";
+                        $qry = $this->DBConn()->prepare($sql);
+                        $qry->bindValue(":eml", $this->email);
+                        $qry->bindValue(":pwd", $pwd);
+                        $qry->bindValue(":npw", $npw);
+                        $qSuccess = $qry->execute(); 
+
+                        //rowcount = 1 if the update worked properly
+                        if ($qSuccess) {
+                            if ($qry->rowCount() == 1) {
+                                $errmsg = "Updated password for ".$this->email;
+                                Logger::log($errmsg); return true;   
+                            } elseif ($qry->rowCount() > 1) {
+                                $errmsg = "More than one user record updated. Looks suspicious. ";
+                                Logger::log($errmsg); throw new \Exception($errmsg);
+                            } else { 
+                                $errmsg = "Failed to update password for ".$this->email." - 0 rows updated";
+                                Logger::log($errmsg, "rowcount: ".$qry->rowCount()); throw new \Exception($errmsg);
+                            }
+                        } else {
+                            $errmsg = "Failed to update password for ".$this->email." - query failed";
+                            Logger::log($errmsg, "rowcount: ".$qry->rowCount()); throw new \Exception($errmsg);
+                        }
+                    } 
+                    catch (\Exception $e) {
+                        $errmsg = "Failed to update password for ".$this->email." - query exception";
+                        Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                    }
+                }
+            }
         }
 
-        public function setNickName($nnm) {
-            $this->nickname = $nnm;
-            return $this;
+
+    /*  ============================================
+        FUNCTION:   flushToDB
+        PARAMS:     pwd - user password
+        RETURNS:    (boolean) indicates if a DB update took place
+        ============================================  */
+        public function flushToDB($pwd=null) {
+            if ($pwd && $this->isdirty) {
+                try {
+                    $qSuccess = user::updateUser($this->email, 
+                                     $this->nickname, 
+                                     $this->biography, 
+                                     $pwd, null, null, 
+                                     $this->DBConn());   
+                    
+                    $this->isdirty = false;
+                    return $qSuccess;
+                    
+                } catch (\Exception $e) {
+                    $errmsg = "Error flushing to DB";
+                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                }
+            } else {
+                return false;   
+            }
         }
         
-        public function getDBConn() {
-            return is_null($this->dbconn) ? Database::connect() : $this->dbconn;
-        }
         
-                
+/*  ============================================
+//  >>> STATIC METHODS <<<        
+/*  ============================================
+        
         
     /*  ============================================
         FUNCTION:   getUserFromEmail (STATIC)
         PARAMS:     eml - user email address
+                    pwd - user password
                     dbc - database connection object
         RETURNS:    User object
         PURPOSE:    Constructs a user object from an email address
-                    and returns a complete user object 
+                    and returns a complete user object,
+                    after validating password with back end.
         ============================================  */
-        public static function getUserFromEmail($eml, \PDO $dbc=null) {
+        public static function getUserFromEmail($eml, $pwd, \PDO $dbc=null) {
     
             //if the 'dbc' parameter was not supplied then connect to the 
             //default database using default parameters.
             $dbc = ($dbc) ? : Database::connect();
                         
             try {
-                $sql = "CALL getUserFromEmail(:eml)";
+                $sql = "CALL getUserFromEmail(:eml, :pwd)";
                 $qry = $dbc->prepare($sql);
                 $qry->bindValue(":eml", $eml);
+                $qry->bindValue(":pwd", $pwd);
                 $qry->execute();
                 
                 $userdata = $qry->fetch(\PDO::FETCH_ASSOC);
@@ -72,36 +162,19 @@
                 if ($userdata) {
                     $user = new User($userdata["email"], 
                                      $userdata["nickname"], 
-                                     $userdata["isadmin"]);
+                                     $userdata["isadmin"],
+                                     $userdata["active"],
+                                     $userdata["biography"]);
                     return $user;   
                 } else { 
-                    return false;
+                    $errmsg = "Failed to retrieve user record " . $eml;
+                    Logger::log($errmsg); throw new \Exception($errmsg);
                 }
             } 
             catch (\PDOException $e) {
-                Logger::log("unable to retrieve user record " . $eml, $e->getMessage());
-                throw new \Exception('Unable to retrieve user ' . $eml);
+                $errmsg = "unable to retrieve user record " . $eml;
+                Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
             }
-        }
-        
-    /*  ============================================
-        FUNCTION:   setDBConn
-        PARAMS:     dbc - database connection (PDO object)
-        RETURNS:    boolean
-        ============================================  */
-        public function setDBConn(\PDO $dbc) {
-            $this->dbconn = $dbc;
-            return true;
-        }
-        
-    /*  ============================================
-        FUNCTION:   disconnectDB
-        PARAMS:     none
-        RETURNS:    boolean
-        ============================================  */
-        public function disconnectDB() {
-            $this->dbconn = null; 
-            return true;
         }
         
         
@@ -110,13 +183,14 @@
         FUNCTION:   updateUser (STATIC)
         PARAMS:     eml - email
                     nnm - nickname
+                    bio - biography
                     pwd - old password
                     nwd - new password
                     np2 - new password check
                     dbc - database connection object
         RETURNS:    (boolean) indicates whether the update worked or not
         ============================================  */
-        public static function updateUser($eml, $nnm, $pwd, $npw=null, $np2=null, \PDO $dbc=null) {
+        public static function updateUser($eml, $nnm, $bio, $pwd, $npw=null, $np2=null, \PDO $dbc=null) {
         
             //if the 'dbc' parameter was not supplied then connect to the 
             //default database using default parameters.
@@ -131,35 +205,41 @@
 
             //check passwords match
             if ($npw != $np2) {
-                Logger::log("error changing passwords - supplied passwords did not match (".$eml.")");
-                throw new \Exception ("Supplied passwords did not match"); 
+                $errmsg = "error changing passwords - supplied passwords did not match (".$eml.")";
+                Logger::log($errmsg); throw new \Exception($errmsg); 
             } else {
                 
                 //update user details
                 try {
-                    $sql = "CALL updateUser(:eml, :nnm, :pwd, :npw)";
+                    $sql = "CALL updateUser(:eml, :nnm, :bio, :pwd, :npw)";
                     $qry = $dbc->prepare($sql);
                     $qry->bindValue(":eml", $eml);
                     $qry->bindValue(":nnm", $nnm);
+                    $qry->bindValue(":bio", $bio);
                     $qry->bindValue(":pwd", $pwd);
                     $qry->bindValue(":npw", $npw);
-                    $qry->execute(); 
+                    $qSuccess = $qry->execute(); 
                     
                     //rowcount = 1 if the update worked properly
-                    if ($qry->rowCount() == 1) {
-                        Logger::log("Updated user details for " . $eml);
-                        return true;   
-                    } elseif ($qry->rowCount() > 1) {
-                        Logger::log("More than one user record updated. Looks suspicious. " . $eml);
-                        throw new \Exception('Error updating user ' . $eml);
+                    if ($qSuccess) {
+                        if ($qry->rowCount() == 1) {
+                            $errmsg = "Updated user details for " . $eml;
+                            Logger::log($errmsg); return true;   
+                        } elseif ($qry->rowCount() > 1) {
+                            $errmsg = "More than one user record updated. Looks suspicious. " . $eml;
+                            Logger::log($errmsg); throw new \Exception($errmsg);
+                        } elseif ($qry->rowCount() == 0) {
+                            $errmsg = "No changes to update for " . $eml . " - 0 rows updated";
+                            Logger::log($errmsg); return false;
+                        }
                     } else { 
-                        Logger::log("Failed to update user details for " . $eml, "rowcount: ".$qry->rowCount());
-                        throw new \Exception('Unable to update user ' . $eml);
+                        $errmsg = "Failed to update user details for ".$eml.". User may not exist in database";
+                        Logger::log($errmsg); throw new \Exception($errmsg);
                     }
                 } 
                 catch (\Exception $e) {
-                    Logger::log("Unable to update user ".$uid, $e->getMessage());
-                    throw new \Exception('Unable to update user ' . $eml);
+                    $errmsg = "Unable to update user ".$eml;
+                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
                 }
             }
         }
