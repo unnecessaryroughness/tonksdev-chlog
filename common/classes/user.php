@@ -9,6 +9,7 @@
         protected $isadmin   = 0;
         protected $isactive  = 0;
         protected $biography = "";
+        protected $joindate  = null;
         protected $dbconn    = null;
         protected $isdirty   = false;
         
@@ -19,12 +20,13 @@
                     adm - is admin
         RETURNS:    boolean
         ============================================  */
-        public function __construct($eml="invalid", $nnm="unnamed", $adm=0, $act=1, $bio="") {
+        public function __construct($eml="invalid", $nnm="unnamed", $adm=0, $act=1, $bio="", $jdt=null) {
             $this->email = $eml;
             $this->nickname = $nnm;
             $this->isadmin = $adm;
             $this->isactive = $act;
             $this->biography = $bio;
+            $this->joindate = $jdt;
         }
 
         
@@ -32,6 +34,7 @@
         public function Email()     { return $this->email; }
         public function Nickname()  { return $this->nickname; }
         public function Biography() { return $this->biography; }
+        public function JoinDate()  { return $this->joindate; }
         public function IsAdmin()   { return $this->isadmin; }
         public function IsActive()  { return $this->isactive; }
         public function IsDirty()   { return $this->isdirty; }
@@ -164,7 +167,8 @@
                                      $userdata["nickname"], 
                                      $userdata["isadmin"],
                                      $userdata["active"],
-                                     $userdata["biography"]);
+                                     $userdata["biography"],
+                                     $userdata["joindate"]);
                     return $user;   
                 } else { 
                     $errmsg = "Failed to retrieve user record " . $eml;

@@ -11,18 +11,19 @@
 
     //--> TEST USERS
     //$usr = new ch\User("mark@tonks.me.uk", "Marko", 1);
-    $usr = ch\User::getUserFromEmail("marktonks75@gmail.com", "def123");
+    $usr = ch\User::getUserFromEmail("marktonks75@gmail.com", "xyz987");
     var_dump ($usr);
 
 
     //$usr->setEmail("aimztonks@gmail.com");
     //$usr->setNickname("MarkT");
     //$usr->setBiography("Long time episodic CH fighter!!!");
-    $usr->setPassword("def123", "xyz987", "xyz987");
+    //$usr->setPassword("def123", "xyz987", "xyz987");
 
     echo $usr->Email()."\n";
     echo $usr->Nickname()."\n";
     echo $usr->Biography()."\n";
+    echo $usr->JoinDate()."\n";
     echo $usr->IsAdmin()."\n";
     echo $usr->IsActive()."\n";
 

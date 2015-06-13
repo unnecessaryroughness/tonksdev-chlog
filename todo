@@ -2,13 +2,14 @@ TODO:
 ======
 
 USERS
-    * Add 'join date' 
     * Add function to flip the "active" flag
 
-SECURITY
+REGISTRATION
     * Register user SP & function
     * Send registration confirmation email 
     * Update from registration confirmation link
+
+USER SESSIONS
     * Create session table
     * Generate session cookie
     * Match session cookie
