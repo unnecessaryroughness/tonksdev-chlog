@@ -55,6 +55,8 @@
                     npw - new password
                     np2 - new password check
         RETURNS:    (this) allows for method chaining
+        PURPOSE:    Validates input data and immediately changes password on back end. 
+                    Password is never stored in session before, during, or after this process.
         ============================================  */
         public function setPassword($pwd, $npw=null, $np2=null) {
         
@@ -109,6 +111,8 @@
         FUNCTION:   flushToDB
         PARAMS:     pwd - user password
         RETURNS:    (boolean) indicates if a DB update took place
+        PURPOSE:    Flushes cached data about the nickname and biography to the back end.
+                    Password must be supplied to do this. Password cannot be changed by this method.
         ============================================  */
         public function flushToDB($pwd=null) {
             if ($pwd && $this->isdirty) {
@@ -193,6 +197,8 @@
                     np2 - new password check
                     dbc - database connection object
         RETURNS:    (boolean) indicates whether the update worked or not
+        PURPOSE:    Updates all updateable fields for the user. 
+                    Current valid password must be supplied, but new password is optional.
         ============================================  */
         public static function updateUser($eml, $nnm, $bio, $pwd, $npw=null, $np2=null, \PDO $dbc=null) {
         
@@ -248,4 +254,61 @@
             }
         }
 
+        
+        
+    /*  ============================================
+        FUNCTION:   setActive (STATIC)
+        PARAMS:     tok - token from email
+                    dbc - database connection object
+        RETURNS:    (boolean) indicates whether the activation worked or not
+        PURPOSE:    Flips "active" flag on user record to TRUE if the supplied token
+                    matches the one that was sent by email.
+        ============================================  */
+        public static function setActive($tok=null, \PDO $dbc=null) {
+
+            //Do not proceed if the token was not supplied
+            if ($tok) {
+                //if the 'dbc' parameter was not supplied then connect to the 
+                //default database using default parameters.
+                $dbc = ($dbc) ? : Database::connect();
+
+                //Update the active flag in the database. Update will only succeed if
+                //a user record with a matching token is found.
+                try {
+                    $sql = "CALL updateUserActive(:tok)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":tok", $tok);
+                    $qSuccess = $qry->execute(); 
+
+                    //rowcount = 1 if the update worked properly
+                    if ($qSuccess) {
+                        if ($qry->rowCount() == 1) {
+                            $errmsg = "Activated user";
+                            Logger::log($errmsg); return true;   
+                        } elseif ($qry->rowCount() > 1) {
+                            $errmsg = "Activated more than one user. Looks suspicious";
+                            Logger::log($errmsg); throw new \Exception($errmsg);
+                        } else { 
+                            $errmsg = "Failed to activate user - 0 rows updated";
+                            Logger::log($errmsg); throw new \Exception($errmsg);
+                        }
+                    } else {
+                        $errmsg = "Failed to activate user - query failed";
+                        Logger::log($errmsg); throw new \Exception($errmsg);
+                    }
+                } 
+                catch (\Exception $e) {
+                    $errmsg = "Failed to activate user - query exception";
+                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                }
+                
+            } else {
+                //token was empty
+                Logger::log("Attempted to activate a user with a null token.");
+                return false;   
+            }
+            
+            return true;   
+        }
+        
     }

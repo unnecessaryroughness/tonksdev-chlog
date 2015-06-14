@@ -13,12 +13,20 @@
     //$usr = new ch\User("mark@tonks.me.uk", "Marko", 1);
     $usr = ch\User::getUserFromEmail("marktonks75@gmail.com", "xyz987");
     var_dump ($usr);
+    unset($usr);
 
+    ch\User::setActive("markyauth");
 
-    //$usr->setEmail("aimztonks@gmail.com");
-    //$usr->setNickname("MarkT");
-    //$usr->setBiography("Long time episodic CH fighter!!!");
-    //$usr->setPassword("def123", "xyz987", "xyz987");
+    $usr = ch\User::getUserFromEmail("marktonks75@gmail.com", "xyz987");
+    var_dump ($usr);
+    unset($usr);
+    
+
+/*
+    $usr->setEmail("aimztonks@gmail.com");
+    $usr->setNickname("MarkT");
+    $usr->setBiography("Long time episodic CH fighter!!!");
+    $usr->setPassword("def123", "xyz987", "xyz987");
 
     echo $usr->Email()."\n";
     echo $usr->Nickname()."\n";
@@ -28,6 +36,7 @@
     echo $usr->IsActive()."\n";
 
     echo ($usr->flushToDB("xyz987")) ? "Updated\n" : "No Update\n";
+*/
 
     
     //ch\User::updateUser("marktonks75@gmail.com", "MarkT", "abc123", "abc123", "aac123");
