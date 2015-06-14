@@ -22,7 +22,7 @@
                     default - the default value to return in case of error
                     returnblanks - (boolean) should we return a blank or the default value 
                               if the found property value is blank
-        RETURNS:    boolean
+        RETURNS:    value
         ============================================  */
         public static function session($object, $property, $default="", $returnblanks=true) {
             
@@ -32,14 +32,10 @@
                 if (!isset($_SESSION[$object])) {
                     return $default;   
                 } else {
-                    if (!isset($_SESSION[$object]->$property)) {
+                    if (strlen($_SESSION[$object]->$property)==0 && !returnblanks) {
                         return $default;
                     } else {
-                        if (strlen($_SESSION[$object]->$property)==0 && !returnblanks) {
-                            return $default;
-                        } else {
-                            return $_SESSION[$object]->$property;   
-                        }
+                        return $_SESSION[$object]->$property;   
                     }
                 }
             }
@@ -51,7 +47,7 @@
                     default - the default value to return in case of error
                     returnblanks - (boolean) should we return a blank or the default value 
                               if the found property value is blank
-        RETURNS:    boolean
+        RETURNS:    value
         ============================================  */
         public static function server($property, $default="", $returnblanks=true) {
             
@@ -70,6 +66,31 @@
             }
         }
     
+        
+    /*  ============================================
+        FUNCTION:   post (STATIC)
+        PARAMS:     property - the property of the object to return
+                    default - the default value to return in case of error
+                    returnblanks - (boolean) should we return a blank or the default value 
+                              if the found property value is blank
+        RETURNS:    value
+        ============================================  */
+        public static function post($property, $default="", $returnblanks=true) {
+
+            if (!isset($_POST)) {
+                return $default;   
+            } else {
+                if (!isset($_POST[$property])) {
+                    return $default;   
+                } else {
+                    if (strlen($_POST[$property])==0 && !$returnblanks) {
+                        return $default;
+                    } else {
+                        return $_POST[$property];
+                    }
+                }
+            }
+        }
 
     }
 

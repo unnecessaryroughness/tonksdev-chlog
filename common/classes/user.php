@@ -30,7 +30,8 @@
         }
 
         
-    /*  Simple GET methods */
+/*
+      Simple GET methods 
         public function Email()     { return $this->email; }
         public function Nickname()  { return $this->nickname; }
         public function Biography() { return $this->biography; }
@@ -38,8 +39,35 @@
         public function IsAdmin()   { return $this->isadmin; }
         public function IsActive()  { return $this->isactive; }
         public function IsDirty()   { return $this->isdirty; }
+*/
         public function DBConn()    { return is_null($this->dbconn) ? Database::connect() : $this->dbconn; }
 
+    /*  ============================================
+        FUNCTION:   __get
+        PARAMS:     field - the read only field required
+        RETURNS:    (variable)
+        PURPOSE:    General purpose ReadOnly property getter
+        ============================================  */
+        public function __get( $field ) {
+            switch( $field ) {
+              case 'email':
+                return $this->email;
+              case 'nickname':
+                return $this->nickname;
+              case 'biography':
+                return $this->biography;
+              case 'isadmin':
+                return $this->isadmin;
+              case 'isactive':
+                return $this->isactive;
+              case 'isdirty':
+                return $this->isdirty;
+              default:
+                throw new \Exception('Invalid property: '.$field);
+            }
+        }
+        
+        
         
     /*  Simple SET methods */
         public function setEmail($eml)       { $this->email = $eml;     $this->isdirty = true; return $this; }
@@ -254,6 +282,96 @@
             }
         }
 
+
+    /*  ============================================
+        FUNCTION:   registerUser (STATIC)
+        PARAMS:     eml - email
+                    nnm - nickname
+                    bio - biography
+                    npw - new password
+                    np2 - new password check
+                    dbc - database connection object
+        RETURNS:    (boolean) indicates whether the registration worked or not
+        PURPOSE:    Adds all updateable fields for the new user. 
+                    Validates that new passwords match before sending to back end.
+        ============================================  */
+        public static function registerUser($eml, $nnm, $bio, $npw, $np2, \PDO $dbc=null) {
+         
+            //if the 'dbc' parameter was not supplied then connect to the 
+            //default database using default parameters.
+            $dbc = ($dbc) ? : Database::connect();
+            
+            //Get unique registration token for user
+            $now = new \DateTime();
+            $emlL4 = substr($eml, 0, 4);
+            $emlR = substr($eml, 4);
+            $tok = Security::chlogHash($emlL4.$now->format("dmYHis").$emlR);
+            
+            //check passwords match
+            if ($npw != $np2) {
+                $errmsg = "Error registering user - supplied passwords did not match (".$eml.")";
+                Logger::log($errmsg); throw new \Exception($errmsg); 
+            } else {
+            
+                //register user
+                try {
+                    $sql = "CALL registerUser(:eml, :nnm, :bio, :npw, :tok)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qry->bindValue(":nnm", $nnm);
+                    $qry->bindValue(":bio", $bio);
+                    $qry->bindValue(":npw", $npw);
+                    $qry->bindValue(":tok", $tok);
+                    $qSuccess = $qry->execute(); 
+                    
+                    //rowcount = 1 if the update worked properly
+                    if ($qSuccess) {
+                        $errmsg = "Registered new user " . $eml;
+                        Logger::log($errmsg); 
+                        
+                        //send email confirmation
+                        $to = $eml;
+                        $subject = "CHlog new user registration -- confirmation";
+                        $body = self::getEmailBody($nnm, $tok);
+                        $headers = "From: mark@tonksdev.co.uk\r\nReply-To: mark@tonksdev.co.uk\r\n";
+                        
+                        if (mail($to, $subject, $body, $headers)) {
+                            $errmsg = "Sent email confirmation to ".$eml;
+                            Logger::log($errmsg); return true;   
+                        } else {
+                            $errmsg = "Failed to send email confirmation to ".$eml;
+                            Logger::log($errmsg); Logger::log($body); throw new \Exception($errmsg);
+                        }
+                    } else { 
+                        $errmsg = "Failed to register user ".$eml;
+                        Logger::log($errmsg); throw new \Exception($errmsg);
+                    }
+                } 
+                catch (\Exception $e) {
+                    $errmsg = "Unable to register user ".$eml;
+                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                }
+            }
+            return false;
+        }
+        
+        
+    /*  ============================================
+        FUNCTION:   getEmailBody (PROTECTED STATIC)
+        PARAMS:     nnm - nickname of user
+                    tok - token to append to url
+        RETURNS:    (string) body text of email
+        PURPOSE:    uses HEREDOC to return a formatted string email body
+        ============================================  */
+        protected static function getEmailBody($nnm, $tok) {
+            return <<<EOT
+Hello {$nnm}. Thank you for registering with CHlog.
+Please click on the link below to activate your account.
+
+http://www.tonksdev.co.uk/chlog/activate.php?aid={$tok}
+
+EOT;
+        }
         
         
     /*  ============================================

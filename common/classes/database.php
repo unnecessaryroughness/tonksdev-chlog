@@ -39,7 +39,7 @@
                         
             //if no environment name passed, default to whatever ID 
             //is stored in the session environment settings object
-            $envname = $envname ? : safeget::session("environment", "id", "DEV", false);
+            $envname = $envname ? : safeget::session("environment", "envid", "DEV", false);
             
             //Set the database parameters, based on the environment
             //variable passed in, or retrieved from session.
