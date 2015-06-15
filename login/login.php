@@ -26,8 +26,15 @@
 HTML;
         }
 
-        public function loggedinhtml() {
-            //TODO   
+        public function loggedinhtml($nickname) {
+            return <<<HTML
+            <p>
+            <form id="frmLogout" action="." method="POST">
+                User <strong>$nickname</strong> Logged In
+                <button type="submit" id="btnLogout" name="action" value="logout">Log Out</button>
+            </form>
+            </p>
+HTML;
         }
         
         public function handleResponse($type, $fields) {
@@ -40,12 +47,12 @@ HTML;
                     $pwd = safeget::post("password", "null", false);
                     
                     //attempt to create the user from the supplied details
-                    //and add to session as the current user
-                    //then return page html
-                    //TODO: replace this with a "currently logged in html"
+                    //and add to session as the current user, then return page html
                     try {
                         $_SESSION["user"] = User::getUserFromEmail($eml, $pwd);
-                        return $this->html();
+                        $errmsg = "User ".$eml." logged in";
+                        Logger::log($errmsg);
+                        return $this->loggedinhtml(safeget::session("user", "nickname", "unknown"));                
                         
                     } catch (\Exception $e) {
                         $errmsg = "error retrieving user ".$eml." from login form ";
@@ -53,9 +60,16 @@ HTML;
                     }
                     break;
                 
+                case "logout":
+                    unset($_SESSION["user"]);
+                    return $this->html();
+                    break;
+                
                 case "unset":
                     //If the response action is unset then do nothing & show the form
-                    return $this->html();
+                    $unn = safeget::session("user", "nickname", "unknown");
+                    $rtn = (strlen($unn)==0) ? $this->html : $this->loggedinhtml($unn);
+                    return $rtn;
                     break;
                 
                 default:

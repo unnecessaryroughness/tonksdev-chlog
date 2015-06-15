@@ -1,7 +1,5 @@
 <?php 
 
-    use chlog as ch;
-
     //Include common functions
     require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/functions.php";
 
@@ -9,6 +7,6 @@
     safesessionstart();
 
     //Add environment object
-    $_SESSION["environment"] = new ch\Environment();
+    $_SESSION["environment"] = new chlog\Environment();
 
 ?>

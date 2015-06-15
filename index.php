@@ -10,7 +10,9 @@
     //generate the required HTML output.
     $pgtitle = "chLOG Home Page";
     $pgcontent = "<p>Front Page</p>";
-
+    
+    //TODO: 
+    //Create classes to supply header & footer HTML & call here?? 
 
     //load main layout template
     require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/templates/layout.html.php";

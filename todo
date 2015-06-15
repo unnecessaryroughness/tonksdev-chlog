@@ -19,8 +19,7 @@ UI
         + Common large-screen stylesheet
         + Common session construction
         + Common logged in / redirect 
-==> * Basic already-logged-in screen
-    * Basic registration screen
+==> * Basic registration screen
     * Basic email authentication screen (activate.php)
 
     * UI improvements

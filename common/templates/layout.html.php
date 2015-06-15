@@ -9,7 +9,7 @@
   
 <!--    <link rel="stylesheet" href="/chlog/common/styles/chlog-style-main.css">-->
     <?php echo (isset($pgcss)) ? $pgcss : "" ?>
-    <title><?php echo (isset($pgtitle)) ? $pgtitle : "untitled page" ?></title>
+    <title><?php htmlout((isset($pgtitle)) ? $pgtitle : "untitled page") ?></title>
   </head>
   <body>
       <div id="chlog-container">
