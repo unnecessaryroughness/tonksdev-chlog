@@ -56,15 +56,16 @@
             return <<<HTML
 
             <form id="frmLogin" action="." method="POST">
-                <label for="txtEmail">Email:
-                    <input type="textbox" id="txtEmail" name="email" value="">
-                </label>
-                <label for="txtPW">Password:
-                    <input type="password" id="txtPassword" name="password" value="">
-                </label>
+                <label for="txtEmail">Email:</label>
+                <input type="textbox" id="txtEmail" name="email" value="">
+                
+                <label for="txtPW">Password:</label>
+                <input type="password" id="txtPassword" name="password" value="">
+                
                 <button type="submit" id="btnSubmit" name="action" value="login">Log In</button>
             </form>
 
+            <p><a href="/chlog/register/">Register a New User</a></p>
             <script src="login.js"></script>
 
 HTML;

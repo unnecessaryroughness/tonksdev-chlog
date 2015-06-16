@@ -1,0 +1,60 @@
+/* ====================================================
+    
+    chlog-style-main.css
+
+    Globally applicable style rules. 
+    No limits or implications on viewport.
+
+   ==================================================== */
+
+* {
+    box-sizing: border-box;   
+    font-family: sans-serif;
+}
+
+/* =======================
+   element layout rules 
+   ======================= */
+
+form>label {
+    display: block;
+}   
+
+
+/* =======================
+   main menu layout rules 
+   ======================= */
+#chlog-mainmenu {
+}
+
+#chlog-mainmenu>ul {
+    list-style: none;   
+    margin: 0;
+    padding: 0.2em;
+    background: #222;
+}
+
+#chlog-mainmenu>ul>li {
+    display: inline-block;
+    color: #fff;
+    border-right: 1px solid #666;
+}
+
+#chlog-mainmenu>ul>li>a, 
+#chlog-mainmenu>ul>li>a:link, 
+#chlog-mainmenu>ul>li>a:visited,
+#chlog-mainmenu>ul>li>a:active
+#chlog-mainmenu>ul>li>a:focus{
+    display:block;
+    width: 5em;
+    height: 2em;
+    line-height: 1.9em;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+}
+
+#chlog-mainmenu>ul>li>a:hover {
+    background: #666;
+    color: #fff;
+}

@@ -7,7 +7,7 @@
 <!--	<link rel="apple-touch-icon" sizes="72x72" href="/chlog/common/images/chlog.png">-->
     <script src="/chlog/jquery/jquery-1.11.3.min.js"></script>
   
-<!--    <link rel="stylesheet" href="/chlog/common/styles/chlog-style-main.css">-->
+    <link rel="stylesheet" href="/chlog/common/styles/chlog-style-main.css">
     <?php echo (isset($pgcss)) ? $pgcss : "" ?>
     <title><?php htmlout((isset($pgtitle)) ? $pgtitle : "untitled page") ?></title>
   </head>

@@ -29,17 +29,6 @@
             $this->joindate = $jdt;
         }
 
-        
-/*
-      Simple GET methods 
-        public function Email()     { return $this->email; }
-        public function Nickname()  { return $this->nickname; }
-        public function Biography() { return $this->biography; }
-        public function JoinDate()  { return $this->joindate; }
-        public function IsAdmin()   { return $this->isadmin; }
-        public function IsActive()  { return $this->isactive; }
-        public function IsDirty()   { return $this->isdirty; }
-*/
         public function DBConn()    { return is_null($this->dbconn) ? Database::connect() : $this->dbconn; }
 
     /*  ============================================
@@ -333,7 +322,7 @@
                         $to = $eml;
                         $subject = "CHlog new user registration -- confirmation";
                         $body = self::getEmailBody($nnm, $tok);
-                        $headers = "From: mark@tonksdev.co.uk\r\nReply-To: mark@tonksdev.co.uk\r\n";
+                        $headers = "From: admin@tonksdev.co.uk\r\nReply-To: admin@tonksdev.co.uk\r\n";
                         
                         if (mail($to, $subject, $body, $headers)) {
                             $errmsg = "Sent email confirmation to ".$eml;
@@ -352,7 +341,9 @@
                     Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
                 }
             }
-            return false;
+            
+            //if all succeeded, return the newly registered user in a user object
+            return self::getUserFromEmail($eml, $npw);
         }
         
         

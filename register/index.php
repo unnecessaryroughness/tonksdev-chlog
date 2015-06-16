@@ -4,7 +4,7 @@
     require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/config.php";
 
     //Create login controller
-    $loginctrl = new chlog\Login_Control();
+    $loginctrl = new chlog\Register_Control();
 
     //Process the form action & store the resulting view object 
     $vw = $loginctrl->process(chlog\safeget::post("action", "unset", false), $_POST); 
