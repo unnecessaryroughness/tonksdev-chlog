@@ -3,16 +3,15 @@
     //load config
     require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/config.php";
 
-    //Create login view class
-    $loginview = new chlog\Login();
+    //Create login controller
+    $loginctrl = new chlog\Login_Control(new chlog\Login_View());
 
-    //Show form
+    //Process the form action 
     try {
-        $pgtitle = $loginview::pgtitle;
-        $pgcontent = $loginview->handleResponse(chlog\safeget::post("action", "unset", false), $_POST);
+        $pgcontent = $loginctrl->process(chlog\safeget::post("action", "unset", false), $_POST);   
     } catch (\Exception $e) {
         $errview = new chlog\Error();
-        $pgcontent = $errview->html($e->getMessage());
+        $pgcontent = $errview->html($e->getMessage());    
     }
 
     //load main layout template

@@ -1,6 +1,5 @@
 <?php 
 
-
 /*  ============================================
     FUNCTION:   __autoload
     PARAMS:     classname - name of class to load
@@ -9,23 +8,41 @@
     ============================================  */
     function __autoload($classname) {
 
+        //get file name only from the path\class name
         $parts = explode("\\", strtolower($classname));
         $file = end($parts).".php";
 
+        //get file path (but not file name) from class name. Flip slashes over & add to ROOT
         $path = "/".str_replace("\\", "/", strtolower($classname))."/";
         $pathfile = $_SERVER['DOCUMENT_ROOT'].$path.$file;
-
+        
+        //if the path contains an underscore, remove it and the suffix 
+        //from the file path but not the class name, to create a generalised directory
+        $genpath = substr($path, 0, strrpos($path, "_"))."/";
+        $genfile = $_SERVER['DOCUMENT_ROOT'].$genpath.$file;
+            
+        //define the common components path, in case both the original path and 
+        //the generalised path are not found
         $commonpath = "/chlog/common/classes/";
         $commonfile = $_SERVER['DOCUMENT_ROOT'].$commonpath.$file; 
 
-        if (file_exists($pathfile)) {
+        //echo "path: ".$pathfile."<br>genpath: ".$genfile."<br>commonpath: ".$commonfile."<br><br>";
+        
+        if (file_exists($pathfile)) { 
             require_once $pathfile; 
+            
+        } elseif (file_exists($genfile)){
+            require_once $genfile;
+            
         } elseif (file_exists($commonfile)){
             require_once $commonfile;
+            
         } else {
             $errmsg = "Error auto-loading class ".$path.end($parts);
+            chlog\Logger::log($errmsg); throw new \Exception($errmsg);
         }
     }
+
 
 
 /*  ============================================
