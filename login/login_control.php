@@ -4,31 +4,14 @@
 
     class Login_Control {
 
-        protected $loginview = null;
-        
     /*  ============================================
         FUNCTION:   __construct
-        PARAMS:     vw - login_view object
+        PARAMS:     (none_
         RETURNS:    (object)
-        PURPOSE:    constructs the class & assigns an associated view, if one was passed in
+        PURPOSE:    constructs the class 
         ============================================  */
-        public function __construct(Login_View $vw) {
-            if (isset($vw)) {
-                $this->loginview = $vw;   
-            }
-        }
+        public function __construct() {}
         
-    /*  ============================================
-        FUNCTION:   LoginView
-        PARAMS:     (none)
-        RETURNS:    (object) login_view object
-        PURPOSE:    returns the current login view object for this controller, 
-                    or assigns one if the view is currently null.
-        ============================================  */
-        protected function LoginView() {
-            $this->loginview = ($this->loginview) ? : new Login_View();   
-            return $this->loginview;
-        }
         
     /*  ============================================
         FUNCTION:   process
@@ -52,25 +35,33 @@
                         $_SESSION["user"] = User::getUserFromEmail($eml, $pwd);
                         $errmsg = "User ".$eml." logged in"; Logger::log($errmsg);
                         
-                        $nnm = safeget::session("user", "nickname", "unknown"); 
-                        return $this->LoginView()->loggedinhtml($nnm);                
+                        $vw = new Login_View();
+                        $vw->loggedinuser = safeget::session("user", "nickname", null); 
+                        $vw->loggedin = ($vw->loggedinuser);
+                        return $vw;
                         
                     } catch (\Exception $e) {
-                        $errmsg = "error retrieving user ".$eml." from login form ";
-                        Logger::log($errmsg); throw new \Exception($errmsg);
+                        unset($_SESSION["user"]);
+                        $vw = new Error_View();
+                        $vw->errcode = -1;
+                        $vw->errmsg = "error retrieving user ".$eml." from login form ";
+                        return $vw;
                     }
                     break;
                 
                 case "logout":
                     unset($_SESSION["user"]);
-                    return $this->LoginView()->html();
+                    $vw = new Login_View();                    
+                    $vw->loggedin = false;
+                    return $vw;
                     break;
                 
                 case "unset":
                     //If the response action is unset then do nothing & show the form
-                    $unn = safeget::session("user", "nickname", "");
-                    $rtn = (strlen($unn)==0) ? $this->LoginView()->html() : $this->LoginView()->loggedinhtml($unn);
-                    return $rtn;
+                    $vw = new Login_View();
+                    $vw->loggedinuser = safeget::session("user", "nickname", null);;
+                    $vw->loggedin = ($vw->loggedinuser);
+                    return $vw;
                     break;
                 
                 default:

@@ -5,6 +5,9 @@
     PARAMS:     classname - name of class to load
     RETURNS:    (boolean) false
     PURPOSE:    loads miscellaneous classes 
+                first attempts to load the path as supplied
+                then attempts to load after removing the underscore suffix from the folder name
+                then attempts to load from the common class library
     ============================================  */
     function __autoload($classname) {
 

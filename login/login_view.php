@@ -4,8 +4,10 @@
         
     class Login_View {
 
-        const pgtitle = "chLOG Login";
-
+        public $loggedin = false;
+        public $loggedinuser = null;
+        
+        
     /*  ============================================
         FUNCTION:   __construct
         PARAMS:     (none)
@@ -16,12 +18,41 @@
 
         
     /*  ============================================
+        FUNCTION:   title
+        PARAMS:     (none)
+        RETURNS:    (string)
+        PURPOSE:    returns the appropriate page title for the current state
+        ============================================  */
+        public function title() {
+            if ($this->loggedin) {
+                return "chLOG user";
+            } else {
+                return "chLOG login";   
+            }
+        }
+        
+        
+    /*  ============================================
         FUNCTION:   html
+        PARAMS:     (none)
+        RETURNS:    (string)
+        PURPOSE:    returns the appropriate HTML view for the current state
+        ============================================  */
+        public function html() {
+            if ($this->loggedin) {
+                return $this->loggedinhtml();
+            } else {
+                return $this->loginhtml();
+            }
+        }
+        
+    /*  ============================================
+        FUNCTION:   loginhtml
         PARAMS:     (none)
         RETURNS:    (string)
         PURPOSE:    returns the regular HTML view for the login form
         ============================================  */
-        public function html() {
+        protected function loginhtml() {
             return <<<HTML
 
             <form id="frmLogin" action="." method="POST">
@@ -45,11 +76,11 @@ HTML;
         RETURNS:    (string)
         PURPOSE:    returns the  HTML view for when a user is already logged in
         ============================================  */
-        public function loggedinhtml($nickname) {
+        protected function loggedinhtml() {
             return <<<HTML
             <p>
             <form id="frmLogout" action="." method="POST">
-                User <strong>$nickname</strong> Logged In
+                User <strong>$this->loggedinuser</strong> Logged In
                 <button type="submit" id="btnLogout" name="action" value="logout">Log Out</button>
             </form>
             </p>
