@@ -1,6 +1,9 @@
 TODO:
 ======
 
+BUGS
+    * Conflict between TCASH and CHLOG autoloaders...?
+
 USERS
     * Edit Profile
     * Remove User

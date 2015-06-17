@@ -126,7 +126,3 @@
 
     //run the magic quotes handler every time
     magicquoteshandler();
-
-
-?>
-

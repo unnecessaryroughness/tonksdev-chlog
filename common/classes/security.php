@@ -34,7 +34,7 @@
         const SALT = "1009700e1675853b167ea786dc4c3f35";
         
     /*  ============================================
-        FUNCTION:   tcashHash (STATIC)
+        FUNCTION:   chlogHash (STATIC)
         PARAMS:     data - data to be hashed
         RETURNS:    string - hashed value
         ============================================  */

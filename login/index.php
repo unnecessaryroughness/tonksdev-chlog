@@ -16,4 +16,3 @@
     //load main layout template
     require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/templates/layout.html.php";
     
-?>

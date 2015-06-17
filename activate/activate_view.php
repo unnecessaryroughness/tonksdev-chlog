@@ -19,5 +19,3 @@ HTML;
             return "chLOG User Activation";   
         }
     }
-
-?>

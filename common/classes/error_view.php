@@ -26,5 +26,3 @@ HTML;
             return "chLOG Error";   
         }
     }
-
-?>

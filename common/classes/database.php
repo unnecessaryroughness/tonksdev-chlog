@@ -25,7 +25,7 @@
 		const RASPI2_PWD = 'LA:553425';
 
         //PRD constants
-        const WWW_HOSTNAME = '10.168.1.81';
+        const WWW_HOSTNAME = '10.169.0.20';
 		const WWW_DBNAME = 'tonksdev_chlog';
 		const WWW_UNAME = 'tonksdev_chlogu';
 		const WWW_PWD = 'LA:553425';

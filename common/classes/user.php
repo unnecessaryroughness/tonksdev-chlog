@@ -371,7 +371,7 @@
                         $to = $eml;
                         $subject = "CHlog new user registration -- confirmation";
                         $body = self::getEmailBody($nnm, $tok);
-                        $headers = "From: admin@tonksdev.co.uk\r\nReply-To: admin@tonksdev.co.uk\r\n";
+                        $headers = "From: notify@tonksdev.co.uk\r\nReply-To: notify@tonksdev.co.uk\r\n";
                         
                         if (mail($to, $subject, $body, $headers)) {
                             $errmsg = "Sent email confirmation to ".$eml;
