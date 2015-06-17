@@ -7,7 +7,10 @@
         public $errcode = null;
         public $errmsg = "";
         
-        public function __construct() {}
+        public function __construct($code, $msg) {
+            $this->errcode = $code;
+            $this->errmsg = $msg;
+        }
         
         public function html() {
             return <<<HTML

@@ -4,10 +4,10 @@
     require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/config.php";
 
     //Create login controller
-    $registerctrl = new chlog\Register_Control();
+    $activatectrl = new chlog\Activate_Control();
 
     //Process the form action & store the resulting view object 
-    $vw = $registerctrl->process(chlog\safeget::post("action", "unset", false), $_POST); 
+    $vw = $activatectrl->process("activate", $_GET); 
 
     //extract the page title & content from the view
     $pgtitle = $vw->title();

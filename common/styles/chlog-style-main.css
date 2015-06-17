@@ -25,6 +25,7 @@ form>label {
    main menu layout rules 
    ======================= */
 #chlog-mainmenu {
+    margin-bottom: 1em;
 }
 
 #chlog-mainmenu>ul {

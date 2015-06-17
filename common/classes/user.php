@@ -359,7 +359,7 @@
 Hello {$nnm}. Thank you for registering with CHlog.
 Please click on the link below to activate your account.
 
-http://www.tonksdev.co.uk/chlog/activate.php?aid={$tok}
+http://www.tonksdev.co.uk/chlog/activate/?aid={$tok}
 
 EOT;
         }

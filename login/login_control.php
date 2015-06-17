@@ -27,7 +27,7 @@
                 case "login":
                     //get login details from POST
                     $eml = safeget::kvp($fields, "email", "null@null.null", false);
-                    $pwd = safeget::kvp($fields, "password", "null", false);
+                    $pwd = Security::chlogHash(safeget::kvp($fields, "password", "null", false));
                               
                     //attempt to create the user from the supplied details
                     //and add to session as the current user, then return page html
@@ -42,10 +42,7 @@
                         
                     } catch (\Exception $e) {
                         unset($_SESSION["user"]);
-                        $vw = new Error_View();
-                        $vw->errcode = -1;
-                        $vw->errmsg = "error retrieving user ".$eml." from login form ";
-                        return $vw;
+                        return new Error_View(-1, "error retrieving user ".$eml." from login form ");
                     }
                     break;
                 
@@ -66,7 +63,8 @@
                 
                 default:
                     //uh-oh - what is this? Throw an error!
-                    throw new \Exception ("Unhandled response from page.".$type );
+                    unset($_SESSION["user"]);
+                    return new Error_View(-1, "Unhandled response from page.".$type);
                     break;
             }
         }

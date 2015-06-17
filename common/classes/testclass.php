@@ -9,13 +9,17 @@
     }
 
 
+    echo ch\Security::chlogHash("testpw");
+
+
+
     //--> TEST USERS
 
 //    ch\User::registerUser("marktonks75@gmail.com", "Mark", "Tonksy", "testpw", "testpw");
 
-    ch\User::setActive("f8a497ff4017d70dbf7cb05b8f5ce021a66fd27c566c416a92b9cd455a2db5ed");
+    //ch\User::setActive("f8a497ff4017d70dbf7cb05b8f5ce021a66fd27c566c416a92b9cd455a2db5ed");
 
-    return true;
+    //return true;
 
 /*
     $usr = new ch\User("mark@tonks.me.uk", "Marko", 1);

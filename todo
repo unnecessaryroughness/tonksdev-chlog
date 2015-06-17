@@ -13,14 +13,11 @@ USER SESSIONS
 
 UI
     * UI basic framework 
-        + Common general stylesheet
         + Common mobile stylesheet
         + Common intermediate stylesheet
         + Common large-screen stylesheet
         + Common session construction
         + Common logged in / redirect 
-==> * Basic registration screen
-    * Basic email authentication screen (activate.php)
 
     * UI improvements
         + Common header
