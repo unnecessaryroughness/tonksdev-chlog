@@ -28,12 +28,20 @@
                     //get login details from POST
                     $eml = safeget::kvp($fields, "email", "null@null.null", false);
                     $pwd = Security::chlogHash(safeget::kvp($fields, "password", "null", false));
+                    $rem = safeget::kvp($fields, "remember", null, false);
+                    $uag = safeget::server("HTTP_USER_AGENT", "unknown", false);
                               
                     //attempt to create the user from the supplied details
                     //and add to session as the current user, then return page html
                     try {
                         $_SESSION["user"] = User::getUserFromEmail($eml, $pwd);
                         $errmsg = "User ".$eml." logged in"; Logger::log($errmsg);
+
+                        //Generate session cookie
+                        if ($rem) {
+                            setcookie('chlrm', Security::generateSessionCookie($eml, $uag), 
+                                      time()+3600*24*14, '/chlog/');
+                        }
                         
                         $vw = new Login_View();
                         $vw->loggedinuser = safeget::session("user", "nickname", null); 
@@ -48,6 +56,15 @@
                 
                 case "logout":
                     unset($_SESSION["user"]);
+                
+                    //remove cookie data from database
+                    $cookie = (isset($_COOKIE["chlrm"])) ? $_COOKIE["chlrm"] : null;
+                    Security::removeSessionCookie($cookie, $_SERVER["HTTP_USER_AGENT"]);
+                
+                    //remove cookie from browser
+                    setcookie("chlrm", "", time()-3600, "/chlog/");
+                
+                    //display login view
                     $vw = new Login_View();                    
                     $vw->loggedin = false;
                     return $vw;

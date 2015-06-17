@@ -62,6 +62,10 @@
                 <label for="txtPW">Password:</label>
                 <input type="password" id="txtPassword" name="password" value="">
                 
+                <label for="chkRemember">Stay Logged In:</label>
+                <input type="checkbox" id="chkRemember" name="remember">
+                
+                <br><br>
                 <button type="submit" id="btnSubmit" name="action" value="login">Log In</button>
             </form>
 
@@ -91,3 +95,4 @@ HTML;
     }
 
 ?>
+

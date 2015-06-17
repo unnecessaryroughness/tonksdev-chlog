@@ -41,251 +41,6 @@
         public static function chlogHash($data) {
            return hash_hmac('sha256', $data, Security::SALT); 
         }
-
-        
-    /*  ============================================
-        FUNCTION:   registerUser (STATIC)
-        PARAMS:     dbc - database connection object
-                    uid - user id
-                    fnm - full name
-                    eml - email
-                    pwd - password
-                    acg - account group
-                    agp - account group pin
-        RETURNS:    User object
-        ============================================  */
-        public static function registerUser($dbc, $uid, $fnm, $eml, $pwd) {
-        
-            $gotuser = false;
-            $newuser = false;
-            $gotgroup = false;
-            $newgroup = false;
-            $gotlink = false;
-            $newlink = false;
-            
-            //check username/password combination doesn't already exist
-            try {
-                $sql = "CALL checkUserExists(:uid)";
-                $qry = $dbc->prepare($sql);
-                $qry->bindValue(":uid", $uid);
-                $qry->execute();
-                $userdata = $qry->fetch(\PDO::FETCH_ASSOC);
-
-                //Check if a user record was found
-                if ($userdata) {
-
-                    //If user was found, did the passwords match?
-                    if ($userdata["password"] != $pwd) {
-                        throw new TCASHException("Supplied user name already exists", null);
-                        return false;
-                    } else {
-                        //if passwords do match, just use this user for account group operation
-                        $gotuser = true;
-                    }
-
-                } else { 
-                    //user didn't exist - create it
-                    $sql = "CALL addUser(:uid, :fnm, :pwd, :eml)";
-                    $qry = $dbc->prepare($sql);
-                    $qry->bindValue(":uid", $uid);
-                    $qry->bindValue(":fnm", $fnm);
-                    $qry->bindValue(":pwd", $pwd);
-                    $qry->bindValue(":eml", $eml);
-                    $gotuser = ($qry->execute()); 
-                
-                    //Check if user record was created ok.
-                    if ($gotuser) {
-                        $newuser = true;
-                    } else {
-                        throw new TCASHException("Unable to create a new user.", null);
-                        return false;
-                    }
-                }
-            } 
-            catch (\PDOException $e) {
-                throw new TCASHException('Unable to create user ' . $uid, $e);
-		        exit();                
-            }
-            
-            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            //Either by retrieving, or adding, we should now have a user record
-            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-/*
-
-            //check if an account group exists with the supplied name
-            try {
-                
-                $groupchk = self::checkAGExists($dbc, $acg, $acgp);
-                            
-                if ($groupchk == -1) {
-                    //group exists, but password was wrong
-                    throw new TCASHException("Supplied account group already exists", null);
-                } elseif ($groupchk == 1) {
-                    //group exists & password was correct
-                    $gotgroup = true;
-                } else { 
-                    //group doesn't exist, so create it
-                    if (self::addAccountGroup($dbc, $acg, $acgd, $acgp, $uid)) {
-                        $gotgroup = true;
-                        $newgroup = true;
-                    } else {
-                        Logger::log(new LogMessage("accountgroup " . $acg . " creation failed"));
-                        throw new TCASHException("Unable to create a new account group.", null);
-                    }
-                }
-            } 
-            catch (\PDOException $e) {
-                Logger::log(new LogMessage("accountgroup creation failed"));
-                throw new TCASHException('Unable to create account group ' . $acg, $e);
-            }
- 
-            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            //Either by retrieving, or adding, we should now have an account group record
-            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-            $gotlink = self::addUserAGLink($dbc, $uid, $acg, $acgp, ($newuser ? 1 : 0));
-
-            if ($gotlink == -1) {
-                Logger::log(new LogMessage("Failed to create link between user & accgroup"));
-                throw new TCASHException ("Unable to create a new user/group link.");
-            }
-                
-*/
-
-            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            //now have a user, a group and a link, so return new user object
-            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//            if ($gotuser && $gotgroup && $gotlink) {
-            if ($gotuser) {
-                return new User($uid, $fnm, $eml);
-            } else {
-                Logger::log(new LogMessage("Failed to create user (misc)"));
-                return false;
-            }
-        }
-        
-        
-    /*  ============================================
-        FUNCTION:   checkAGExists (STATIC)
-        PARAMS:     dbc - database connection to use
-                    acg - account group to check
-                    pwd - password to check
-        RETURNS:    (integer) - 1 = exists && passwords matched
-                                0 = does not exist
-                               -1 = exists, but password was wrong
-        ============================================  */
-        public static function checkAGExists($dbc, $acg, $pwd=null) {
-            try {
-                $sql = "CALL checkAccountGroupExists(:acg)";
-                $qry = $dbc->prepare($sql);
-                $qry->bindValue(":acg", $acg);
-                $qry->execute();
-                $agdata = $qry->fetch(\PDO::FETCH_ASSOC);
-            
-                //Check if an account group record was found
-                if ($agdata) {
-                    if ($pwd) {
-                        //If account group was found, did the passwords match?
-                        if ($agdata["password"] != $pwd) {
-                            Logger::log(new LogMessage("accountgroup pin comparison failed"));
-                            return -1;
-                        } else {
-                            //if passwords do match, just use this account group
-                            return 1;
-                        }
-                    } else {
-                        return 1;
-                    }
-                } else {
-                    return 0;
-                }
-            }
-            catch (\PDOException $e) {
-                Logger::log(new LogMessage("Error checking existing account group"));
-                throw new TCASHException ("Error checking existing account group", $e->getMessage()); 
-            }
-        }
-        
-
-    /*  ============================================
-        FUNCTION:   addAccountGroup (STATIC)
-        PARAMS:     dbc - database connection to use
-                    acg - account group to add
-                    dsc - description to add
-                    pwd - password to add
-                    uid - group owner to add
-        RETURNS:    (boolean) - indicates if group was added OK
-        ============================================  */
-        public static function addAccountGroup($dbc, $acg, $dsc, $pwd, $uid) {
-
-            try {
-                $sql = "CALL addAccountGroup(:acg, :acgd, :acgp, :uid)";
-                $qry = $dbc->prepare($sql);
-                $qry->bindValue(":uid", $uid);
-                $qry->bindValue(":acg", $acg);
-                $qry->bindValue(":acgp", $pwd);
-                $qry->bindValue(":acgd", $dsc);
-                $gotgroup = ($qry->execute()); 
-
-                //Check if account group record was created ok.
-                if ($gotgroup) {
-                    return true;
-                } else {
-                    Logger::log(new LogMessage("accountgroup " . $acg . " creation failed"));
-                    return false;
-                }
-            }
-            catch (\PDOException $e) {
-                Logger::log(new LogMessage("accountgroup " . $acg . " creation failed"));
-                throw new TCASHException("Error creating new account group", $e->getMessage()); 
-            }
-        }
-
-        
-    /*  ============================================
-        FUNCTION:   addUserAGLink (STATIC)
-        PARAMS:     dbc - database connection to use
-                    uid - user to link
-                    acg - account group to link
-                    prm - make this the primary group? true/false
-        RETURNS:    (integer) - 1 = added ok
-                                2 = already linked
-                               -1 = could not link
-        ============================================  */
-        public static function addUserAGLink($dbc, $uid, $acg, $pwd, $prm) {
-        
-            if (self::checkAGExists($dbc, $acg, $pwd) == 1) {
-                try {
-                    $sql = "CALL checkUserGroupLinkExists(:uid, :acg)";
-                    $qry = $dbc->prepare($sql);
-                    $qry->bindValue(":uid", $uid);
-                    $qry->bindValue(":acg", $acg);
-                    $qry->execute();
-                    $aglink = $qry->fetch(\PDO::FETCH_ASSOC);
-
-                    if ($aglink) {
-                        return 2;
-                    } else {
-                        //account group didn't exist - create it
-                        $sql = "CALL addUserGroupLink(:uid, :acg, :prm)";
-                        $qry = $dbc->prepare($sql);
-                        $qry->bindValue(":uid", $uid);
-                        $qry->bindValue(":acg", $acg);
-                        $qry->bindValue(":prm", $prm);
-                        return $qry->execute() ? 1 : -1;
-                    }
-                }
-                catch (\PDOException $e) {
-                   throw new TCASHException ("Error linking user to account group"); 
-                }
-            } else {
-               return -1; 
-            }
-        }
-        
-        
-        
-        
         
         
     /*  ============================================
@@ -294,42 +49,46 @@
         RETURNS:    string - hashed random value
         ============================================  */
         public static function generateRandomToken() {
-           return Security::tcashHash(md5(rand())); 
+           return Security::chlogHash(md5(rand())); 
         }
         
         
     /*  ============================================
         FUNCTION:   generateSessionCookie (STATIC)
-        PARAMS:     uid - userid to be used
+        PARAMS:     eml - email to be used
         RETURNS:    string - hashed random value
         ============================================  */
-        public static function generateSessionCookie($dbc, $uid, $fpt) {
+        public static function generateSessionCookie($eml, $fpt, \PDO $dbc=null) {
+            
+            //if the 'dbc' parameter was not supplied then connect to the 
+            //default database using default parameters.
+            $dbc = ($dbc) ? : Database::connect();
             
             //generate random values for series and token
             //fingerprint is based on USER_AGENT so identifies browser used
-            $token  = Security::generateRandomToken();
-            $series = Security::generateRandomToken();
-            $fprint = Security::tcashHash($fpt);
-            $cookie = $uid . ":" . $series . ":" . $token . ":" . $fprint;
+            $series = Self::generateRandomToken();
+            $token  = Self::generateRandomToken();
+            $fprint = Self::chlogHash($fpt);
+            $cookie = $eml . ":" . $series . ":" . $token . ":" . $fprint;
             
             //store session data in database
             try {
-                $sql = "CALL addSession(:uid, :ser, :tok, :fpt)";
+                $sql = "CALL addSession(:eml, :ser, :tok, :fpt)";
                 $qry = $dbc->prepare($sql);
-                $qry->bindValue(":uid", $uid);
+                $qry->bindValue(":eml", $eml);
                 $qry->bindValue(":ser", $series);
                 $qry->bindValue(":tok", $token);
                 $qry->bindValue(":fpt", $fprint);
 
                 //Check if session record was created ok.
-                if (! $qry->execute()) {
-                    throw new TCASHException("Unable to create session data entry.", null);
-                    return false;
+                if (!$qry->execute()) {
+                    $errmsg = "Unable to create session data entry.";
+                    Logger::log($errmsg); throw new \Exception();
                 }
             }
             catch (\PDOException $e) {
-                throw new TCASHException('Unable to session data entry.', $e);
-		        exit();  
+                $errmsg = 'Unable to session data entry ('.$e.')';
+                Logger::log($errmsg); throw new \Exception($errmsg);
             }
             
             //return the generated cookie, based on session data stored in DB
@@ -346,28 +105,32 @@
                              will be replaced by a new 
                              cookie, which is returned
         ============================================  */
-        public static function matchSessionCookie($dbc, $cookie, $fprint) {
+        public static function matchSessionCookie($cookie, $fprint, \PDO $dbc=null) {
+
+            //if the 'dbc' parameter was not supplied then connect to the 
+            //default database using default parameters.
+            $dbc = ($dbc) ? : Database::connect();
 
             //grab the individual variables from the cookie
-            list ($uid, $ser, $tok, $fpt) = explode(':', $cookie);
+            list ($eml, $ser, $tok, $fpt) = explode(':', $cookie);
 
             //if the stored fingerprint doesn't match the current fingerprint then the 
             //cookie has been stolen from another device/browser and should not be used
-            if ($fpt != Security::tcashHash($fprint)) {
+            if ($fpt != Security::chlogHash($fprint)) {
 
-                throw new TCASHException('The remembered user information was not recorded ' .
+                $errmsg = 'The remembered user information was not recorded ' .
                                         'in this environment. The information may have been ' .
-                                        'compromised and will not be used.', null);
+                                        'compromised and will not be used.';
                 
-                exit();
+                Logger::log($errmsg); throw new \Exception($errmsg);
             }
 
             
             //search for session information in the database
             try {
-                $sql = "CALL matchSession(:uid, :ser, :tok, :fpt)";
+                $sql = "CALL matchSession(:eml, :ser, :tok, :fpt)";
                 $qry = $dbc->prepare($sql);
-                $qry->bindValue(":uid", $uid);
+                $qry->bindValue(":eml", $eml);
                 $qry->bindValue(":ser", $ser);
                 $qry->bindValue(":tok", $tok);
                 $qry->bindValue(":fpt", $fpt);
@@ -379,32 +142,32 @@
                     //if an exact match could not be found, but the series was found
                     //with a different token, the session has probably been hijacked.
                     if ($matched["token"] == "HIJACK") {
-                       throw new TCASHException('Your stored session data suggests your ' .
-                                                'login details have been hijacked by another ' .
-                                                'user. All of your cached sessions will now ' .
-                                                'be deleted. You will have to log in again. ' .
-                                                'You should consider changing your password. ', null);
-                        exit();
+                        $errmsg = 'Your stored session data suggests your ' .
+                                            'login details have been hijacked by another ' .
+                                            'user. All of your cached sessions will now ' .
+                                            'be deleted. You will have to log in again. ' .
+                                            'You should consider changing your password. ';
+                        Logger::log($errmsg); throw new \Exception($errmsg);
                     }
                 } else {
                     return false; 
                 }
             }
             catch (\PDOException $e) {
-                throw new TCASHException('Unable to query session data.', $e);
-		        exit();  
+                $errmsg = "Unable to query session data (".$e.")";
+                Logger::log($errmsg); throw new \Exception($errmsg);
             }
             
             //if we got here then we matched the cookie data in the database and we are
             //still using the exact same USER_AGENT as recorded the cookie
             
             //now need to replace the token and update the database
-            $tok = Security::generateRandomToken();
+            $tok = Self::generateRandomToken();
 
             try {
-                $sql = "CALL replaceSessionToken(:uid, :ser, :tok, :fpt)";
+                $sql = "CALL replaceSessionToken(:eml, :ser, :tok, :fpt)";
                 $qry = $dbc->prepare($sql);
-                $qry->bindValue(":uid", $uid);
+                $qry->bindValue(":eml", $eml);
                 $qry->bindValue(":ser", $ser);
                 $qry->bindValue(":tok", $tok);
                 $qry->bindValue(":fpt", $fpt);
@@ -415,56 +178,56 @@
                 }
             }
             catch (\PDOException $e) {
-                throw new TCASHException('Unable to update session data.', $e);
-		        exit();  
+                $errmsg = 'Unable to update session data ('.$e.')';
+                Logger::log($errmsg); throw new \Exception($errmsg);
             }
             
             //if we got here, then the cookie was matched and the token replaced
             //so return the NEW cookie value to be stored by the calling program
-            return $uid . ":" . $ser . ":" . $tok . ":" . $fpt;
+            return $eml . ":" . $ser . ":" . $tok . ":" . $fpt;
         }
         
         
     /*  ============================================
         FUNCTION:   removeSessionCookie (STATIC)
-        PARAMS:     dbc    - database connection object
-                    cookie - cookie to be found in DB
+        PARAMS:     cookie - cookie to be found in DB
                     fprint - the fingerprint string
-        RETURNS:    string - if cookie was matched it 
-                             will be replaced by a new 
-                             cookie, which is returned
+                    dbc    - database connection object
+        RETURNS:    
         ============================================  */
-        public static function removeSessionCookie($dbc, $cookie, $fprint) {
+        public static function removeSessionCookie($cookie, $fprint, \PDO $dbc=null) {
+
+            //if the 'dbc' parameter was not supplied then connect to the 
+            //default database using default parameters.
+            $dbc = ($dbc) ? : Database::connect();
 
             if (isset($cookie) && !is_null($cookie)) {
                 
                 //split cookie to find individual parameters
-                list ($uid, $ser, $tok, $fpt) = explode(':', $cookie);
+                list ($eml, $ser, $tok, $fpt) = explode(':', $cookie);
                 
                 //if the stored fingerprint doesn't match the current fingerprint then the 
                 //cookie has been stolen from another device/browser and should not be used
-                if ($fpt != Security::tcashHash($fprint)) {
-
-                    throw new TCASHException('The remembered user information was not recorded ' .
+                if ($fpt != Security::chlogHash($fprint)) {
+                    $errmsg = 'The remembered user information was not recorded ' .
                                             'in this environment. The information may have been ' .
-                                            'compromised and will not be used.', null);
-
-                    exit();
+                                            'compromised and will not be used.';
+                    Logger::log($errmsg); throw new \Exception($errmsg);
                 }
 
                 //call database procedure to remove session entry
                 try {
-                    $sql = "CALL removeSession(:uid, :ser, :tok, :fpt)";
+                    $sql = "CALL removeSession(:eml, :ser, :tok, :fpt)";
                     $qry = $dbc->prepare($sql);
-                    $qry->bindValue(":uid", $uid);
+                    $qry->bindValue(":eml", $eml);
                     $qry->bindValue(":ser", $ser);
                     $qry->bindValue(":tok", $tok);
                     $qry->bindValue(":fpt", $fpt);
                     return $qry->execute();
                 }
                 catch (\PDOException $e) {
-                    throw new TCASHException('Unable to query session data.', $e);
-                    exit();  
+                    $errmsg = 'Unable to query session data ('.$e.')';
+                    Logger::log($errmsg); throw new \Exception($errmsg);
                 }
             }
         }

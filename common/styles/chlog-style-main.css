@@ -21,6 +21,11 @@ form>label {
 }   
 
 
+form>input[type=checkbox] {
+    display: inline-block;
+}
+
+
 /* =======================
    main menu layout rules 
    ======================= */

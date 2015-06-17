@@ -202,6 +202,55 @@
             }
         }
         
+
+    /*  ============================================
+        FUNCTION:   getUserFromSession (STATIC)
+        PARAMS:     eml - user email address
+                    ser - series
+                    tok - token
+                    fpt - fingerprint
+                    dbc - database object
+        RETURNS:    User object
+        PURPOSE:    Constructs a user object from an email address
+                    and session details and returns a complete user object,
+                    after validating password with back end.
+        ============================================  */
+        public static function getUserFromSession($eml, $ser, $tok, $fpt, \PDO $dbc=null) {
+    
+            //if the 'dbc' parameter was not supplied then connect to the 
+            //default database using default parameters.
+            $dbc = ($dbc) ? : Database::connect();
+                        
+            try {
+                $sql = "CALL getUserFromSession(:eml, :ser, :tok, :fpt)";
+                $qry = $dbc->prepare($sql);
+                $qry->bindValue(":eml", $eml);
+                $qry->bindValue(":ser", $ser);
+                $qry->bindValue(":tok", $tok);
+                $qry->bindValue(":fpt", $fpt);
+                $qry->execute();
+                
+                $userdata = $qry->fetch(\PDO::FETCH_ASSOC);
+
+                if ($userdata) {
+                    $user = new User($userdata["email"], 
+                                     $userdata["nickname"], 
+                                     $userdata["isadmin"],
+                                     $userdata["active"],
+                                     $userdata["biography"],
+                                     $userdata["joindate"]);
+                    return $user;   
+                } else { 
+                    $errmsg = "Failed to retrieve user record " . $eml;
+                    Logger::log($errmsg); throw new \Exception($errmsg);
+                }
+            } 
+            catch (\PDOException $e) {
+                $errmsg = "unable to retrieve user record " . $eml;
+                Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+            }
+        }
+        
         
         
     /*  ============================================

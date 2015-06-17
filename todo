@@ -2,13 +2,8 @@ TODO:
 ======
 
 USERS
-
-
-USER SESSIONS
-    * Create session table
-    * Generate session cookie
-    * Match session cookie
-    * Remove session cookie
+    * Edit Profile
+    * Remove User
 
 
 UI
@@ -16,13 +11,11 @@ UI
         + Common mobile stylesheet
         + Common intermediate stylesheet
         + Common large-screen stylesheet
-        + Common session construction
         + Common logged in / redirect 
 
     * UI improvements
-        + Common header
-        + Common footer
-        + Common menu
-        + "Functions" file to set up session
+        + Style Common header
+        + Style Common footer
+        + Style Common menu
     
 
