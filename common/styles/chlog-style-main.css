@@ -25,6 +25,16 @@ form>input[type=checkbox] {
     display: inline-block;
 }
 
+form>button.button-noborder {
+    border: 0;
+    background: #fff;
+    color: #333;
+}
+
+form>button.button-noborder:hover {
+    cursor: pointer;
+}
+
 
 /* =======================
    main menu layout rules 
@@ -43,7 +53,6 @@ form>input[type=checkbox] {
 #chlog-mainmenu>ul>li {
     display: inline-block;
     color: #fff;
-    border-right: 1px solid #666;
 }
 
 #chlog-mainmenu>ul>li>a, 
@@ -52,7 +61,7 @@ form>input[type=checkbox] {
 #chlog-mainmenu>ul>li>a:active
 #chlog-mainmenu>ul>li>a:focus{
     display:block;
-    width: 5em;
+    padding: 0 0.8em;
     height: 2em;
     line-height: 1.9em;
     color: #fff;
@@ -64,3 +73,15 @@ form>input[type=checkbox] {
     background: #666;
     color: #fff;
 }
+
+
+/* =======================
+   global style classes 
+   ======================= */
+
+.chlog-header>a {
+    text-decoration: none;   
+    font-size: 2em;
+    color: #666;
+}
+

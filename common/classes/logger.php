@@ -31,7 +31,7 @@
             
             //prepend the date time to the log message
             $logdt   = date("Y-m-d H:i:s");
-            $loguser = safeget::session("userobj", "id", "[anon]", false); 
+            $loguser = safeget::session("user", "email", "[anon]", false); 
             $logurl  = safeget::server("REQUEST_URI", "[no url]", false); 
             $msg     = $logdt." | ".$loguser." | ".$logurl." | ".$msg;
             

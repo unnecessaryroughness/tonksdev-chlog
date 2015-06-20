@@ -36,7 +36,7 @@
                     try {
                         $_SESSION["user"] = User::getUserFromEmail($eml, $pwd);
                         $errmsg = "User ".$eml." logged in"; Logger::log($errmsg);
-
+                        
                         //Generate session cookie
                         if ($rem) {
                             setcookie('chlrm', Security::generateSessionCookie($eml, $uag), 
@@ -50,7 +50,7 @@
                         
                     } catch (\Exception $e) {
                         unset($_SESSION["user"]);
-                        return new Error_View(-1, "error retrieving user ".$eml." from login form ");
+                        return new Error_View(-1, "error retrieving user ".$eml." from login form ".$e->getMessage());
                     }
                     break;
                 

@@ -45,7 +45,7 @@
             return <<<HTML
                 
                 <form id="frmRegister" action="." method="POST">
-                    <p>registration form</p>
+                    <p>Registration Form</p>
                     
                     <label for="txtEmail">Email:</label>
                     <input type="textbox" id="txtEmail" name="email" value="">

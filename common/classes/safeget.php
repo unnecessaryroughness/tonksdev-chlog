@@ -32,10 +32,14 @@
                 if (!isset($_SESSION[$object])) {
                     return $default;   
                 } else {
-                    if (strlen($_SESSION[$object]->$property)==0 && !returnblanks) {
-                        return $default;
+                    if (!$property) {
+                        return $_SESSION[$object];
                     } else {
-                        return $_SESSION[$object]->$property;   
+                        if (strlen($_SESSION[$object]->$property)==0 && !returnblanks) {
+                            return $default;
+                        } else {
+                            return $_SESSION[$object]->$property;   
+                        }
                     }
                 }
             }

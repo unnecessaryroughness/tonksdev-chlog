@@ -3,6 +3,12 @@
     //Include common functions
     require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/functions.php";
 
+    //setup autoloaders for TCASH and CHLOG because they share the same website
+    //and lingering objects in session might cause issues if both autoloaders are
+    //not present all of the time.
+    include_once $_SERVER["DOCUMENT_ROOT"] . '/chlog/common/chlogautoload.php';
+    include_once $_SERVER["DOCUMENT_ROOT"] . '/tcash/common/tcashautoload.php';
+
     //set up session & configuration - has to happen in every page
     safesessionstart();
 

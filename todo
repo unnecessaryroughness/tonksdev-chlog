@@ -2,12 +2,10 @@ TODO:
 ======
 
 BUGS
-    * Conflict between TCASH and CHLOG autoloaders...?
+    * (none)
 
 USERS
-    * Edit Profile
     * Remove User
-
 
 UI
     * UI basic framework 

@@ -51,6 +51,8 @@
                 return $this->isactive;
               case 'isdirty':
                 return $this->isdirty;
+              case 'joindate':
+                return $this->joindate;
               default:
                 throw new \Exception('Invalid property: '.$field);
             }
@@ -91,6 +93,11 @@
                     //Update the password in the database. Update will be rejected
                     //if the old password doesn't match the supplied parameter
                     try {
+                        
+                        $pwd = Security::chlogHash($pwd);
+                        $npw = Security::chlogHash($npw);
+                        $np2 = Security::chlogHash($np2);
+                        
                         $sql = "CALL updateUserPassword(:eml, :pwd, :npw)";
                         $qry = $this->DBConn()->prepare($sql);
                         $qry->bindValue(":eml", $this->email);
@@ -139,7 +146,6 @@
                                      $this->biography, 
                                      $pwd, null, null, 
                                      $this->DBConn());   
-                    
                     $this->isdirty = false;
                     return $qSuccess;
                     
@@ -279,6 +285,11 @@
                 $np2 = $pwd;
             }
 
+            //hash the passwords
+            $pwd = Security::chlogHash($pwd);
+            $npw = Security::chlogHash($npw);
+            $np2 = Security::chlogHash($np2);
+            
             //check passwords match
             if ($npw != $np2) {
                 $errmsg = "error changing passwords - supplied passwords did not match (".$eml.")";

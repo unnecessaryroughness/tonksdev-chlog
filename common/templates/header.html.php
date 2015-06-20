@@ -1,5 +1,7 @@
 <header id="chlog-header">
-    <h1><a href="/chlog/">chLOG Application [<?php htmlout($_SESSION["environment"]->envid); ?>]</a></h1>
+    <div class="chlog-header">
+        <a href="/chlog/">chLOG Application [<?php htmlout($_SESSION["environment"]->envid); ?>]</a>
+    </div>
     <p>
         <form name="frmLogout" action="/chlog/login/index.php" method="POST">
             <?php $unn = chlog\safeget::session("user", "nickname", "not logged in");
@@ -7,7 +9,7 @@
 
             <?php if ($unn!="not logged in"): ?>
                 <button id="btnLogout" name="action" 
-                        class="button-noborder" value="logout">Log Out</button>
+                        class="button-noborder" value="logout">(Log Out)</button>
             <?php endif; ?>
         </form>
     </p>
