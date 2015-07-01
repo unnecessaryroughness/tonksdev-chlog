@@ -416,10 +416,10 @@
         ============================================  */
         protected static function getEmailBody($nnm, $tok) {
             return <<<EOT
-Hello {$nnm}. Thank you for registering with CHlog.
+Hello {$nnm}. Thank you for registering with chLOG.
 Please click on the link below to activate your account.
 
-http://www.tonksdev.co.uk/chlog/activate/?aid={$tok}
+http://chlog.tonksdev.co.uk/activate/?aid={$tok}
 
 EOT;
         }

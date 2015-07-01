@@ -1,8 +1,7 @@
 <?php 
 
-
     //load config
-    require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/config.php";
+    require $_SERVER["DOCUMENT_ROOT"]."/common/config.php";
 
     //load home page content into $pgcontent
     //Each page ".php" file will replicate this basic structure. 
@@ -15,5 +14,5 @@
     //Create classes to supply header & footer HTML & call here?? 
 
     //load main layout template
-    require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/templates/layout.html.php";
+    require $_SERVER["DOCUMENT_ROOT"]."/common/templates/layout.html.php";
     

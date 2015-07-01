@@ -1,9 +1,9 @@
 <header id="chlog-header">
     <div class="chlog-header">
-        <a href="/chlog/">chLOG Application [<?php htmlout($_SESSION["environment"]->envid); ?>]</a>
+        <a href="/">chLOG Application [<?php htmlout($_SESSION["environment"]->envid); ?>]</a>
     </div>
     <p>
-        <form name="frmLogout" action="/chlog/login/index.php" method="POST">
+        <form name="frmLogout" action="/login/index.php" method="POST">
             <?php $unn = chlog\safeget::session("user", "nickname", "not logged in");
                     htmlout($unn); ?>
 

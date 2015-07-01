@@ -1,7 +1,7 @@
 <?php 
 
     //load config
-    require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/config.php";
+    require $_SERVER["DOCUMENT_ROOT"]."/common/config.php";
 
     //Create login controller
     $adminctrl = new chlog\Useradmin_Control();
@@ -14,5 +14,5 @@
     $pgcontent = $vw->html();
 
     //load main layout template
-    require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/templates/layout.html.php";
+    require $_SERVER["DOCUMENT_ROOT"]."/common/templates/layout.html.php";
     

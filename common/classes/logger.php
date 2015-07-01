@@ -11,7 +11,7 @@
 
     class Logger {
 
-        const LOG_FILE_LOCATION = "/chlog/logs/chapplog";
+        const LOG_FILE_LOCATION = "/logs/chapplog";
                         
     /*  ============================================
         FUNCTION:   log (STATIC)

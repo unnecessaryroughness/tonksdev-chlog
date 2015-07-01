@@ -1,13 +1,13 @@
 <?php 
 
     //Include common functions
-    require $_SERVER["DOCUMENT_ROOT"]."/chlog/common/functions.php";
+    require $_SERVER["DOCUMENT_ROOT"]."/common/functions.php";
 
     //setup autoloaders for TCASH and CHLOG because they share the same website
     //and lingering objects in session might cause issues if both autoloaders are
     //not present all of the time.
-    include_once $_SERVER["DOCUMENT_ROOT"] . '/chlog/common/chlogautoload.php';
-    include_once $_SERVER["DOCUMENT_ROOT"] . '/tcash/common/tcashautoload.php';
+    include_once $_SERVER["DOCUMENT_ROOT"] . '/common/chlogautoload.php';
+//    include_once $_SERVER["DOCUMENT_ROOT"] . '/tcash/common/tcashautoload.php';
 
     //set up session & configuration - has to happen in every page
     safesessionstart();
@@ -25,7 +25,7 @@
             
             if ($newcookie) {
                 //store the new cookie in the browser. Cache for 14 days from now.
-                setcookie('chlrm', $newcookie, time() + 3600 * 24 * 14, '/chlog/');
+                setcookie('chlrm', $newcookie, time() + 3600 * 24 * 14, '/');
                 list ($eml, $ser, $tok, $fpt) = explode(':', $newcookie);
 
                 try {
@@ -34,13 +34,13 @@
                     
                 } catch (\Exception $e) {
                     unset ($_SESSION["user"]);
-                    setcookie("chlrm", "", time()-3600, "/chlog/");
+                    setcookie("chlrm", "", time()-3600, "/");
                     chlog\Logger::log("Error recovering session", $e->getMessage());   
                 }
             }
         } catch (\Exception $e) {
             unset ($_SESSION["user"]);
-            setcookie("chlrm", "", time()-3600, "/chlog/");
+            setcookie("chlrm", "", time()-3600, "/");
             chlog\Logger::log("Error recovering session", $e->getMessage());   
         }
     }

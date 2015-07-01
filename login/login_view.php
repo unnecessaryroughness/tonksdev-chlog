@@ -69,7 +69,7 @@
                 <button type="submit" id="btnSubmit" name="action" value="login">Log In</button>
             </form>
 
-            <p><a href="/chlog/register/">Register a New User</a></p>
+            <p><a href="/register/">Register a New User</a></p>
             <script src="login.js"></script>
 
 HTML;

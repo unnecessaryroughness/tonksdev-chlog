@@ -19,8 +19,9 @@
         
         if ($parts[0] == "chlog") {            
             
-            //get file path (but not file name) from class name. Flip slashes over & add to ROOT
-            $path = "/".str_replace("\\", "/", strtolower($classname))."/";
+            //remove the chlog\ prefix and flip slashes over
+            array_shift($parts);
+            $path = "/".implode("/", $parts)."/";
             $pathfile = $_SERVER['DOCUMENT_ROOT'].$path.$file;
 
             //if the path contains an underscore, remove it and the suffix 
@@ -30,9 +31,11 @@
 
             //define the common components path, in case both the original path and 
             //the generalised path are not found
-            $commonpath = "/chlog/common/classes/";
+            $commonpath = "/common/classes/";
             $commonfile = $_SERVER['DOCUMENT_ROOT'].$commonpath.$file; 
 
+            //echo $pathfile."<br>".$genfile."<br>".$commonfile."<br>";
+            
             if (is_readable($pathfile)) { 
                 require_once $pathfile; 
                 

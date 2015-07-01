@@ -40,7 +40,7 @@
                         //Generate session cookie
                         if ($rem) {
                             setcookie('chlrm', Security::generateSessionCookie($eml, $uag), 
-                                      time()+3600*24*14, '/chlog/');
+                                      time()+3600*24*14, '/');
                         }
                         
                         $vw = new Login_View();
@@ -62,7 +62,7 @@
                     Security::removeSessionCookie($cookie, $_SERVER["HTTP_USER_AGENT"]);
                 
                     //remove cookie from browser
-                    setcookie("chlrm", "", time()-3600, "/chlog/");
+                    setcookie("chlrm", "", time()-3600, "/");
                 
                     //display login view
                     $vw = new Login_View();                    

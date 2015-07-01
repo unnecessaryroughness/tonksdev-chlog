@@ -42,7 +42,7 @@
                     break;
                 
                 default:
-                    return new Redirect_View("/chlog/login/");
+                    return new Redirect_View("/login/");
                     break;
             }
         }

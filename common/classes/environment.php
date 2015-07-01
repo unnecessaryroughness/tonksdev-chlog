@@ -14,7 +14,7 @@
         ============================================  */
         public function __construct() {
             
-            if ($_SERVER['HTTP_HOST'] == 'localhost') {
+            if ($_SERVER['HTTP_HOST'] == 'chlog.localhost') {
                 $this->envid = "DEV";
             } elseif ($_SERVER['HTTP_HOST'] == 'raspi2') {
                 $this->envid = "TST";   
