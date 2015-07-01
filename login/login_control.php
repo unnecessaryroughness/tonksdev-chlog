@@ -27,7 +27,7 @@
                 case "login":
                     //get login details from POST
                     $eml = safeget::kvp($fields, "email", "null@null.null", false);
-                    $pwd = Security::chlogHash(safeget::kvp($fields, "password", "null", false));
+                    $pwd = safeget::kvp($fields, "password", "null", false);
                     $rem = safeget::kvp($fields, "remember", null, false);
                     $uag = safeget::server("HTTP_USER_AGENT", "unknown", false);
                               

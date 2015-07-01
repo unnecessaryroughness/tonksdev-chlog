@@ -34,13 +34,39 @@
         const SALT = "1009700e1675853b167ea786dc4c3f35";
         
     /*  ============================================
-        FUNCTION:   chlogHash (STATIC)
+        FUNCTION:   chlogHashStatic (STATIC)
         PARAMS:     data - data to be hashed
         RETURNS:    string - hashed value
+        PURPOSE:    Returns a hashed string that can be recreated 
+                    in the future with the same input data
+                    because it uses a static salt.
+        ============================================  */
+        public static function chlogHashStatic($data) {
+            return password_hash($data, PASSWORD_DEFAULT, ['salt' => Security::SALT]); 
+        }
+        
+    /*  ============================================
+        FUNCTION:   chlogHashStatic (STATIC)
+        PARAMS:     data - data to be hashed
+        RETURNS:    string - hashed value
+        PURPOSE:    Returns a hashed string that cannot be recreated with the
+                    same input data because it uses a dynamic salt.
         ============================================  */
         public static function chlogHash($data) {
-           return hash_hmac('sha256', $data, Security::SALT); 
+            return password_hash($data, PASSWORD_DEFAULT);   
         }
+        
+    /*  ============================================
+        FUNCTION:   chlogCheckHash (STATIC)
+        PARAMS:     data - data to be checked
+                    hash - hash to check against
+        RETURNS:    Boolean - did it match or not?
+        PURPOSE:    Returns true or false depending on if data matched the hash
+        ============================================  */
+        public static function chlogCheckHash($data, $hash) {
+            return password_verify($data, $hash);
+        }
+        
         
         
     /*  ============================================
@@ -49,7 +75,7 @@
         RETURNS:    string - hashed random value
         ============================================  */
         public static function generateRandomToken() {
-           return Security::chlogHash(md5(rand())); 
+           return Security::chlogHashStatic(md5(rand())); 
         }
         
         
@@ -68,7 +94,7 @@
             //fingerprint is based on USER_AGENT so identifies browser used
             $series = Self::generateRandomToken();
             $token  = Self::generateRandomToken();
-            $fprint = Self::chlogHash($fpt);
+            $fprint = Self::chlogHashStatic($fpt);
             $cookie = $eml . ":" . $series . ":" . $token . ":" . $fprint;
             
             //store session data in database
@@ -116,7 +142,7 @@
 
             //if the stored fingerprint doesn't match the current fingerprint then the 
             //cookie has been stolen from another device/browser and should not be used
-            if ($fpt != Security::chlogHash($fprint)) {
+            if ($fpt != Security::chlogHashStatic($fprint)) {
 
                 $errmsg = 'The remembered user information was not recorded ' .
                                         'in this environment. The information may have been ' .
@@ -208,7 +234,7 @@
                 
                 //if the stored fingerprint doesn't match the current fingerprint then the 
                 //cookie has been stolen from another device/browser and should not be used
-                if ($fpt != Security::chlogHash($fprint)) {
+                if ($fpt != Security::chlogHashStatic($fprint)) {
                     $errmsg = 'The remembered user information was not recorded ' .
                                             'in this environment. The information may have been ' .
                                             'compromised and will not be used.';

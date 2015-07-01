@@ -28,8 +28,8 @@
                     $eml = safeget::kvp($fields, "email", null, false);
                     $nnm = safeget::kvp($fields, "nickname", null, false);
                     $bio = safeget::kvp($fields, "biography", "None.", false);
-                    $npw = Security::chlogHash(safeget::kvp($fields, "password", null, false));
-                    $np2 = Security::chlogHash(safeget::kvp($fields, "passconf", null, false));
+                    $npw = safeget::kvp($fields, "password", null, false);
+                    $np2 = safeget::kvp($fields, "passconf", null, false);
 
                     if ($eml && $nnm && $npw && $np2) {
                         try {

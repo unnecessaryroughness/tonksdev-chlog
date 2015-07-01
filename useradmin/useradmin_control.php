@@ -35,7 +35,15 @@
                         if (isset($usr)) {
                             $usr->setNickName($nnm);
                             $usr->setBiography($bio);
-                            if ($usr->flushToDB($pwd)) {
+                            
+                            try {
+                                //Update basic details
+                                if (!$usr->flushToDB($pwd)) {
+                                    $errmsg = "Failed to update details for user ";
+                                    Logger::log($errmsg.$usr->email); 
+                                    return new Error_View(-1, $errmsg);
+                                }
+                                //If passwords 2 & 3 are set, update the password
                                 if ($pw2 && $pw3) {
                                     if ($usr->setPassword ($pwd, $pw2, $pw3)) {   
                                         Logger::log("Changed password for user ".$usr->email);
@@ -45,8 +53,8 @@
                                         Logger::log($errmsg); return new Error_View(-1, $errmsg);
                                     }
                                 }
-                            } else {
-                                $errmsg = "Failed to update details for user ";
+                            } catch (\Exception $e) {
+                                $errmsg = "Failed to update details for user (".$e->GetMessage().")";
                                 Logger::log($errmsg.$usr->email); 
                                 return new Error_View(-1, $errmsg);
                             }

@@ -2,10 +2,12 @@ TODO:
 ======
 
 BUGS
-    * (none)
+    * Error bubbling to a handled exception screen
+        (i.e. wrap controller code in try/catch blocks)
 
 USERS
-    * Remove User
+    * Remove User Process
+    * Forgotten Password Process
 
 UI
     * UI basic framework 
@@ -20,27 +22,13 @@ UI
         + Style Common menu
     
 SECURITY
-    * replace hashing mechanism:
-    
-        function register($username, $password) {
-            $hash = password_hash($password, PASSWORD_BCRYPT);
-            save($user, $hash);
-        }
+    * 
 
-        function login($username, $password) {
-            $hash = loadHashByUsername($username);
-            if (password_verify($password, $hash)) {
-                //login
-            } else {
-                // failure
-            }
-        }
 
-    * build function to verify a password by retrieving hash for a user
-      and using the password_verify() function
-      
-HOSTING
-    * Move CHLOG to chlog.tonksdev.co.uk
-    
+PRODUCTION DATABASE CHANGES
+    + Added getHash SP
+    + Amended updateUserPassword SP
+    + Amended getUserFromEmail SP
+    + Amended updateUser SP
     
     

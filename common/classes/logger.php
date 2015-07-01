@@ -40,7 +40,6 @@
             
             //only log if logging is turned on in the session settings. default to ON.
             if (safeget::session("environment", "logstatus", "ON") == "ON") {
-                
                 //write to the file. Throw an exception if it fails
                 if (!file_put_contents($loglocation, $msg, FILE_APPEND)) {
                     throw new \Exception("Error writing to log file");

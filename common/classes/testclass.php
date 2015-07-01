@@ -3,13 +3,10 @@
     use chlog as ch;
 
     //autoload classes
-    function __autoload($classname) {
-        $parts = explode("\\", strtolower($classname));
-        require $_SERVER['DOCUMENT_ROOT'] . end($parts) . '.php';
-    }
+    include_once '../chlogautoload.php';
 
 
-    echo ch\Security::chlogHash("testpw");
+    echo ch\Security::chlogCheckHash2("testpw", '$2y$10$Lme0qC8qTcGy5h3wZkQDbueLKHhrk9p2LX7ICVpH.UqorpyQpVLdu');
 
 
 

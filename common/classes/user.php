@@ -94,32 +94,34 @@
                     //if the old password doesn't match the supplied parameter
                     try {
                         
-                        $pwd = Security::chlogHash($pwd);
-                        $npw = Security::chlogHash($npw);
-                        $np2 = Security::chlogHash($np2);
-                        
-                        $sql = "CALL updateUserPassword(:eml, :pwd, :npw)";
-                        $qry = $this->DBConn()->prepare($sql);
-                        $qry->bindValue(":eml", $this->email);
-                        $qry->bindValue(":pwd", $pwd);
-                        $qry->bindValue(":npw", $npw);
-                        $qSuccess = $qry->execute(); 
+                        if (Self::verifyPW($this->email, $pwd)) { 
 
-                        //rowcount = 1 if the update worked properly
-                        if ($qSuccess) {
-                            if ($qry->rowCount() == 1) {
-                                $errmsg = "Updated password for ".$this->email;
-                                Logger::log($errmsg); return true;   
-                            } elseif ($qry->rowCount() > 1) {
-                                $errmsg = "More than one user record updated. Looks suspicious. ";
-                                Logger::log($errmsg); throw new \Exception($errmsg);
-                            } else { 
-                                $errmsg = "Failed to update password for ".$this->email." - 0 rows updated";
+                            $sql = "CALL updateUserPassword(:eml, :npw)";
+                            $qry = $this->DBConn()->prepare($sql);
+                            $qry->bindValue(":eml", $this->email);
+                            $qry->bindValue(":npw", Security::chlogHash($npw));
+                            $qSuccess = $qry->execute(); 
+
+                            //rowcount = 1 if the update worked properly
+                            if ($qSuccess) {
+                                if ($qry->rowCount() == 1) {
+                                    $errmsg = "Updated password for ".$this->email;
+                                    Logger::log($errmsg); return true;   
+                                } elseif ($qry->rowCount() > 1) {
+                                    $errmsg = "More than one user record updated. Looks suspicious. ";
+                                    Logger::log($errmsg); throw new \Exception($errmsg);
+                                } else { 
+                                    $errmsg = "Failed to update password for ".$this->email." - 0 rows updated";
+                                    Logger::log($errmsg, "rowcount: ".$qry->rowCount()); throw new \Exception($errmsg);
+                                }
+                            } else {
+                                $errmsg = "Failed to update password for ".$this->email." - query failed";
                                 Logger::log($errmsg, "rowcount: ".$qry->rowCount()); throw new \Exception($errmsg);
                             }
                         } else {
-                            $errmsg = "Failed to update password for ".$this->email." - query failed";
-                            Logger::log($errmsg, "rowcount: ".$qry->rowCount()); throw new \Exception($errmsg);
+                            //wrong password supplied    
+                            $errmsg = "Failed to update password for ".$this->email." - wrong current password";
+                            Logger::log($errmsg); throw new \Exception($errmsg);
                         }
                     } 
                     catch (\Exception $e) {
@@ -181,24 +183,30 @@
             $dbc = ($dbc) ? : Database::connect();
                         
             try {
-                $sql = "CALL getUserFromEmail(:eml, :pwd)";
-                $qry = $dbc->prepare($sql);
-                $qry->bindValue(":eml", $eml);
-                $qry->bindValue(":pwd", $pwd);
-                $qry->execute();
                 
-                $userdata = $qry->fetch(\PDO::FETCH_ASSOC);
+                if (Self::verifyPW($eml, $pwd)) {
+                    
+                    $sql = "CALL getUserFromEmail(:eml)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qry->execute();
 
-                if ($userdata) {
-                    $user = new User($userdata["email"], 
-                                     $userdata["nickname"], 
-                                     $userdata["isadmin"],
-                                     $userdata["active"],
-                                     $userdata["biography"],
-                                     $userdata["joindate"]);
-                    return $user;   
-                } else { 
-                    $errmsg = "Failed to retrieve user record " . $eml;
+                    $userdata = $qry->fetch(\PDO::FETCH_ASSOC);
+
+                    if ($userdata) {
+                        $user = new User($userdata["email"], 
+                                         $userdata["nickname"], 
+                                         $userdata["isadmin"],
+                                         $userdata["active"],
+                                         $userdata["biography"],
+                                         $userdata["joindate"]);
+                        return $user;   
+                    } else { 
+                        $errmsg = "Failed to retrieve user record " . $eml;
+                        Logger::log($errmsg); throw new \Exception($errmsg);
+                    }
+                } else {
+                    $errmsg = "Failed to retrieve user record ".$eml. " (incorrect current password).";
                     Logger::log($errmsg); throw new \Exception($errmsg);
                 }
             } 
@@ -285,11 +293,6 @@
                 $np2 = $pwd;
             }
 
-            //hash the passwords
-            $pwd = Security::chlogHash($pwd);
-            $npw = Security::chlogHash($npw);
-            $np2 = Security::chlogHash($np2);
-            
             //check passwords match
             if ($npw != $np2) {
                 $errmsg = "error changing passwords - supplied passwords did not match (".$eml.")";
@@ -298,29 +301,35 @@
                 
                 //update user details
                 try {
-                    $sql = "CALL updateUser(:eml, :nnm, :bio, :pwd, :npw)";
-                    $qry = $dbc->prepare($sql);
-                    $qry->bindValue(":eml", $eml);
-                    $qry->bindValue(":nnm", $nnm);
-                    $qry->bindValue(":bio", $bio);
-                    $qry->bindValue(":pwd", $pwd);
-                    $qry->bindValue(":npw", $npw);
-                    $qSuccess = $qry->execute(); 
                     
-                    //rowcount = 1 if the update worked properly
-                    if ($qSuccess) {
-                        if ($qry->rowCount() == 1) {
-                            $errmsg = "Updated user details for " . $eml;
-                            Logger::log($errmsg); return true;   
-                        } elseif ($qry->rowCount() > 1) {
-                            $errmsg = "More than one user record updated. Looks suspicious. " . $eml;
+                    if (Self::verifyPW($eml, $pwd)) {
+
+                        $sql = "CALL updateUser(:eml, :nnm, :bio, :npw)";
+                        $qry = $dbc->prepare($sql);
+                        $qry->bindValue(":eml", $eml);
+                        $qry->bindValue(":nnm", $nnm);
+                        $qry->bindValue(":bio", $bio);
+                        $qry->bindValue(":npw", Security::chlogHash($npw));
+                        $qSuccess = $qry->execute(); 
+
+                        //rowcount = 1 if the update worked properly
+                        if ($qSuccess) {
+                            if ($qry->rowCount() == 1) {
+                                $errmsg = "Updated user details for " . $eml;
+                                Logger::log($errmsg); return true;   
+                            } elseif ($qry->rowCount() > 1) {
+                                $errmsg = "More than one user record updated. Looks suspicious. " . $eml;
+                                Logger::log($errmsg); throw new \Exception($errmsg);
+                            } elseif ($qry->rowCount() == 0) {
+                                $errmsg = "No changes to update for " . $eml . " - 0 rows updated";
+                                Logger::log($errmsg); return false;
+                            }
+                        } else { 
+                            $errmsg = "Failed to update user details for ".$eml.". User may not exist in database";
                             Logger::log($errmsg); throw new \Exception($errmsg);
-                        } elseif ($qry->rowCount() == 0) {
-                            $errmsg = "No changes to update for " . $eml . " - 0 rows updated";
-                            Logger::log($errmsg); return false;
                         }
-                    } else { 
-                        $errmsg = "Failed to update user details for ".$eml.". User may not exist in database";
+                    } else {
+                        $errmsg = "Failed to update user details for ".$eml.". Incorrect current password.";
                         Logger::log($errmsg); throw new \Exception($errmsg);
                     }
                 } 
@@ -369,7 +378,7 @@
                     $qry->bindValue(":eml", $eml);
                     $qry->bindValue(":nnm", $nnm);
                     $qry->bindValue(":bio", $bio);
-                    $qry->bindValue(":npw", $npw);
+                    $qry->bindValue(":npw", Security::chlogHash($npw));
                     $qry->bindValue(":tok", $tok);
                     $qSuccess = $qry->execute(); 
                     
@@ -444,6 +453,7 @@ EOT;
                 //Update the active flag in the database. Update will only succeed if
                 //a user record with a matching token is found.
                 try {
+                    
                     $sql = "CALL updateUserActive(:tok)";
                     $qry = $dbc->prepare($sql);
                     $qry->bindValue(":tok", $tok);
@@ -480,4 +490,52 @@ EOT;
             return true;   
         }
         
+        
+                
+    /*  ============================================
+        FUNCTION:   verifyPW (STATIC)
+        PARAMS:     eml - user's email address
+                    pwd - entered password 
+                    dbc - database connection object
+        RETURNS:    (boolean) indicates whether the password is valid or not
+        PURPOSE:    Verifies a supplied password against a user record in the database.
+        ============================================  */
+        public static function verifyPW($eml=null, $pwd=null, \PDO $dbc=null) {
+
+            if ($eml && $pwd) {
+                //if the 'dbc' parameter was not supplied then connect to the 
+                //default database using default parameters.
+                $dbc = ($dbc) ? : Database::connect();
+                
+                //Update the active flag in the database. Update will only succeed if
+                //a user record with a matching token is found.
+                try {
+                    $sql = "CALL getHash(:eml)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qSuccess = $qry->execute(); 
+                    
+                    if ($qSuccess) {
+                        $userdata = $qry->fetch(\PDO::FETCH_ASSOC);
+                        if (Security::chlogCheckHash($pwd, $userdata["hash"])) {
+                            return true;   
+                        } else {
+                            Logger::log("didn't match password for ".$eml);
+                            return false;
+                        }
+                    } else {
+                        $errmsg = "Failed to verify password - query failed";
+                        Logger::log($errmsg); throw new \Exception($errmsg);
+                    }
+                } 
+                catch (\Exception $e) {
+                    $errmsg = "Failed to verify password - query exception";
+                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                }
+            } else {
+                return false;
+            }
+            
+        }
     }
+
