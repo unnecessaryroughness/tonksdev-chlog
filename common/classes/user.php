@@ -184,7 +184,7 @@
                         
             try {
                 
-                if (Self::verifyPW($eml, $pwd)) {
+                if (self::verifyPW($eml, $pwd)) {
                     
                     $sql = "CALL getUserFromEmail(:eml)";
                     $qry = $dbc->prepare($sql);
@@ -302,7 +302,7 @@
                 //update user details
                 try {
                     
-                    if (Self::verifyPW($eml, $pwd)) {
+                    if (self::verifyPW($eml, $pwd)) {
 
                         $sql = "CALL updateUser(:eml, :nnm, :bio, :npw)";
                         $qry = $dbc->prepare($sql);

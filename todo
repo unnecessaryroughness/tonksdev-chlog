@@ -26,9 +26,7 @@ SECURITY
 
 
 PRODUCTION DATABASE CHANGES
-    + Added getHash SP
-    + Amended updateUserPassword SP
-    + Amended getUserFromEmail SP
-    + Amended updateUser SP
+    + (none)
+    
     
     
