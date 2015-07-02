@@ -2,6 +2,11 @@ TODO:
 ======
 
 BUGS
+    * hashes that end in periods don't translate into emailed URLS properly
+      (email client assumes the period is not part of the address)
+      Need to put hash generation into a loop that repeats until the last character 
+      is not a period.
+      
     * Error bubbling to a handled exception screen
         (i.e. wrap controller code in try/catch blocks)
 
@@ -22,11 +27,16 @@ UI
         + Style Common menu
     
 SECURITY
-    * 
+    * Non active users are not blocked from doing anything
 
 
 PRODUCTION DATABASE CHANGES
     + (none)
     
-    
+
+OTHER STUFF
+    * Archive a copy of the site when all of the user handling, etc.
+      is in place, for future reference & re-use.
+
+
     

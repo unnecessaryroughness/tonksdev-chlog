@@ -389,7 +389,7 @@
                         
                         //send email confirmation
                         $to = $eml;
-                        $subject = "CHlog new user registration -- confirmation";
+                        $subject = "chLOG new user registration -- confirmation";
                         $body = self::getEmailBody($nnm, $tok);
                         $headers = "From: notify@tonksdev.co.uk\r\nReply-To: notify@tonksdev.co.uk\r\n";
                         
@@ -429,6 +429,22 @@ Hello {$nnm}. Thank you for registering with chLOG.
 Please click on the link below to activate your account.
 
 http://chlog.tonksdev.co.uk/activate/?aid={$tok}
+
+EOT;
+        }
+
+        
+    /*  ============================================
+        FUNCTION:   getRecoveryEmailBody (PROTECTED STATIC)
+        PARAMS:     tok - token to append to url
+        RETURNS:    (string) body text of email
+        PURPOSE:    uses HEREDOC to return a formatted string email body
+        ============================================  */
+        protected static function getRecoveryEmailBody($tok) {
+            return <<<EOT
+Please click on the link below to recover your account.
+
+http://chlog.tonksdev.co.uk/recoverpw/?rid={$tok}
 
 EOT;
         }
@@ -537,5 +553,141 @@ EOT;
             }
             
         }
+        
+    /*  ============================================
+        FUNCTION:   setRecoveryMode (STATIC)
+        PARAMS:     eml - email of user to set into recovery mode
+                    dbc - database connection object
+        RETURNS:    (boolean) indicates whether recovery mode was set or not
+        PURPOSE:    Flips "inrecovery" flag on user record to TRUE 
+        ============================================  */
+        public static function setRecoveryMode($eml=null, \PDO $dbc=null) {
+
+            //Do not proceed if the email was not supplied
+            if ($eml) {
+                //if the 'dbc' parameter was not supplied then connect to the 
+                //default database using default parameters.
+                $dbc = ($dbc) ? : Database::connect();
+
+                //generate a random token to use for recovering the account
+                $tok = Security::generateRandomToken();
+                    
+                //Update the active flag in the database. Update will only succeed if
+                //a user record with a matching token is found.
+                try {
+                        
+                    $sql = "CALL updateUserInRecovery(:eml, :tok)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qry->bindValue(":tok", $tok);
+                    $qSuccess = $qry->execute(); 
+
+                    //rowcount = 1 if the update worked properly
+                    if ($qSuccess) {
+                        if ($qry->rowCount() == 1) {
+                            $errmsg = "User ".$eml." now in recovery mode.";
+                            Logger::log($errmsg); 
+                            
+                            //send email confirmation
+                            $to = $eml;
+                            $subject = "chLOG recover user account";
+                            $body = self::getRecoveryEmailBody($tok);
+                            $headers = "From: notify@tonksdev.co.uk\r\nReply-To: notify@tonksdev.co.uk\r\n";
+
+                            if (mail($to, $subject, $body, $headers)) {
+                                $errmsg = "Sent email confirmation to ".$eml;
+                                Logger::log($errmsg); 
+                                return true;   
+                            } else {
+                                $errmsg = "Failed to send recovery email to ".$eml;
+                                Logger::log($errmsg); Logger::log($body); 
+                                throw new \Exception($errmsg);
+                            }
+                            
+                        } elseif ($qry->rowCount() > 1) {
+                            $errmsg = "Placed more than one user into recovery mode. Looks suspicious";
+                            Logger::log($errmsg); throw new \Exception($errmsg);
+                        } else { 
+                            $errmsg = "Failed to place user in recovery mode - 0 rows updated";
+                            Logger::log($errmsg); throw new \Exception($errmsg);
+                        }
+                    } else {
+                        $errmsg = "Failed to place user in recovery mode - query failed";
+                        Logger::log($errmsg); throw new \Exception($errmsg);
+                    }
+                } 
+                catch (\Exception $e) {
+                    $errmsg = "Failed to place user in recovery mode - query exception";
+                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                }
+                
+            } else {
+                //email address was empty
+                Logger::log("Attempted to put a user into recovery mode with a null email address.");
+                return false;   
+            }
+        }
+        
+
+    /*  ============================================
+        FUNCTION:   completeRecoveryMode (STATIC)
+        PARAMS:     tok - token to remove from recovery mode
+                    pwd - new password to set 
+        RETURNS:    (boolean) indicates whether recovery mode was completed or not
+        PURPOSE:    Flips "inrecovery" flag on user record to FALSE and
+                    updates password to match supplied parameter
+        ============================================  */
+        public static function completeRecoveryMode($tok=null, $pwd=null, \PDO $dbc=null) {
+
+            //Do not proceed if the email was not supplied
+            if ($tok && $pwd) {
+                //if the 'dbc' parameter was not supplied then connect to the 
+                //default database using default parameters.
+                $dbc = ($dbc) ? : Database::connect();
+
+                //hash the new password
+                $pwd = Security::chlogHash($pwd);
+                    
+                //Update the inrecovery flag in the database. Update will only succeed if
+                //a user record with a matching token is found.
+                try {
+                        
+                    $sql = "CALL updateUserCompleteRecovery(:tok, :pwd)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":tok", $tok);
+                    $qry->bindValue(":pwd", $pwd);
+                    $qSuccess = $qry->execute(); 
+
+                    //rowcount = 1 if the update worked properly
+                    if ($qSuccess) {
+                        if ($qry->rowCount() == 1) {
+                            $errmsg = "User now out of recovery mode.";
+                            Logger::log($errmsg); return true;
+                        } elseif ($qry->rowCount() > 1) {
+                            $errmsg = "Brought more than one user out of recovery mode. Looks suspicious";
+                            Logger::log($errmsg); throw new \Exception($errmsg);
+                        } else { 
+                            $errmsg = "Failed to bring user out of recovery mode - 0 rows updated";
+                            Logger::log($errmsg); throw new \Exception($errmsg);
+                        }
+                    } else {
+                        $errmsg = "Failed to bring user out of recovery mode - query failed";
+                        Logger::log($errmsg); throw new \Exception($errmsg);
+                    }
+                } 
+                catch (\Exception $e) {
+                    $errmsg = "Failed to bring user out of recovery mode - query exception";
+                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                }
+                
+            } else {
+                //email address was empty
+                Logger::log("Attempted to bring a user out of recovery mode with a null token or password.");
+                return false;   
+            }
+        }
+        
+        
     }
+
 
