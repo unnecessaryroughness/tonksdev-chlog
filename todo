@@ -4,9 +4,12 @@ TODO:
 BUGS
     * Error bubbling to a handled exception screen
         (i.e. wrap controller code in try/catch blocks)
+        
+    * Friendly error messages for frequent errors (e.g. failed login)
+
 
 USERS
-    * Remove User Process
+    * (none)
 
 UI
     * UI basic framework 
@@ -20,11 +23,13 @@ UI
         + Style Common footer
         + Style Common menu
     
+    
 SECURITY
     * Non active users are not blocked from doing anything
+      - show a warning, then treat as not-logged-in. 
 
 
-PRODUCTION DATABASE CHANGES
+PENDING PRODUCTION DATABASE CHANGES
     + (none)
     
 

@@ -676,7 +676,7 @@ EOT;
                     }
                 } 
                 catch (\Exception $e) {
-                    $errmsg = "Failed to bring user out of recovery mode - query exception";
+                    $errmsg = "Failed to bring user out of recovery mode - ".$e->getMessage();
                     Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
                 }
                 
@@ -687,7 +687,54 @@ EOT;
             }
         }
         
-        
+    /*  ============================================
+        FUNCTION:   removeUserRecord (STATIC)
+        PARAMS:     eml - email address of user to remove
+                    pwd - password of the user to remove  
+                    dbc - database connection to use
+        RETURNS:    (boolean) indicates whether user was removed or not
+        PURPOSE:    Verifies the user password, then removes the
+                    user record from the database.
+        ============================================  */
+        public static function removeUserRecord($eml=null, $pwd=null, \PDO $dbc=null) {
+
+            //if the 'dbc' parameter was not supplied then connect to the 
+            //default database using default parameters.
+            $dbc = ($dbc) ? : Database::connect();
+
+            try {
+                if (self::verifyPW($eml, $pwd)) {
+
+                    $sql = "CALL removeUser(:eml)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qSuccess = $qry->execute(); 
+
+                    //rowcount = 1 if the update worked properly
+                    if ($qSuccess) {
+                        if ($qry->rowCount() == 1) {
+                            $errmsg = "Removed user record " . $eml;
+                            Logger::log($errmsg); return true;   
+                        } elseif ($qry->rowCount() > 1) {
+                            $errmsg = "Removed more than one user record!! Looks suspicious. " . $eml;
+                            Logger::log($errmsg); throw new \Exception($errmsg);
+                        } elseif ($qry->rowCount() == 0) {
+                            $errmsg = "No user record to remove for " . $eml . " - 0 rows affected";
+                            Logger::log($errmsg); return false;
+                        }
+                    } else { 
+                        $errmsg = "Failed to remove user record for ".$eml.". User may not exist in database";
+                        Logger::log($errmsg); throw new \Exception($errmsg);
+                    }
+                } else {
+                    $errmsg = "Failed to remove user record for ".$eml.". Incorrect current password.";
+                    Logger::log($errmsg); throw new \Exception($errmsg);
+                }
+            } catch (\Exception $e) {
+                $errmsg = "Failed to remove user record - " . $e->getMessage();
+                Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+            }
+        }
     }
 
 

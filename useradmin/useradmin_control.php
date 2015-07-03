@@ -53,17 +53,52 @@
                                         Logger::log($errmsg); return new Error_View(-1, $errmsg);
                                     }
                                 }
+                                
+                                return new Useradmin_View($usr);
+                                
                             } catch (\Exception $e) {
                                 $errmsg = "Failed to update details for user (".$e->GetMessage().")";
-                                Logger::log($errmsg.$usr->email); 
+                                Logger::log($errmsg, $usr->email); 
                                 return new Error_View(-1, $errmsg);
                             }
                         }
                     } else {
-                        return new Error_View(-1, "Incorrect password. Details were not updated.");   
+                        $errmsg = "Incorrect password. Details were not updated.";
+                        Logger::log($errmsg); return new Error_View(-1, $errmsg);   
                     }
+                    break;
                 
-                    return new Useradmin_View($usr);
+                case "removeuser":
+                    $pwd = safeget::kvp($fields, "password", null, false);
+                    $usr = safeget::session("user", null, null, false);
+                    
+                    if ($pwd) {
+                        try {
+                            //Remove the user from the database
+                            User::removeUserRecord($usr->email, $pwd);
+                                
+                            //Remove the session user object
+                            unset($_SESSION["user"]);
+
+                            //remove cookie data from database
+                            $cookie = (isset($_COOKIE["chlrm"])) ? $_COOKIE["chlrm"] : null;
+                            Security::removeSessionCookie($cookie, $_SERVER["HTTP_USER_AGENT"]);
+
+                            //remove cookie from browser
+                            setcookie("chlrm", "", time()-3600, "/");
+
+                            //display login view
+                            $vw = new Redirect_View("/login/");                    
+                            return $vw;
+                            
+                        } catch(\Exception $e) {
+                            $errmsg = "Did not remove user (".$e->getMessage().")";
+                            Logger::log($errmsg); return new Error_View(-1, $errmsg);
+                        }
+                    } else {
+                        $errmsg = "Did not remove user - no password supplied.";
+                        Logger::log($errmsg); return new Error_View(-1, $errmsg);
+                    }
                     break;
                 
                 default:

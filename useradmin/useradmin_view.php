@@ -89,6 +89,11 @@
                             <button type="submit" id="txtUpdate" name="action" value="update">Update</button>    
                             <button type="submit" id="txtCancel" name="action" value="cancel">Cancel</button>    
                         </div>
+                        
+                        <br><br>
+                        <div>
+                            <button type="submit" id="txtRemoveUser" name="action" value="removeuser">Remove User Account</button>
+                        </div>
 
                     </form>
 HTML;
