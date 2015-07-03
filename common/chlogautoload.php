@@ -16,25 +16,27 @@
         //get file name only from the path\class name
         $parts = explode("\\", strtolower($classname));
         $file = end($parts).".php";
+        $root = strlen($_SERVER["DOCUMENT_ROOT"]) > 0 ? $_SERVER["DOCUMENT_ROOT"] : ".";
         
         if ($parts[0] == "chlog") {            
             
             //remove the chlog\ prefix and flip slashes over
             array_shift($parts);
             $path = "/".implode("/", $parts)."/";
-            $pathfile = $_SERVER['DOCUMENT_ROOT'].$path.$file;
+            $pathfile = $root.$path.$file;
 
             //if the path contains an underscore, remove it and the suffix 
             //from the file path but not the class name, to create a generalised directory
             $genpath = substr($path, 0, strrpos($path, "_"))."/";
-            $genfile = $_SERVER['DOCUMENT_ROOT'].$genpath.$file;
+            $genfile = $root.$genpath.$file;
 
             //define the common components path, in case both the original path and 
             //the generalised path are not found
             $commonpath = "/common/classes/";
-            $commonfile = $_SERVER['DOCUMENT_ROOT'].$commonpath.$file; 
+            $commonfile = $root.$commonpath.$file; 
 
             //echo $pathfile."<br>".$genfile."<br>".$commonfile."<br>";
+            //echo $pathfile."\n".$genfile."\n".$commonfile."\n".$root."\n";
             
             if (is_readable($pathfile)) { 
                 require_once $pathfile; 

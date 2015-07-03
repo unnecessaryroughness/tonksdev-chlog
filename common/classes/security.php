@@ -46,14 +46,19 @@
         }
         
     /*  ============================================
-        FUNCTION:   chlogHashStatic (STATIC)
+        FUNCTION:   chlogHash (STATIC)
         PARAMS:     data - data to be hashed
         RETURNS:    string - hashed value
         PURPOSE:    Returns a hashed string that cannot be recreated with the
                     same input data because it uses a dynamic salt.
         ============================================  */
         public static function chlogHash($data) {
-            return password_hash($data, PASSWORD_DEFAULT);   
+            //keep regenerating hash until we get one without a period at the end
+            do {
+                $hash = password_hash($data, PASSWORD_DEFAULT);
+            } while (substr($hash, -1)==".");
+                
+            return $hash;   
         }
         
     /*  ============================================

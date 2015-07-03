@@ -3,11 +3,11 @@
     use chlog as ch;
 
     //autoload classes
-    include_once '../chlogautoload.php';
+    include_once 'common/chlogautoload.php';
 
 
-    echo ch\Security::chlogCheckHash2("testpw", '$2y$10$Lme0qC8qTcGy5h3wZkQDbueLKHhrk9p2LX7ICVpH.UqorpyQpVLdu');
-
+    echo ch\Security::generateRandomToken();
+    echo "\n";
 
 
     //--> TEST USERS

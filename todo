@@ -2,17 +2,11 @@ TODO:
 ======
 
 BUGS
-    * hashes that end in periods don't translate into emailed URLS properly
-      (email client assumes the period is not part of the address)
-      Need to put hash generation into a loop that repeats until the last character 
-      is not a period.
-      
     * Error bubbling to a handled exception screen
         (i.e. wrap controller code in try/catch blocks)
 
 USERS
     * Remove User Process
-    * Forgotten Password Process
 
 UI
     * UI basic framework 
