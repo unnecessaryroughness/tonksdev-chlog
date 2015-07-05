@@ -88,7 +88,8 @@
                 //check passwords match
                 if ($npw != $np2) {
                     $errmsg = "Error changing password - supplied passwords did not match";
-                    Logger::log($errmsg); throw new \Exception ($errmsg); 
+                    Logger::log($errmsg); 
+                    throw new \Exception ($errmsg, ChlogErr::EC_USERPWDSNOTMATCHED); 
                 } else {
                     //Update the password in the database. Update will be rejected
                     //if the old password doesn't match the supplied parameter
@@ -152,8 +153,9 @@
                     return $qSuccess;
                     
                 } catch (\Exception $e) {
-                    $errmsg = "Error flushing to DB";
-                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                    $errmsg = "Error flushing to DB (".$e->getCode().")";
+                    Logger::log($errmsg, $e->getMessage()); 
+                    throw new \Exception($errmsg, $e->getCode());
                 }
             } else {
                 return false;   
@@ -194,24 +196,29 @@
                     $userdata = $qry->fetch(\PDO::FETCH_ASSOC);
 
                     if ($userdata) {
-                        $user = new User($userdata["email"], 
-                                         $userdata["nickname"], 
-                                         $userdata["isadmin"],
-                                         $userdata["active"],
-                                         $userdata["biography"],
-                                         $userdata["joindate"]);
-                        return $user;   
+                        if ($userdata["active"] == 1) {
+                            $user = new User($userdata["email"], 
+                                             $userdata["nickname"], 
+                                             $userdata["isadmin"],
+                                             $userdata["active"],
+                                             $userdata["biography"],
+                                             $userdata["joindate"]);
+                            return $user;   
+                        } else {
+                            $errmsg = "User ".$eml." has not been activated.";
+                            Logger::log($errmsg); throw new \Exception($errmsg, ChlogErr::EC_USERNOTACTIVE);
+                        }
                     } else { 
                         $errmsg = "Failed to retrieve user record " . $eml;
                         Logger::log($errmsg); throw new \Exception($errmsg);
                     }
                 } else {
                     $errmsg = "Failed to retrieve user record ".$eml. " (incorrect current password).";
-                    Logger::log($errmsg); throw new \Exception($errmsg);
+                    Logger::log($errmsg); throw new \Exception($errmsg, ChlogErr::EC_USERBADPWD);
                 }
             } 
             catch (\PDOException $e) {
-                $errmsg = "unable to retrieve user record " . $eml;
+                $errmsg = "Unable to retrieve user record ".$eml;
                 Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
             }
         }
@@ -296,7 +303,7 @@
             //check passwords match
             if ($npw != $np2) {
                 $errmsg = "error changing passwords - supplied passwords did not match (".$eml.")";
-                Logger::log($errmsg); throw new \Exception($errmsg); 
+                Logger::log($errmsg); throw new \Exception($errmsg, ChlogErr::EC_USERPWDSNOTMATCHED); 
             } else {
                 
                 //update user details
@@ -330,12 +337,13 @@
                         }
                     } else {
                         $errmsg = "Failed to update user details for ".$eml.". Incorrect current password.";
-                        Logger::log($errmsg); throw new \Exception($errmsg);
+                        Logger::log($errmsg); throw new \Exception($errmsg, ChlogErr::EC_USERBADPWD);
                     }
                 } 
                 catch (\Exception $e) {
                     $errmsg = "Unable to update user ".$eml;
-                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                    Logger::log($errmsg." ".$e->getCode(), $e->getMessage()); 
+                    throw new \Exception($errmsg, $e->getCode());
                 }
             }
         }

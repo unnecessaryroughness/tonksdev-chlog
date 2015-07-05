@@ -6,10 +6,13 @@ BUGS
         (i.e. wrap controller code in try/catch blocks)
         
     * Friendly error messages for frequent errors (e.g. failed login)
-
+        - registration
+        - activation (more than once)
+        - password recovery (more than once)
+        
 
 USERS
-    * (none)
+* (none)
 
 UI
     * UI basic framework 
@@ -23,6 +26,8 @@ UI
         + Style Common footer
         + Style Common menu
     
+    * Javascript improvements
+        + Confirmation boxes
     
 SECURITY
     * Non active users are not blocked from doing anything
@@ -38,4 +43,6 @@ OTHER STUFF
       is in place, for future reference & re-use.
 
 
+CORE APP FUNCTIONALITY
+    * To be determined. Need to plan this out offline.
     

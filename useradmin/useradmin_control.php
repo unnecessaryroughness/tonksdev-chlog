@@ -52,19 +52,32 @@
                                         $errmsg = "Failed to change password for user ".$usr->email;
                                         Logger::log($errmsg); return new Error_View(-1, $errmsg);
                                     }
+                                } else {
+                                    throw new \Exception("", ChlogErr::EC_USERPWDSNOTMATCHED);
                                 }
                                 
                                 return new Useradmin_View($usr);
                                 
                             } catch (\Exception $e) {
-                                $errmsg = "Failed to update details for user (".$e->GetMessage().")";
-                                Logger::log($errmsg, $usr->email); 
-                                return new Error_View(-1, $errmsg);
+                                switch ($e->getCode()) {
+                                    case ChlogErr::EC_USERBADPWD:
+                                        $errnice = "Sorry, that current password was not correct.";
+                                        break;
+                                    case ChlogErr::EC_USERPWDSNOTMATCHED:
+                                        $errnice = "Sorry, those new passwords didn't match.";
+                                        break;
+                                    default: 
+                                        echo $e->getCode();
+                                        $errnice = "Failed to update details for user (".$e->GetMessage().")";
+                                        break;
+                                }
+                                Logger::log($errnice, $usr->email); 
+                                return new Error_View($e->getCode(), $errnice);
                             }
                         }
                     } else {
                         $errmsg = "Incorrect password. Details were not updated.";
-                        Logger::log($errmsg); return new Error_View(-1, $errmsg);   
+                        Logger::log($errmsg); return new Error_View(ChlogErr::EC_USERBADPWD, $errmsg);   
                     }
                     break;
                 
