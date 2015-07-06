@@ -41,6 +41,21 @@
     }
 
 
+/*  ============================================
+    FUNCTION:   getNiceErrorMessage
+    PARAMS:     $e = error object
+    RETURNS:    (string) error message to display to the user
+    PURPOSE:    translates the error code into a nice error message for display.
+                if there is no nice error message defined, returns the default
+                error text instead.
+    ============================================  */
+    function getNiceErrorMessage($e) {
+        if (isset(chlog\ChlogErr::$EA_USERERRORS[$e->getCode()])) {
+            return chlog\ChlogErr::$EA_USERERRORS[$e->getCode()];
+        } else {
+            return $e->getMessage();
+        }                        
+    }
 
 
 /*  ============================================

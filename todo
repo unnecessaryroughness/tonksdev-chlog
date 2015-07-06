@@ -2,17 +2,10 @@ TODO:
 ======
 
 BUGS
-    * Error bubbling to a handled exception screen
-        (i.e. wrap controller code in try/catch blocks)
+    * (none)
         
-    * Friendly error messages for frequent errors (e.g. failed login)
-        - registration
-        - activation (more than once)
-        - password recovery (more than once)
-        
-
 USERS
-* (none)
+    * (none)
 
 UI
     * UI basic framework 
@@ -30,8 +23,7 @@ UI
         + Confirmation boxes
     
 SECURITY
-    * Non active users are not blocked from doing anything
-      - show a warning, then treat as not-logged-in. 
+    * (none)
 
 
 PENDING PRODUCTION DATABASE CHANGES

@@ -49,20 +49,8 @@
                         return $vw;
                         
                     } catch (\Exception $e) {
-                        switch ($e->getCode()) {
-                            case ChlogErr::EC_USERNOTACTIVE:
-                                $errnice = "This user has not yet been activated. ".
-                                          "Please check your email inbox and junkmail folder.";
-                                break;
-                            case ChlogErr::EC_USERBADPWD:
-                                $errnice = "This user name / password combination is not valid.";
-                                break;
-                            default:
-                                $errnice = $e->getMessage();
-                                break;
-                        }
                         unset($_SESSION["user"]);
-                        return new Error_View($e->getCode(), $errnice);
+                        return new Error_View($e->getCode(), getNiceErrorMessage($e));
                     }
                     break;
                 

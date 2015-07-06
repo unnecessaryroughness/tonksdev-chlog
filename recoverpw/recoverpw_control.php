@@ -31,10 +31,10 @@
                         try {
                             User::setRecoveryMode($eml);
                         } catch (\Exception $e) {
-                            return new Error_View(-1, "Could not set user into recovery mode (".$e->getMessage().")");
+                            return new Error_View($e->getCode(), getNiceErrorMessage($e));
                         }
                     } else {
-                        return new Error_View(-1, "Could not set user into recovery mode - missing email address");
+                        return new Error_View(ChlogErr::EC_MISSINGFIELDS, ChlogErr::EM_MISSINGFIELDS);
                     }
                 
                     //successfully added user - redirect to the login/loggedin page
@@ -47,7 +47,7 @@
                     if ($tok) {
                         return new RecoverPW_View(true, $tok);
                     } else {
-                        return new Error_View(-1, "Could not complete recovery mode - missing recovery ID");
+                        return new Error_View(ChlogErr::EC_MISSINGRECOVERYID, ChlogErr::EM_MISSINGRECOVERYID);
                     }
                     break;
                 
@@ -56,15 +56,19 @@
                     $pw2 = safeget::kvp($fields, "passconf", null, false);
                     $tok = safeget::kvp($fields, "token", null, false);
                 
-                    if ($pwd && $pw2 && $tok && $pwd==$pw2) {
-                        try {
-                            User::completeRecoveryMode($tok, $pwd);
-                            return new Redirect_View("/login/");
-                        } catch (\Exception $e) {
-                            return new Error_View(-1, "Could not complete recovery mode (".$e->getMessage().")");
+                    if ($pwd && $pw2 && $tok) {
+                        if ($pwd==$pw2) {
+                            try {
+                                User::completeRecoveryMode($tok, $pwd);
+                                return new Redirect_View("/login/");
+                            } catch (\Exception $e) {
+                                return new Error_View($e->getCode(), getNiceErrorMessage($e));
+                            }
+                        } else {
+                            return new Error_View(ChlogErr::EC_USERPWDSNOTMATCHED, ChlogErr::EM_USERPWDSNOTMATCHED);
                         }
                     } else {
-                           
+                       return new Error_View(ChlogErr::EC_MISSINGFIELDS, ChlogErr::EM_MISSINGFIELDS);
                     }
                     break;
                 

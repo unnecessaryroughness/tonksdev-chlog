@@ -376,7 +376,7 @@
             //check passwords match
             if ($npw != $np2) {
                 $errmsg = "Error registering user - supplied passwords did not match (".$eml.")";
-                Logger::log($errmsg); throw new \Exception($errmsg); 
+                Logger::log($errmsg); throw new \Exception($errmsg, ChlogErr::EC_USERPWDSNOTMATCHED); 
             } else {
             
                 //register user
@@ -406,16 +406,19 @@
                             Logger::log($errmsg); return true;   
                         } else {
                             $errmsg = "Failed to send email confirmation to ".$eml;
-                            Logger::log($errmsg); Logger::log($body); throw new \Exception($errmsg);
+                            Logger::log($errmsg); Logger::log($body); 
+                            throw new \Exception($errmsg, ChlogErr::EC_REGISTEREMAILFAILED);
                         }
                     } else { 
                         $errmsg = "Failed to register user ".$eml;
-                        Logger::log($errmsg); throw new \Exception($errmsg);
+                        Logger::log($errmsg); 
+                        throw new \Exception($errmsg, ChlogErr::EC_REGISTERUSERFAILED);
                     }
                 } 
                 catch (\Exception $e) {
                     $errmsg = "Unable to register user ".$eml;
-                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                    Logger::log($errmsg, $e->getMessage()); 
+                    throw new \Exception($errmsg, ChlogErr::EC_REGISTERUSERFAILED);
                 }
             }
             
@@ -490,25 +493,30 @@ EOT;
                             Logger::log($errmsg); return true;   
                         } elseif ($qry->rowCount() > 1) {
                             $errmsg = "Activated more than one user. Looks suspicious";
-                            Logger::log($errmsg); throw new \Exception($errmsg);
+                            Logger::log($errmsg); 
+                            throw new \Exception($errmsg, ChlogErr::EC_PROBLEMACTIVATION);
                         } else { 
                             $errmsg = "Failed to activate user - 0 rows updated";
-                            Logger::log($errmsg); throw new \Exception($errmsg);
+                            Logger::log($errmsg); 
+                            throw new \Exception($errmsg, ChlogErr::EC_USERALREADYACTIVE);
                         }
                     } else {
                         $errmsg = "Failed to activate user - query failed";
-                        Logger::log($errmsg); throw new \Exception($errmsg);
+                        Logger::log($errmsg); 
+                        throw new \Exception($errmsg, ChlogErr::EC_FAILEDACTIVATION);
                     }
                 } 
                 catch (\Exception $e) {
                     $errmsg = "Failed to activate user - query exception";
-                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                    Logger::log($errmsg, $e->getMessage()); 
+                    throw new \Exception($errmsg, ChlogErr::EC_FAILEDACTIVATION);
                 }
                 
             } else {
                 //token was empty
-                Logger::log("Attempted to activate a user with a null token.");
-                return false;   
+                $errmsg = "Attempted to activate a user with a null token.";
+                Logger::log($errmsg);
+                throw new \Exception($errmsg, ChlogErr::EC_FAILEDACTIVATION);
             }
             
             return true;   
@@ -609,30 +617,35 @@ EOT;
                             } else {
                                 $errmsg = "Failed to send recovery email to ".$eml;
                                 Logger::log($errmsg); Logger::log($body); 
-                                throw new \Exception($errmsg);
+                                throw new \Exception($errmsg, ChlogErr::EC_RECOVERYEMAILFAILED);
                             }
                             
                         } elseif ($qry->rowCount() > 1) {
                             $errmsg = "Placed more than one user into recovery mode. Looks suspicious";
-                            Logger::log($errmsg); throw new \Exception($errmsg);
+                            Logger::log($errmsg); 
+                            throw new \Exception($errmsg, ChlogErr::EC_PROBLEMRECOVERY);
                         } else { 
                             $errmsg = "Failed to place user in recovery mode - 0 rows updated";
-                            Logger::log($errmsg); throw new \Exception($errmsg);
+                            Logger::log($errmsg); 
+                            throw new \Exception($errmsg, ChlogErr::EC_FAILEDRECOVERY);
                         }
                     } else {
                         $errmsg = "Failed to place user in recovery mode - query failed";
-                        Logger::log($errmsg); throw new \Exception($errmsg);
+                        Logger::log($errmsg); 
+                        throw new \Exception($errmsg, ChlogErr::EC_FAILEDRECOVERY);
                     }
                 } 
                 catch (\Exception $e) {
                     $errmsg = "Failed to place user in recovery mode - query exception";
-                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                    Logger::log($errmsg, $e->getMessage()); 
+                    throw new \Exception($errmsg, ChlogErr::EC_FAILEDRECOVERY);
                 }
                 
             } else {
                 //email address was empty
-                Logger::log("Attempted to put a user into recovery mode with a null email address.");
-                return false;   
+                $errmsg = "Attempted to put a user into recovery mode with a null email address.";
+                Logger::log($errmsg);
+                throw new \Exception($errmsg, ChlogErr::EC_MISSINGFIELDS);
             }
         }
         
@@ -673,25 +686,30 @@ EOT;
                             Logger::log($errmsg); return true;
                         } elseif ($qry->rowCount() > 1) {
                             $errmsg = "Brought more than one user out of recovery mode. Looks suspicious";
-                            Logger::log($errmsg); throw new \Exception($errmsg);
+                            Logger::log($errmsg); 
+                            throw new \Exception($errmsg, ChlogErr::EC_PROBLEMRECOVERY);
                         } else { 
                             $errmsg = "Failed to bring user out of recovery mode - 0 rows updated";
-                            Logger::log($errmsg); throw new \Exception($errmsg);
+                            Logger::log($errmsg); 
+                            throw new \Exception($errmsg, ChlogErr::EC_FAILEDRECOVERY);
                         }
                     } else {
                         $errmsg = "Failed to bring user out of recovery mode - query failed";
-                        Logger::log($errmsg); throw new \Exception($errmsg);
+                        Logger::log($errmsg); 
+                        throw new \Exception($errmsg, ChlogErr::EC_FAILEDRECOVERY);
                     }
                 } 
                 catch (\Exception $e) {
                     $errmsg = "Failed to bring user out of recovery mode - ".$e->getMessage();
-                    Logger::log($errmsg, $e->getMessage()); throw new \Exception($errmsg);
+                    Logger::log($errmsg, $e->getMessage()); 
+                    throw new \Exception($errmsg, ChlogErr::EC_FAILEDRECOVERY);
                 }
                 
             } else {
                 //email address was empty
-                Logger::log("Attempted to bring a user out of recovery mode with a null token or password.");
-                return false;   
+                $errmsg = "Attempted to bring a user out of recovery mode with a null token or password.";
+                Logger::log($errmsg);
+                throw new \Exception($errmsg, ChlogErr::EC_MISSINGFIELDS);
             }
         }
         

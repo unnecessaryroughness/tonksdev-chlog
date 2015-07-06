@@ -31,10 +31,10 @@
                         try {
                             User::setActive($tok);
                         } catch (\Exception $e) {
-                            return new Error_View(-1, "Could not activate user: database error (".$e->getMessage().")");
+                            return new Error_View($e->getCode(), getNiceErrorMessage($e));
                         }
                     } else {
-                        return new Error_View(-1, "Could not activate user - missing token");
+                        return new Error_View(ChlogErr::EC_FAILEDACTIVATION, ChlogErr::EM_FAILEDACTIVATION);
                     }
                 
                     //successfully added user - redirect to the login/loggedin page

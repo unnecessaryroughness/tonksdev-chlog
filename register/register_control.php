@@ -34,11 +34,12 @@
                     if ($eml && $nnm && $npw && $np2) {
                         try {
                             $_SESSION["user"] = User::registerUser($eml, $nnm, $bio, $npw, $np2);
+                            
                         } catch (\Exception $e) {
-                            return new Error_View(-1, "Could not register user: database error (".$e->getMessage().")");
+                            return new Error_View($e->getCode(), getNiceErrorMessage($e));
                         }
                     } else {
-                        return new Error_View(-1, "Could not register user - missing mandatory fields");
+                        return new Error_View(ChlogErr::EC_MISSINGFIELDS, ChlogErr::EM_MISSINGFIELDS);
                     }
                 
                     //successfully added user - redirect to the login/loggedin page

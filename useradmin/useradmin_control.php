@@ -59,20 +59,8 @@
                                 return new Useradmin_View($usr);
                                 
                             } catch (\Exception $e) {
-                                switch ($e->getCode()) {
-                                    case ChlogErr::EC_USERBADPWD:
-                                        $errnice = "Sorry, that current password was not correct.";
-                                        break;
-                                    case ChlogErr::EC_USERPWDSNOTMATCHED:
-                                        $errnice = "Sorry, those new passwords didn't match.";
-                                        break;
-                                    default: 
-                                        echo $e->getCode();
-                                        $errnice = "Failed to update details for user (".$e->GetMessage().")";
-                                        break;
-                                }
-                                Logger::log($errnice, $usr->email); 
-                                return new Error_View($e->getCode(), $errnice);
+                                Logger::log(getNiceErrorMessage($e), $usr->email); 
+                                return new Error_View($e->getCode(), getNiceErrorMessage($e));
                             }
                         }
                     } else {
@@ -106,11 +94,13 @@
                             
                         } catch(\Exception $e) {
                             $errmsg = "Did not remove user (".$e->getMessage().")";
-                            Logger::log($errmsg); return new Error_View(-1, $errmsg);
+                            Logger::log($errmsg); 
+                            return new Error_View($e->getCode(), getNiceErrorMessage($e));
                         }
                     } else {
                         $errmsg = "Did not remove user - no password supplied.";
-                        Logger::log($errmsg); return new Error_View(-1, $errmsg);
+                        Logger::log($errmsg); 
+                        return new Error_View(ChlogErr::EC_REMOVEUSERBADPWD, ChlogErr::EM_REMOVEUSERBADPWD);
                     }
                     break;
                 
