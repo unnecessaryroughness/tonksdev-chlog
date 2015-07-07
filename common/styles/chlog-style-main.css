@@ -10,6 +10,12 @@
 * {
     box-sizing: border-box;   
     font-family: sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.endfloat {
+    clear: both;   
 }
 
 /* =======================
@@ -25,13 +31,55 @@ form>input[type=checkbox] {
     display: inline-block;
 }
 
-form>button.button-noborder {
-    border: 0;
-    background: #fff;
-    color: #333;
+
+/* =======================
+   header style rules 
+   ======================= */
+.chlog-header {
+    background: #0083D5;   
+    padding: 0.5em 0.8em;
+    overflow: hidden;
 }
 
-form>button.button-noborder:hover {
+.chlog-header>a {
+    text-decoration: none;   
+    font-size: 2em;
+    font-weight: bold;
+    color: #eee;
+    display: inline-block;
+    float: left;
+}
+
+.chlog-header-subheader {
+    font-weight: bold;
+    color: #ddd;
+    display: block;
+}
+
+.chlog-header-environment {
+    font-size: 2em;
+    font-weight: bold;
+    color: #eee;
+    display: inline-block;
+    float: right;   
+}
+
+.chlog-header-user {
+    padding: 0 0.8em;   
+    background: #0775ba;
+    color: #ddd;
+    text-align: right;
+    font-size: 0.9em;
+}
+
+.chlog-header-user>form>button.button-noborder {
+    border: 0;
+    background: #0775ba;
+    color: #ddd;
+    font-size: 0.9em;
+}
+
+.chlog-header-user>form>button.button-noborder:hover {
     cursor: pointer;
 }
 
@@ -46,13 +94,12 @@ form>button.button-noborder:hover {
 #chlog-mainmenu>ul {
     list-style: none;   
     margin: 0;
-    padding: 0.2em;
-    background: #222;
+    background: #fff;
+    border-bottom: 1px solid #666;
 }
 
 #chlog-mainmenu>ul>li {
     display: inline-block;
-    color: #fff;
 }
 
 #chlog-mainmenu>ul>li>a, 
@@ -64,9 +111,10 @@ form>button.button-noborder:hover {
     padding: 0 0.8em;
     height: 2em;
     line-height: 1.9em;
-    color: #fff;
+    color: #666;
     text-decoration: none;
     text-align: center;
+    border-right: 1px solid #666;
 }
 
 #chlog-mainmenu>ul>li>a:hover {
@@ -79,10 +127,9 @@ form>button.button-noborder:hover {
    global style classes 
    ======================= */
 
-.chlog-header>a {
-    text-decoration: none;   
-    font-size: 2em;
-    color: #666;
+
+#chlog-main {
+    padding: 0 1em 1em 1em;   
 }
 
 #chlog-footer {

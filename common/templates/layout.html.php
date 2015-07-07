@@ -17,7 +17,9 @@
           <?php require $_SERVER["DOCUMENT_ROOT"]."/common/templates/mainmenu.html.php" ?>
 
           <!-- Include the main content -->
-          <?php echo (isset($pgcontent)) ? $pgcontent : "" ?>
+          <section id="chlog-main">
+            <?php echo (isset($pgcontent)) ? $pgcontent : "" ?>
+          </section>
           
           <?php require $_SERVER["DOCUMENT_ROOT"]."/common/templates/footer.html.php" ?>
       </div>

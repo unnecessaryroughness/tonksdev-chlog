@@ -3,15 +3,15 @@
     //load config
     require $_SERVER["DOCUMENT_ROOT"]."/common/config.php";
 
-    //load home page content into $pgcontent
-    //Each page ".php" file will replicate this basic structure. 
-    //Create the class that controls this page and use its methods to
-    //generate the required HTML output.
-    $pgtitle = "chLOG Home Page";
-    $pgcontent = "<p>Front Page</p>";
-    
-    //TODO: 
-    //Create classes to supply header & footer HTML & call here?? 
+    //Create login controller
+    $frontpgctrl = new chlog\Frontpage_Control();
+
+    //Process the form action & store the resulting view object 
+    $vw = $frontpgctrl->process(chlog\safeget::post("action", "unset", false), $_POST); 
+
+    //extract the page title & content from the view
+    $pgtitle = $vw->title();
+    $pgcontent = $vw->html();
 
     //load main layout template
     require $_SERVER["DOCUMENT_ROOT"]."/common/templates/layout.html.php";

@@ -15,12 +15,12 @@ UI
         + Common logged in / redirect 
 
     * UI improvements
-        + Style Common header
-        + Style Common footer
         + Style Common menu
+        + Slide out mobile menu
     
     * Javascript improvements
-        + Confirmation boxes
+        + Data entry form field validation 
+        + jQuery Confirmation dialog boxes (for delete, log out, etc.)
     
 SECURITY
     * (none)
@@ -29,11 +29,6 @@ SECURITY
 PENDING PRODUCTION DATABASE CHANGES
     + (none)
     
-
-OTHER STUFF
-    * Archive a copy of the site when all of the user handling, etc.
-      is in place, for future reference & re-use.
-
 
 CORE APP FUNCTIONALITY
     * To be determined. Need to plan this out offline.
