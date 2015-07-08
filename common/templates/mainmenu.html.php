@@ -1,3 +1,4 @@
+<div id="chlog-mainmenu-toggle" onclick="toggleMenu()"><img src="/common/threelines-grey.jpg">Main Menu</div>
 <nav id="chlog-mainmenu">
     <ul>
         <li><a href="/">Home</a>
@@ -6,3 +7,5 @@
         </li><li><a href="/">About</a></li>
     </ul>
 </nav>
+
+<script src="/common/templates/mainmenu.js"></script>
