@@ -8,7 +8,8 @@
     <script src="/jquery/jquery-1.11.3.min.js"></script>
   
     <link rel="stylesheet" href="/common/styles/chlog-style-main.css">
-    <?php echo (isset($pgcss)) ? $pgcss : "" ?>
+    <?php echo (isset($pgcss)) ? "<link rel='stylesheet' href='".$pgcss."'>" : "" ?>
+      
     <title><?php htmlout((isset($pgtitle)) ? $pgtitle : "untitled page") ?></title>
   </head>
   <body>

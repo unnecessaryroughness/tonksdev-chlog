@@ -1,0 +1,14 @@
+/* ====================================================
+    
+    chlog-about.css
+
+    Stylesheet specifically for the about screen
+
+   ==================================================== */
+
+p {
+    color: #444;
+    line-height: 1.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
