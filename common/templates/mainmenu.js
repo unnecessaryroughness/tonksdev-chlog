@@ -4,8 +4,10 @@ function toggleMenu() {
 }
 
 function toggleSubMenu(obj) {
-    $(obj).siblings().find("ul").slideUp(100);
-    $(obj).children("ul").slideToggle(100);
+    if ($(window).width() < 620) {
+        $(obj).siblings().find("ul").slideUp(100);
+        $(obj).children("ul").slideToggle(100);
+    }
 }
 
 function openSubMenu() {

@@ -43,7 +43,7 @@
         ============================================  */
         public function defaulthtml() {
             return <<<HTML
-            <p>chLOG Application</p>        
+            <h2>chLOG Application</h2>        
 HTML;
         }
         

@@ -59,7 +59,7 @@
                 return <<<HTML
 
                     <form id="frmRegister" action="." method="POST">
-                        <p>User Admin Form</p>
+                        <h2>User Admin Form</h2>
 
                         <label for="txtEmail">Email:</label>
                         <input type="textbox" readonly id="txtEmail" name="email" value="$eml">
