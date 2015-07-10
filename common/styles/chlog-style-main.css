@@ -3,7 +3,7 @@
     chlog-style-main.css
 
     Globally applicable style rules. 
-    No limits or implications on viewport.
+    Accomodates mobile-first, and widescreen (620px+) 
 
    ==================================================== */
 
@@ -18,6 +18,8 @@
     clear: both;   
 }
 
+
+
 /* =======================
    element layout rules 
    ======================= */
@@ -30,6 +32,40 @@ form>label {
 form>input[type=checkbox] {
     display: inline-block;
 }
+
+button {
+    color: #000;
+    padding: 0.2em 0.5em;
+    margin: 0.5em 0.2em;
+    border: 1px solid #666;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #444;
+    color: #fff;
+}
+
+button.update {
+    background: #f90;   
+}
+
+button.update:hover {
+    background: #444;
+    color: #f90;
+}
+
+button.cancel {
+    background: #ccc;   
+    color: #444;
+}
+
+button.cancel:hover {
+    background: #444;
+    color: #fff;
+}
+
+
 
 
 /* =======================
@@ -74,6 +110,8 @@ form>input[type=checkbox] {
 
 .chlog-header-user>form>button.button-noborder {
     border: 0;
+    margin: 0;
+    padding: 0;
     background: #0775ba;
     color: #ddd;
     font-size: 0.9em;
@@ -84,8 +122,10 @@ form>input[type=checkbox] {
 }
 
 
+
+
 /* =======================
-   main menu layout rules 
+   main menu layout rules (Mobile-First) 
    ======================= */
 
 #chlog-mainmenu-toggle {
@@ -109,7 +149,6 @@ form>input[type=checkbox] {
 }
 
 #chlog-mainmenu>ul {
-    margin: 0;
     list-style: none;   
     border-bottom: 1px solid #666;
 }
@@ -118,23 +157,62 @@ form>input[type=checkbox] {
     display: block;
 }
 
+#chlog-mainmenu>ul>li.dummya {
+    display: block;
+    padding: 0.2em 0.8em;
+    line-height: 1.9em;
+    color: #666;    
+}
+
 #chlog-mainmenu>ul>li>a, 
 #chlog-mainmenu>ul>li>a:link, 
 #chlog-mainmenu>ul>li>a:visited,
 #chlog-mainmenu>ul>li>a:active
 #chlog-mainmenu>ul>li>a:focus{
-    display:block;
-    padding: 0 0.8em;
-    height: 2em;
+    display: block;
+    padding: 0.2em 0.8em;
     line-height: 1.9em;
     color: #666;
     text-decoration: none;
 }
 
-#chlog-mainmenu>ul>li>a:hover {
+
+/* SUBMENUS */
+
+#chlog-mainmenu>ul>li>ul {
+    display: none;
+    list-style: none;
+    background: #fff;
+    margin: 0;
+    padding: 0.3em 0 0 0;
+}
+
+#chlog-mainmenu>ul>li>ul>li {
+    display: block;
+    padding: 0.2em 0.5em;
+}
+
+#chlog-mainmenu>ul>li>ul>li.dummya {
+    display: block;
+    line-height: 1.9em;
+    color: #666;    
+}
+
+#chlog-mainmenu>ul>li>ul>li>a, 
+#chlog-mainmenu>ul>li>ul>li>a:link, 
+#chlog-mainmenu>ul>li>ul>li>a:visited,
+#chlog-mainmenu>ul>li>ul>li>a:active
+#chlog-mainmenu>ul>li>ul>li>a:focus{
+    display:block;
+    color: #666;
+    text-decoration: none;
+}
+
+#chlog-mainmenu>ul>li>ul>li>a:hover {
     background: #666;
     color: #fff;
 }
+
 
 
 /* =======================
@@ -148,13 +226,17 @@ form>input[type=checkbox] {
 
 #chlog-footer {
     text-align: center;
+    border-top: 1px solid #666;
+    padding: 0.5em;
 }
 
 
 
 /* 
     =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
     Widescreen rules - extend the full menu
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
     =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 */
 
@@ -162,6 +244,10 @@ form>input[type=checkbox] {
 
     #chlog-mainmenu-toggle {
         display: none;
+    }
+
+    #chlog-mainmenu {
+        display: block;
     }
 
     #chlog-mainmenu>ul {
@@ -173,19 +259,52 @@ form>input[type=checkbox] {
 
     #chlog-mainmenu>ul>li {
         display: inline-block;
+        color: #666;
     }
 
     #chlog-mainmenu>ul>li>a, 
+    #chlog-mainmenu>ul>li.dummya,
     #chlog-mainmenu>ul>li>a:link, 
     #chlog-mainmenu>ul>li>a:visited,
     #chlog-mainmenu>ul>li>a:active
     #chlog-mainmenu>ul>li>a:focus{
-        text-align: center;
+        display: inline-block;
+        text-align: left;
+        padding: 0 0.8em;
+        height: 2em;
+        line-height: 2em;
         border-right: 1px solid #666;
     }
     
-    #chlog-mainmenu {
+    #chlog-mainmenu>ul>li>a:hover,
+    #chlog-mainmenu>ul>li.dummya:hover {
+        background: #666;
+        color: #fff;
+    }
+
+    
+    
+    /* SUBMENUS */
+    
+    #chlog-mainmenu>ul>li>ul {
+        position: absolute;
+        visibility: hidden;
         display: block;
+        border: 1px solid #666;
+        border-radius: 0 0 5px 5px;
+        padding: 0 0 0 0;
+    }
+    
+    #chlog-mainmenu>ul>li>ul>li {
+        padding: 0;   
+    }
+    
+    #chlog-mainmenu>ul>li>ul>li>a, 
+    #chlog-mainmenu>ul>li>ul>li>a:link, 
+    #chlog-mainmenu>ul>li>ul>li>a:visited,
+    #chlog-mainmenu>ul>li>ul>li>a:active
+    #chlog-mainmenu>ul>li>ul>li>a:focus{
+        padding: 0 1.5em;
     }
     
 }

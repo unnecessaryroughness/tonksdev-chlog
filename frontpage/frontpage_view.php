@@ -2,7 +2,7 @@
 
     namespace chlog;
         
-    class Frontpage_View {
+    class Frontpage_View extends ChlogView {
 
     /*  ============================================
         FUNCTION:   __construct
@@ -43,7 +43,6 @@
         ============================================  */
         public function defaulthtml() {
             return <<<HTML
-     
             <p>chLOG Application</p>        
 HTML;
         }

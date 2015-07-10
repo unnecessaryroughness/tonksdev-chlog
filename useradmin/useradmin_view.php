@@ -2,7 +2,7 @@
 
     namespace chlog;
 
-    class Useradmin_View {
+    class Useradmin_View extends ChlogView {
 
         protected $user = null;
         
@@ -86,13 +86,13 @@
                         <input type="password" id="txtPassConf2" name="passconf2" value="">
 
                         <div>
-                            <button type="submit" id="txtUpdate" name="action" value="update">Update</button>    
-                            <button type="submit" id="txtCancel" name="action" value="cancel">Cancel</button>    
+                            <button type="submit" id="cmdUpdate" name="action" value="update" class="update">Update</button>    
+                            <button type="submit" id="cmdCancel" name="action" value="cancel" class="cancel">Cancel</button>    
                         </div>
                         
                         <br><br>
                         <div>
-                            <button type="submit" id="txtRemoveUser" name="action" value="removeuser">Remove User Account</button>
+                            <button type="submit" id="cmdRemoveUser" name="action" value="removeuser">Remove User Account</button>
                         </div>
 
                     </form>

@@ -2,7 +2,7 @@
 
     namespace chlog;
         
-    class Login_View {
+    class Login_View extends ChlogView {
 
         public $loggedin = false;
         public $loggedinuser = null;

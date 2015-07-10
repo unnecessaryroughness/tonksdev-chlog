@@ -2,7 +2,7 @@
 
     namespace chlog;
     
-    class Activate_View {
+    class Activate_View extends ChlogView {
 
         public function __construct() {}
         

@@ -8,9 +8,9 @@
     <script src="/jquery/jquery-1.11.3.min.js"></script>
   
     <link rel="stylesheet" href="/common/styles/chlog-style-main.css">
-    <?php echo (isset($pgcss)) ? "<link rel='stylesheet' href='".$pgcss."'>" : "" ?>
+    <?php echo ($vw->css()) ? "<link rel='stylesheet' href='".$vw->css()."'>" : "" ?>
       
-    <title><?php htmlout((isset($pgtitle)) ? $pgtitle : "untitled page") ?></title>
+    <title><?php htmlout($vw->title() ? $vw->title() : "untitled page") ?></title>
   </head>
   <body>
       <div id="chlog-container">
@@ -19,7 +19,7 @@
 
           <!-- Include the main content -->
           <section id="chlog-main">
-            <?php echo (isset($pgcontent)) ? $pgcontent : "" ?>
+            <?php echo ($vw->html()) ? $vw->html() : "" ?>
           </section>
           
           <?php require $_SERVER["DOCUMENT_ROOT"]."/common/templates/footer.html.php" ?>

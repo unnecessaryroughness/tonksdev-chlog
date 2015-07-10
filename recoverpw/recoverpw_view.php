@@ -2,7 +2,7 @@
 
     namespace chlog;
         
-    class RecoverPW_View {
+    class RecoverPW_View extends ChlogView {
 
         public $inRecoveryMode = false;
         public $token = null;

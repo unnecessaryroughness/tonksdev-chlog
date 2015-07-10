@@ -2,7 +2,7 @@
 
     namespace chlog;
     
-    class Error_View {
+    class Error_View extends ChlogView{
 
         public $errcode = null;
         public $errmsg = "";

@@ -2,7 +2,7 @@
 
     namespace chlog;
 
-    class Register_View {
+    class Register_View extends ChlogView {
 
     /*  ============================================
         FUNCTION:   __construct

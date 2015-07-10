@@ -2,7 +2,7 @@
 
     namespace chlog;
     
-    class About_View {
+    class About_View extends ChlogView {
 
         public function __construct() {}
         

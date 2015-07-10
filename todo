@@ -8,15 +8,8 @@ USERS
     * (none)
 
 UI
-    * UI basic framework 
-        + Common mobile stylesheet
-        + Common intermediate stylesheet
-        + Common large-screen stylesheet
-        + Common logged in / redirect 
-
     * UI improvements
         + Style Common menu
-        + Slide out mobile menu
     
     * Javascript improvements
         + Data entry form field validation 

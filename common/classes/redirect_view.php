@@ -2,7 +2,7 @@
 
     namespace chlog;
     
-    class Redirect_View {
+    class Redirect_View extends ChlogView {
 
         public $redirecturl = null;
         
