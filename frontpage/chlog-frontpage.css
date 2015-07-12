@@ -1,0 +1,18 @@
+.chlog-main-splash {
+    color: #ddd;   
+    font-weight: bolder;
+    font-size: 3em;
+    text-align: center;
+    padding: 0.5em 0;
+}
+
+
+@media (min-width: 620px) {
+
+    .chlog-main-splash {
+        font-size: 10em;
+        text-align: center;
+        padding: 0.5em 0;
+    }
+
+}

@@ -2,24 +2,75 @@
 <nav id="chlog-mainmenu">
     <ul>
         <li><a href="/">Home</a>
-        </li><li class="dummya" onclick="toggleSubMenu(this)">Attack
-            <ul>
-                <li><a href="/">I'm having an attack NOW</a></li>
-                <li><a href="/">My attack is now over</a></li>
-            </ul>
-        </li><li class="dummya" onclick="toggleSubMenu(this)">Treatment
-            <ul>
-                <li><a href="/">Revise My Treatment Plan</a></li>
-            </ul>
-        </li><li class="dummya" onclick="toggleSubMenu(this)">Reporting
-            <ul>
-                <li><a href="/">Reports</a></li>
-                <li><a href="/">Charts</a></li>
-            </ul>
-        </li><li><a href="/useradmin/">Settings
-        </li><li><a href="/login/">Login</a>
+        </li><li class="dummya" submenu="chlog-attack-menu">Attack
+        </li><li class="dummya" submenu="chlog-treatment-menu">Treatment
+        </li><li class="dummya" submenu="chlog-reporting-menu">Reporting
+        </li><li class="dummya" submenu="chlog-settings-menu">Settings
         </li><li><a href="/about/">About</a></li>
     </ul>
 </nav>
+<nav class="chlog-submenu" id="chlog-attack-menu">
+    <section>
+        <div class="chlog-submenu-header">Attack Options</div>
+        <ul>
+            <li><a href="/">I'm having an attack NOW</a></li>
+            <li><a href="/">My attack is now over</a></li>
+        </ul>    
+    </section>
+</nav>
+<nav class="chlog-submenu" id="chlog-treatment-menu">
+    <section>
+        <div class="chlog-submenu-header">Treatment Plan Options</div>
+        <ul>
+            <li><a href="/">My Treatment Plan</a></li>
+        </ul>
+    </section>
+</nav>
+<nav class="chlog-submenu" id="chlog-reporting-menu">
+    <section>
+        <div class="chlog-submenu-header">Reports</div>
+        <ul>
+            <li><a href="/">Report One</a></li>
+            <li><a href="/">Report Two</a></li>
+            <li><a href="/">Report Three</a></li>
+        </ul>
+    </section>
+    <section>
+        <div class="chlog-submenu-header">Charts</div>
+        <ul>
+            <li><a href="/">Chart One</a></li>
+            <li><a href="/">Chart Two</a></li>
+            <li><a href="/">Chart Three</a></li>
+        </ul>
+    </section>
+</nav>
+<nav class="chlog-submenu" id="chlog-settings-menu">
+    <section>
+        <div class="chlog-submenu-header">Settings:</div>
+        <ul>
+            <?php 
+                if (!chlog\safeget::session("user", "nickname", null)) {
+                    echo "<li><a href='/login/'>Log In</a></li>";
+                } else {
+                    echo "<li><a href='/login/?action=logout'>Log Out</a></li>";
+                } 
+            ?>
+            <li><a href="/useradmin/">User Preferences</a></li>
+        </ul>
+    </section>
+    <section>
+        <div class="chlog-submenu-header">Set Up Lists:</div>
+        <ul>
+            <li><a href="/">Symptoms</a></li>
+            <li><a href="/">Triggers</a></li>
+            <li><a href="/">Treatments</a></li>
+            <li><a href="/">Side Effects</a></li>
+            <li><a href="/">Attack Waves</a></li>
+            
+        </ul>
+    </section>
+</nav>
+
+<div class="endfloat" id="chlog-menu-delimiter"></div>
 
 <script src="/common/templates/mainmenu.js"></script>

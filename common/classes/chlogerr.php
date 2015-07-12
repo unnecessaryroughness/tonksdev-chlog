@@ -55,5 +55,18 @@
                             self::EC_MISSINGRECOVERYID   => self::EM_MISSINGRECOVERYID,
                             self::EC_REMOVEUSERBADPWD    => self::EM_REMOVEUSERBADPWD
                     );
+
+        
+        //NAVIGATION ERROR CODES
+        const EC_INVALIDOPERATION   = 2001;
+        
+        //NAVIGATION ERROR MESSAGES
+        const EM_INVALIDOPERATION   = "Sorry, I'm not quite sure what you are asking me to do. Please contact the administrator.";
+        
+        //NAVIGATION ERROR ARRAY
+        public static $EA_NAVERRORS = array(
+                            self::EC_INVALIDOPERATION => self::EM_INVALIDOPERATION    
+                    );
+        
         
     }

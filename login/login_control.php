@@ -81,7 +81,8 @@
                 default:
                     //uh-oh - what is this? Throw an error!
                     unset($_SESSION["user"]);
-                    return new Error_View(-1, "Unhandled response from page.".$type);
+                    Logger::log("invalid operation (login) = ".$type);
+                    return new Error_View(ChlogErr::EC_INVALIDOPERATION, ChlogErr::EM_INVALIDOPERATION);
                     break;
             }
         }

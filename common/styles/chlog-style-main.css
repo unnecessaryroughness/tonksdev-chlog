@@ -151,11 +151,12 @@ h2 {
 #chlog-mainmenu {
     display: none;
     margin-bottom: 0.3em;
+    float: left;
+    width: 40%;
 }
 
 #chlog-mainmenu>ul {
     list-style: none;   
-    border-bottom: 1px solid #666;
 }
 
 #chlog-mainmenu>ul>li {
@@ -182,46 +183,58 @@ h2 {
 }
 
 
-/* SUBMENUS */
+/* MEGAMENUS */
 
-#chlog-mainmenu>ul>li>ul {
-    display: none;
-    list-style: none;
+.chlog-submenu {
+    float: left;
+    width: 58%;
     background: #fff;
-    margin: 0;
-    padding: 0.3em 0 0 0;
+    display: none;
+    padding: 0; 
 }
 
-#chlog-mainmenu>ul>li>ul>li {
-    display: block;
-    padding: 0.2em 0.5em;
+.chlog-submenu>section {
+    float: none;
+    width: 100%;
+    margin: 0 0;
 }
 
-#chlog-mainmenu>ul>li>ul>li.dummya {
-    display: block;
-    line-height: 1.9em;
-    color: #666;    
-}
-
-#chlog-mainmenu>ul>li>ul>li>a, 
-#chlog-mainmenu>ul>li>ul>li>a:link, 
-#chlog-mainmenu>ul>li>ul>li>a:visited,
-#chlog-mainmenu>ul>li>ul>li>a:active
-#chlog-mainmenu>ul>li>ul>li>a:focus{
-    display:block;
+.chlog-submenu>section>.chlog-submenu-header {
     color: #666;
-    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    border-bottom: 1px solid #666;
 }
 
-#chlog-mainmenu>ul>li>ul>li>a:hover {
-    background: #666;
-    color: #fff;
+.chlog-submenu>section>ul>li {
+    list-style: none;
+    margin-bottom: 0.5em;   
 }
+
+.chlog-submenu>section>ul>li>a,
+.chlog-submenu>section>ul>li>a:link,
+.chlog-submenu>section>ul>li>a:hover,
+.chlog-submenu>section>ul>li>a:visited,
+.chlog-submenu>section>ul>li>a:focus {
+    text-decoration: none;
+    color: #666;
+}
+
+.chlog-submenu>section>ul>li>a:hover {
+    color: #f00;   
+}
+
+
+#chlog-menu-delimiter {
+    border-bottom: 1px solid #fff;   
+}
+
 
 
 
 /* =======================
-   global style classes 
+   Main Screen Area & Footer classes 
    ======================= */
 
 
@@ -253,6 +266,8 @@ h2 {
 
     #chlog-mainmenu {
         display: block;
+        width: 100%;
+        float: none;
     }
 
     #chlog-mainmenu>ul {
@@ -287,29 +302,28 @@ h2 {
         color: #fff;
     }
 
-    
-    
-    /* SUBMENUS */
-    
-    #chlog-mainmenu>ul>li>ul {
+        
+    /* MEGAMENUS */
+
+    .chlog-submenu {
         position: absolute;
-        visibility: hidden;
-        display: block;
-        border: 1px solid #666;
-        border-radius: 0 0 5px 5px;
-        padding: 0 0 0 0;
+        left: 0;
+        width: 100vw;
+        background: #fff;
+        display: none;
+        min-height: 15em;
+        padding: 0.5em 0.5em 2em 0.5em; 
+        border-bottom: 1px solid #666;
+    }
+
+    .chlog-submenu>section {
+        float: left;
+        width: 30%;
+        margin: 1.5%;
     }
     
-    #chlog-mainmenu>ul>li>ul>li {
-        padding: 0;   
-    }
-    
-    #chlog-mainmenu>ul>li>ul>li>a, 
-    #chlog-mainmenu>ul>li>ul>li>a:link, 
-    #chlog-mainmenu>ul>li>ul>li>a:visited,
-    #chlog-mainmenu>ul>li>ul>li>a:active
-    #chlog-mainmenu>ul>li>ul>li>a:focus{
-        padding: 0 1.5em;
+    #chlog-menu-delimiter {
+        border-bottom: none;   
     }
     
 }

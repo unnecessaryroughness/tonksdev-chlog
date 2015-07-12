@@ -65,7 +65,8 @@
                         }
                     } else {
                         $errmsg = "Incorrect password. Details were not updated.";
-                        Logger::log($errmsg); return new Error_View(ChlogErr::EC_USERBADPWD, $errmsg);   
+                        Logger::log($errmsg); 
+                        return new Error_View(ChlogErr::EC_USERBADPWD, ChlogErr::EM_USERBADPWD);   
                     }
                     break;
                 

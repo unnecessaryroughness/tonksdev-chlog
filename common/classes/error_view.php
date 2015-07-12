@@ -16,8 +16,8 @@
             return <<<HTML
 
             <h2>Error</h2>
-            <hr>
             <p>Code: $this->errcode</p>
+            <br>
             <p>$this->errmsg</p>
 HTML;
         }

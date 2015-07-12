@@ -43,8 +43,12 @@
         ============================================  */
         public function defaulthtml() {
             return <<<HTML
-            <h2>chLOG Application</h2>        
+            <div class="chlog-main-splash">chLOG</div>        
 HTML;
+        }
+
+        public function css() {
+            return "/frontpage/chlog-frontpage.css";   
         }
         
     }
