@@ -20,7 +20,7 @@
 </nav>
 <nav class="chlog-submenu" id="chlog-treatment-menu">
     <section>
-        <div class="chlog-submenu-header">Treatment Plan Options</div>
+        <div class="chlog-submenu-header">Treatment Options</div>
         <ul>
             <li><a href="/">My Treatment Plan</a></li>
         </ul>
