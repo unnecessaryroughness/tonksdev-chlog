@@ -46,7 +46,7 @@
 </nav>
 <nav class="chlog-submenu" id="chlog-settings-menu">
     <section>
-        <div class="chlog-submenu-header">Settings:</div>
+        <div class="chlog-submenu-header">Settings</div>
         <ul>
             <?php 
                 if (!chlog\safeget::session("user", "nickname", null)) {
@@ -59,7 +59,7 @@
         </ul>
     </section>
     <section>
-        <div class="chlog-submenu-header">Set Up Lists:</div>
+        <div class="chlog-submenu-header">Set Up Lists</div>
         <ul>
             <li><a href="/">Symptoms</a></li>
             <li><a href="/">Triggers</a></li>

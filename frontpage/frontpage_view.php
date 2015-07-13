@@ -44,6 +44,7 @@
         public function defaulthtml() {
             return <<<HTML
             <div class="chlog-main-splash">chLOG</div>        
+            <div id="chlog-content-area"></div>
 HTML;
         }
 

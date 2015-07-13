@@ -5,11 +5,11 @@ function toggleMenu() {
 
 function openMegaMenu() {
     $(".chlog-submenu").hide();
-    $("#"+$(this).attr("submenu")).show();
+    $("#"+$(this).attr("submenu")).fadeIn();
 }
 
 function closeMegaMenu() {
-    $(this).hide();   
+    $(this).fadeOut();   
 }
 
 

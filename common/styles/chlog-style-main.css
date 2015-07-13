@@ -153,6 +153,7 @@ h2 {
     margin-bottom: 0.3em;
     float: left;
     width: 40%;
+    background: #eef;
 }
 
 #chlog-mainmenu>ul {
@@ -188,9 +189,9 @@ h2 {
 .chlog-submenu {
     float: left;
     width: 58%;
-    background: #fff;
+    background: #efe;
     display: none;
-    padding: 0; 
+    padding: 0.5em; 
 }
 
 .chlog-submenu>section {
@@ -269,6 +270,7 @@ h2 {
         display: block;
         width: 100%;
         float: none;
+        margin-bottom: 0;
     }
 
     #chlog-mainmenu>ul {
@@ -310,7 +312,7 @@ h2 {
         position: absolute;
         left: 0;
         width: 100vw;
-        background: #fff;
+        background: #eef;
         display: none;
         min-height: 15em;
         padding: 0em 0.5em 0.5em 0.5em; 
@@ -320,7 +322,7 @@ h2 {
     .chlog-submenu>section {
         float: left;
         width: 30%;
-        margin: 1.5%;
+        margin: 1% 1.5%;
     }
     
     .chlog-submenu>section>.chlog-submenu-header {
