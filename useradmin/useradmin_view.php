@@ -56,11 +56,16 @@
                 $bio = $this->user->biography;
                 $jdt = $this->user->joindate;
                 $adm = ($this->user->isadmin) ? "YES" : "NO";
+                $grv = $this->user->getGravatar("https://placehold.it/80x80", 80);
                 return <<<HTML
 
                     <form id="frmRegister" action="." method="POST">
                         <h2>About You</h2>
 
+                        <label for="imgGravatar">Gravatar:</label>
+                        <img id="imgGravatar" src="$grv"> 
+                        <a class="gravlink" href="https://en.gravatar.com/">(change this image)</a>
+                        
                         <label for="txtEmail">Email:</label>
                         <input type="textbox" readonly id="txtEmail" name="email" value="$eml">
 

@@ -15,6 +15,20 @@ input[type="textbox"][readonly] {
     border: 0;
 }
 
+
+.gravlink {
+    display: block;
+    font-size: 0.8em;
+    color: #666;
+    width: 15em;
+    margin-bottom: 1em;   
+}
+
+.gravlink:hover {
+    color: #f00;   
+}
+
+
 textarea {
     width: 100%;
     height: 5em;

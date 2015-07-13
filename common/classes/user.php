@@ -69,6 +69,17 @@
             
         
     /*  ============================================
+        FUNCTION:   getGravatar
+        PARAMS:     defaultimg - default image if no gravatar exists
+                    size       - size to render gravatar
+        RETURNS:    (string) gravatar URL
+        ============================================  */
+        public function getGravatar($defaultimg, $size) {
+            return "http://www.gravatar.com/avatar/".md5(strtolower(trim($this->email)))."?d=".urlencode($defaultimg)."&s=".$size;       
+        }
+        
+        
+    /*  ============================================
         FUNCTION:   setPassword 
         PARAMS:     pwd - old password
                     npw - new password
