@@ -5,6 +5,7 @@ label {
 }
 
 input[type="textbox"], input[type="password"] {
+    font-size: 1em;
     height: 2em;
     width: 100%;
     margin-bottom: 1em;   
@@ -32,16 +33,18 @@ input[type="textbox"][readonly] {
 textarea {
     width: 100%;
     height: 5em;
+    font-size: 1em;
     margin-bottom: 1em;
 }
 
 button {
     height: 2.5em;   
     width: 45%;
+    font-size: 1em;
 }
 
 button.update {
-    margin-right: 5%;
+    margin-right: 2%;
 }
 
 #cmdRemoveUser {
