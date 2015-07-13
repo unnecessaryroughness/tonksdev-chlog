@@ -59,7 +59,7 @@
                 return <<<HTML
 
                     <form id="frmRegister" action="." method="POST">
-                        <h2>User Admin Form</h2>
+                        <h2>About You</h2>
 
                         <label for="txtEmail">Email:</label>
                         <input type="textbox" readonly id="txtEmail" name="email" value="$eml">
@@ -71,13 +71,13 @@
                         <input type="textbox" readonly id="txtIsAdmin" name="isadmin" value="$adm">
 
                         <label for="txtNickname">Nickname:</label>
-                        <input type="textbox" id="txtNickname" name="nickname" value="$nnm">
+                        <input type="textbox" id="txtNickname" name="nickname" required value="$nnm">
 
                         <label for="txtBiography">Biography:</label>
                         <textarea id="txtBiography" name="biography">$bio</textarea>
 
                         <label for="txtPassword">Current Password:</label>
-                        <input type="password" id="txtPassword" name="password" value="">
+                        <input type="password" id="txtPassword" name="password" required value="">
 
                         <label for="txtPassConf">New Password:</label>
                         <input type="password" id="txtPassConf" name="passconf" value="">
@@ -90,7 +90,7 @@
                             <button type="submit" id="cmdCancel" name="action" value="cancel" class="cancel">Cancel</button>    
                         </div>
                         
-                        <br><br>
+                        <br>
                         <div>
                             <button type="submit" id="cmdRemoveUser" name="action" value="removeuser">Remove User Account</button>
                         </div>
@@ -111,4 +111,10 @@ HTML;
                 <p>No user is currently logged in.</p>       
 HTML;
         }
+        
+        
+        public function css() {
+            return "/useradmin/useradmin.css";        
+        }
     }
+    

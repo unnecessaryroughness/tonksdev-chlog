@@ -10,14 +10,13 @@
     </div>
     
     <div class="chlog-header-user">
-        <form name="frmLogout" action="/login/index.php" method="POST">
-            <?php $unn = chlog\safeget::session("user", "nickname", "not logged in");
-                    htmlout($unn); ?>
-
-            <?php if ($unn!="not logged in"): ?>
-                <button id="btnLogout" name="action" 
-                        class="button-noborder" value="logout">(Log Out)</button>
-            <?php endif; ?>
+            <?php 
+                    $unn = chlog\safeget::session("user", "nickname", "not logged in");
+                    htmlout($unn); 
+                    if ($unn!="not logged in") {
+                        echo " <a href='/login/?action=logout'>(Log Out)</a>";
+                    }
+            ?>
         </form>
     </div>
 </header>

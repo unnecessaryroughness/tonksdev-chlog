@@ -1,0 +1,66 @@
+label {
+    margin-bottom: 0.4em;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+input[type="textbox"], input[type="password"] {
+    height: 2em;
+    width: 100%;
+    margin-bottom: 1em;   
+}
+
+input[type="textbox"][readonly] {
+    color: #666;   
+    border: 0;
+}
+
+textarea {
+    width: 100%;
+    height: 5em;
+    margin-bottom: 1em;
+}
+
+button {
+    height: 2.5em;   
+    width: 45%;
+}
+
+button.update {
+    margin-right: 5%;
+}
+
+#cmdRemoveUser {
+    width: 98%;   
+    background: #faa;
+}
+
+@media (min-width: 620px) {
+
+    input[type="textbox"], input[type="password"] {
+        width: 20em;
+    }
+    
+    textarea {
+        width: 20em;
+    }
+
+    button {
+        height: 2em;   
+        width: 9em;
+    }
+
+    button.update {
+        margin-right: 1em;
+    }
+
+    #cmdRemoveUser {
+        width: 20em;   
+    }
+    
+    #cmdRemoveUser:hover {
+        background: #444;   
+        color: #f88;
+    }
+    
+}

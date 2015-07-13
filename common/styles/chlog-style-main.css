@@ -113,8 +113,8 @@ h2 {
     font-size: 0.9em;
 }
 
-.chlog-header-user>form>button.button-noborder {
-    border: 0;
+.chlog-header-user>a {
+    text-decoration: none;
     margin: 0;
     padding: 0;
     background: #0775ba;
@@ -261,6 +261,10 @@ h2 {
 */
 
 @media (min-width: 620px) {
+
+    html {
+        overflow-y: scroll;
+    }
 
     #chlog-mainmenu-toggle {
         display: none;

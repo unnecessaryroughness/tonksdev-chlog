@@ -53,6 +53,6 @@ HTML;
         }
         
         public function css() {
-            return "/about/chlog-about.css";   
+            return "/about/about.css";   
         }
     }

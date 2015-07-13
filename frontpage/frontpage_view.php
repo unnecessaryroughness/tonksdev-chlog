@@ -49,7 +49,7 @@ HTML;
         }
 
         public function css() {
-            return "/frontpage/chlog-frontpage.css";   
+            return "/frontpage/frontpage.css";   
         }
         
     }

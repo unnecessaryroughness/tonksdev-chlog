@@ -52,8 +52,6 @@
                                         $errmsg = "Failed to change password for user ".$usr->email;
                                         Logger::log($errmsg); return new Error_View(-1, $errmsg);
                                     }
-                                } else {
-                                    throw new \Exception("", ChlogErr::EC_USERPWDSNOTMATCHED);
                                 }
                                 
                                 return new Useradmin_View($usr);
