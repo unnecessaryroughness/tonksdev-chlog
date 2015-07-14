@@ -7,16 +7,30 @@ BUGS
 USERS
     * (none)
 
-UI
-    * UI improvements
+UI FRAMEWORK
+    * Style login screen
     
     * Javascript improvements
         + Data entry form field validation 
         + jQuery Confirmation dialog boxes (for delete, log out, etc.)
-    
+
+ADMINISTER LISTS
+    SYMPTOMS
+        + Create symptom object
+        + Create symptom list object
+        + Create lookups class that returns a symptom-list object
+            - Constructor requires email address of user
+            - Update function allows update of a single record at a time 
+            - FlushtoDB function allows mass record changes to be written back to database
+
 SECURITY
     * (none)
 
+
+CLASSES
+    * Make a superclass for the controllers
+    * Make a container class for lookup lists
+    
 
 PENDING PRODUCTION DATABASE CHANGES
     + (none)
