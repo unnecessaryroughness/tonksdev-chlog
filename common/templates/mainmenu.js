@@ -5,11 +5,20 @@ function toggleMenu() {
 
 function openMegaMenu() {
     $(".chlog-submenu").hide();
-    $("#"+$(this).attr("submenu")).fadeIn();
+    $("#chlog-mainmenu>ul").css("border-bottom", "1px solid #666");
+    $("#chlog-mainmenu>ul>li").css("background-color", "#fff");
+    
+    if ($(this).attr("submenu") != undefined) {
+        $(this).css("background-color", "#eef");
+        $("#chlog-mainmenu>ul").css("border-bottom", "0px");
+        $("#"+$(this).attr("submenu")).show();
+    } 
 }
 
 function closeMegaMenu() {
-    $(this).fadeOut();   
+    $("#chlog-mainmenu>ul").css("border-bottom", "1px solid #666");
+    $("#chlog-mainmenu>ul>li").css("background-color", "#fff");
+    $(this).hide();   
 }
 
 
