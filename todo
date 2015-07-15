@@ -14,6 +14,18 @@ UI
         + Data entry form field validation 
         + jQuery Confirmation dialog boxes (for delete, log out, etc.)
     
+    * Mega Menu
+        + remove bottom border
+        + make colour bolder - maybe same as main header
+        + different colours for each section? 
+        + reduce font sizes for menu options
+        + 95% width
+        + icons on the menus?
+        + descriptions under the menu items (in a smaller font)
+        + bigger gap between megamenu headings and bottom border
+        + thicker bottom border line
+       
+    
 SECURITY
     * (none)
 
