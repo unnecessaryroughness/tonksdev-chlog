@@ -24,6 +24,9 @@ UI
         + descriptions under the menu items (in a smaller font)
         + bigger gap between megamenu headings and bottom border
         + thicker bottom border line
+        + transition to fade colours
+        + font
+        + Sass
        
     
 SECURITY
