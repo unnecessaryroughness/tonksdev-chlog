@@ -1,36 +1,22 @@
 function toggleMenu() {
     $(".chlog-submenu").hide();
     $("#chlog-mainmenu").slideToggle(100);   
+    $("#chlog-mainmenu>ul>li").removeClass("chlog-mainmenu-highlighted");
 }
 
 function openMegaMenu() {
-    if (screen.width >= 620) {
-        $(".chlog-submenu").fadeOut(400);
-    } else {
-        $(".chlog-submenu").hide();
-    }
-    $("#chlog-mainmenu>ul").css("border-bottom", "1px solid #666");
-    $("#chlog-mainmenu>ul>li").css("background-color", "#fff").css("color", "#666");
+    $(".chlog-submenu").hide();
+    $("#chlog-mainmenu>ul>li").removeClass("chlog-mainmenu-highlighted");
     
     if ($(this).attr("submenu") != undefined) {
-        $(this).css("background-color", "#0775ba").css("color", "#fff");
-        $("#chlog-mainmenu>ul").css("border-bottom", "0px");
-        if (screen.width >= 620) {
-            $("#"+$(this).attr("submenu")).fadeIn(400);
-        } else {
-            $("#"+$(this).attr("submenu")).show();
-        }
+        $(this).addClass("chlog-mainmenu-highlighted");
+        $("#"+$(this).attr("submenu")).delay(1000).show();
     } 
 }
 
 function closeMegaMenu() {
-    $("#chlog-mainmenu>ul").css("border-bottom", "1px solid #666");
-    $("#chlog-mainmenu>ul>li").css("background-color", "#fff").css("color", "#666");
-    if (screen.width >= 620) {
-        $(this).fadeOut(400);   
-    } else {
-        $(this).hide();   
-    }
+    $(this).hide();   
+    $("#chlog-mainmenu>ul>li").removeClass("chlog-mainmenu-highlighted");
 }
 
 
