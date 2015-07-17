@@ -11,6 +11,16 @@ class Symptom {
     public $sortorder = null;
     public $hidden = false;
     
+/*  ============================================
+    FUNCTION:   __construct 
+    PARAMS:     nnm     nickname
+                sid     symptom id
+                des     symptom description
+                srt     sort order
+                hid     hidden
+    RETURNS:    (object)
+    PURPOSE:    creates a symptom object
+    ============================================  */
     public function __construct($nnm = null, $sid = null, $des = null, $srt = null, $hid = null) {
         $this->nickname = $nnm;
         $this->symptomid = $sid;

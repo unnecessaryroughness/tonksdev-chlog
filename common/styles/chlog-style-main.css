@@ -111,7 +111,7 @@ h2 {
   margin-bottom: 0.3em;
   float: left;
   width: 40%;
-  background: #eef; }
+  background: #ddf; }
   #chlog-mainmenu ul {
     list-style: none; }
     #chlog-mainmenu ul li {
@@ -144,7 +144,7 @@ h2 {
     width: 100%;
     margin: 0; }
     .chlog-submenu section .chlog-submenu-header {
-      color: #e0d80e;
+      color: #444;
       font-size: 1em;
       font-weight: bold;
       padding-bottom: 0.3em;
@@ -197,8 +197,7 @@ h2 {
     #chlog-mainmenu ul {
       list-style: none;
       margin: 0;
-      background: #fff;
-      border-bottom: 1px solid #0775ba; }
+      background: #ddf; }
       #chlog-mainmenu ul li {
         display: inline-block;
         color: #666;
@@ -221,13 +220,19 @@ h2 {
     position: absolute;
     left: 0;
     width: 100vw;
-    background: #0775ba;
+    background: #0083D5;
     color: #fff;
     display: none;
     min-height: 15em;
     padding: 0em 0.5em 0.5em 0.5em; }
     .chlog-submenu section {
+      display: block;
       float: left;
+      height: 13em;
+      padding: 0 1em;
+      border-left: 2px solid #444;
+      border-right: 2px solid #444;
+      border-radius: 10px;
       width: 30%;
       margin: 1% 1.5%; }
       .chlog-submenu section .chlog-submenu-header {

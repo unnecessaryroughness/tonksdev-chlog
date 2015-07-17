@@ -6,12 +6,18 @@
     include_once 'common/chlogautoload.php';
 
 
+    $sl = ch\Lookups::getSymptomsList("marktonks75@gmail.com");
+
+    echo var_dump($sl);
+
+/*
     $sl = new ch\SymptomList();
     $sl->addSymptom("mark", 1, "test symptom", 1, 0);
     $sl->addSymptom("mark", 2, "test symptom two", 2, 0);
 
     //echo var_dump($sl);
     echo var_dump($sl->getSymptom(1));
+*/
 
 
     //--> TEST USERS

@@ -16,12 +16,24 @@ UI FRAMEWORK
 
 ADMINISTER LISTS
     SYMPTOMS
-        + Create symptom object
-        + Create symptom list object
-        + Create lookups class that returns a symptom-list object
-            - Constructor requires email address of user
-            - Update function allows update of a single record at a time 
-            - FlushtoDB function allows mass record changes to be written back to database
+        Symptoms List Object
+            - updateSymptomsList static method that accepts a symptom list object and
+              effects a mass record change back to the database
+            - only ADMINS can change existing descriptions. 
+            - individual USERS can change their own sort order and hide certain symptoms
+            
+    TRIGGERS
+        Should work the same as the Symptoms list. Try to find ways of reusing code.
+        
+    SIDE EFFECTS
+        Should work the same as the Symptoms list. Try to find ways of reusing code.
+        
+    TREATMENTS
+        Should work the same as the Symptoms list. Try to find ways of reusing code.
+        
+    ATTACK WAVES
+        - investigate the small inline menus found in this article: 
+            http://www.sitepoint.com/11-best-jquery-charting-libraries/
     
     * Mega Menu
         + different colours for each section? 

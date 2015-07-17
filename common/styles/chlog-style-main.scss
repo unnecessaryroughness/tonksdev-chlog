@@ -29,6 +29,7 @@ $chlog-greytext:     #666;
 $chlog-darkgrey:     #444;
 $chlog-updateorange: #f90;
 $chlog-cancelgrey:   #bbb;
+$chlog-mainmenublue: #ddf;
 
 /* =======================
    element layout rules 
@@ -162,7 +163,7 @@ h2 {
     margin-bottom: 0.3em;
     float: left;
     width: 40%;
-    background: #eef;
+    background: $chlog-mainmenublue;
 
     ul {
         list-style: none;   
@@ -212,7 +213,7 @@ h2 {
         margin: 0;
         
         .chlog-submenu-header {
-            color: $chlog-amber;
+            color: $chlog-darkgrey;
             font-size: 1em;
             font-weight: bold;
             padding-bottom: 0.3em;
@@ -289,8 +290,7 @@ h2 {
         ul {
             list-style: none;   
             margin: 0;
-            background: #fff;
-            border-bottom: 1px solid $chlog-darkblue;
+            background: $chlog-mainmenublue;
             
             li {
                 display: inline-block;
@@ -324,14 +324,20 @@ h2 {
         position: absolute;
         left: 0;
         width: 100vw;
-        background: $chlog-darkblue;
+        background: $chlog-blue;
         color: #fff;
         display: none;
         min-height: 15em;
         padding: 0em 0.5em 0.5em 0.5em; 
         
         section {
+            display: block;
             float: left;
+            height: 13em;
+            padding: 0 1em;
+            border-left: 2px solid $chlog-darkgrey;
+            border-right: 2px solid $chlog-darkgrey;
+            border-radius: 10px;
             width: 30%;
             margin: 1% 1.5%;
             

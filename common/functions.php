@@ -50,16 +50,10 @@
                 error text instead.
     ============================================  */
     function getNiceErrorMessage($e) {
-/*
-        if (isset(chlog\ChlogErr::$EA_USERERRORS[$e->getCode()])) {
-            return chlog\ChlogErr::$EA_USERERRORS[$e->getCode()];
-        } else {
-            return $e->getMessage();
-        }                        
-*/
         
         $errsources = array(chlog\ChlogErr::$EA_USERERRORS,
-                            chlog\ChlogErr::$EA_NAVERRORS);
+                            chlog\ChlogErr::$EA_NAVERRORS,
+                            chlog\ChlogErr::$EA_DATAERRORS);
         
         foreach ($errsources as $es) {
             if (isset($es[$e->getCode()])) {
