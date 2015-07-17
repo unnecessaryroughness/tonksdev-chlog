@@ -1,32 +1,26 @@
 .chlog-main-splash {
-    color: #ddd;   
-    position: absolute;
-    width: 90vw;
-    z-index: -1;
-    font-weight: bolder;
-    font-size: 3em;
-    text-align: center;
-    padding: 0.5em 0;
-}
+  color: #ddd;
+  position: absolute;
+  width: 90vw;
+  z-index: -1;
+  font-weight: bolder;
+  font-size: 3em;
+  text-align: center;
+  padding: 0.5em 0; }
 
 #chlog-content-area {
-    min-height: 10em;   
-}
-
+  min-height: 10em; }
 
 @media (min-width: 620px) {
+  .chlog-main-splash {
+    position: absolute;
+    width: 98%;
+    z-index: -1;
+    font-size: 10em;
+    text-align: center;
+    padding: 0.5em 0; }
 
-    .chlog-main-splash {
-        position: absolute;
-        width: 98%;
-        z-index: -1;
-        font-size: 10em;
-        text-align: center;
-        padding: 0.5em 0;
-    }
-    
-    #chlog-content-area {
-        min-height: 25em;   
-    }
+  #chlog-content-area {
+    min-height: 25em; } }
 
-}
+/*# sourceMappingURL=frontpage.css.map */

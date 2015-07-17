@@ -5,12 +5,15 @@
     Stylesheet specifically for the about screen
 
    ==================================================== */
-p {
-  color: #444;
-  line-height: 1.5em;
-  margin-top: 0.5em;
-  margin-bottom: 0.8em; }
-  p strong {
-    color: #d00; }
 
-/*# sourceMappingURL=about.css.map */
+p {
+    color: #444;
+    line-height: 1.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.8em;
+    
+    strong {
+        color: #d00;   
+    }
+}
+

@@ -1,3 +1,6 @@
 common/classes/chlog/
 logs/
 jquery/
+.sass-cache/
+watchall
+*.css.map
