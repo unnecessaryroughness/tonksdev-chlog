@@ -129,7 +129,7 @@ h2 {
         text-decoration: none; }
       #chlog-mainmenu ul li.chlog-mainmenu-highlighted {
         background: #0775ba;
-        color: #fff;
+        color: #e0d80e;
         border-bottom: 3px solid #e0d80e; }
 
 /* MEGAMENUS */
@@ -147,9 +147,10 @@ h2 {
       color: #e0d80e;
       font-size: 1em;
       font-weight: bold;
+      padding-bottom: 0.3em;
       margin-top: 0.5em;
       margin-bottom: 1em;
-      border-bottom: 1px solid #e0d80e; }
+      border-bottom: 3px solid #e0d80e; }
     .chlog-submenu section ul > li {
       list-style: none;
       margin-bottom: 1em; }
@@ -180,6 +181,10 @@ h2 {
 @media (min-width: 620px) {
   html {
     overflow-y: scroll; }
+
+  #chlog-main {
+    width: 95%;
+    margin: auto; }
 
   #chlog-mainmenu-toggle {
     display: none; }
