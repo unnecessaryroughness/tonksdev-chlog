@@ -213,7 +213,7 @@ h2 {
         margin: 0;
         
         .chlog-submenu-header {
-            color: $chlog-darkgrey;
+            color: $chlog-amber;
             font-size: 1em;
             font-weight: bold;
             padding-bottom: 0.3em;
@@ -324,30 +324,47 @@ h2 {
         position: absolute;
         left: 0;
         width: 100vw;
-        background: $chlog-blue;
+        background: $chlog-mainmenublue;
         color: #fff;
         display: none;
         min-height: 15em;
         padding: 0em 0.5em 0.5em 0.5em; 
+        border-bottom: 1px solid $chlog-darkgrey;
         
         section {
             display: block;
             float: left;
             height: 13em;
             padding: 0 1em;
-            border-left: 2px solid $chlog-darkgrey;
-            border-right: 2px solid $chlog-darkgrey;
+            background: #fff;
+            border: 2px solid $chlog-darkgrey;
+            xxborder-right: 2px solid $chlog-darkgrey;
             border-radius: 10px;
             width: 30%;
             margin: 1% 1.5%;
             
             .chlog-submenu-header {
                 margin-bottom: 0.5em;
+                color: $chlog-greytext;
             }
             
             ul>li {
                 margin-bottom: 0.5em;   
                 font-size: 0.9em;
+                
+                a, a:link, a:hover, a:visited, a:focus {
+                    text-decoration: none;
+                    color: $chlog-greytext;
+                    display: block;
+                    height: 100%;
+                    width: 100%;
+                    padding: 0.2em;
+                }
+
+                a:hover {
+                    color: $chlog-greytext;   
+                    background: $chlog-amber;
+                }
             }
         }
     }
