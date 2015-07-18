@@ -24,7 +24,7 @@
 // =======================
 $chlog-blue:         #0083D5;
 $chlog-darkblue:     #0775ba;
-$chlog-amber:        #e0d80e;
+$chlog-amber:        #faf107;
 $chlog-greytext:     #666;
 $chlog-darkgrey:     #444;
 $chlog-updateorange: #f90;
@@ -338,7 +338,6 @@ h2 {
             padding: 0 1em;
             background: #fff;
             border: 2px solid $chlog-darkgrey;
-            xxborder-right: 2px solid $chlog-darkgrey;
             border-radius: 10px;
             width: 30%;
             margin: 1% 1.5%;
@@ -358,7 +357,7 @@ h2 {
                     display: block;
                     height: 100%;
                     width: 100%;
-                    padding: 0.2em;
+                    padding: 0.2em 0.5em;
                 }
 
                 a:hover {

@@ -8,7 +8,30 @@
 
     $sl = ch\Lookups::getSymptomsList("marktonks75@gmail.com");
 
-    echo var_dump($sl);
+
+    //unset($sl[1]);
+
+    foreach ($sl as $s) {
+        echo $s->symptomid."\t".$s->description."\t".$s->sortorder."\t".$s->hidden."\n";   
+    }
+
+    echo "\t\t\t\t".$sl->count()." records\n";
+    
+    echo "changed? ".$sl[1]->descriptionhaschanged."\n";
+
+    $sl->getSymptom(4)->updateAdmin("red dwarf!!!");
+    
+    $sl[1]->updateAdmin("hello kitty!", 5002, 1);
+    
+    echo "changed? ".$sl[1]->descriptionhaschanged."\n";
+
+    $sl->sort();
+
+    foreach ($sl as $s) {
+        echo $s->symptomid."\t".$s->description."\t".$s->sortorder."\t".$s->hidden."\n";   
+    }
+    
+
 
 /*
     $sl = new ch\SymptomList();
