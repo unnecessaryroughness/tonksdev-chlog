@@ -46,7 +46,7 @@ button {
       color: #fff; }
 
 h2 {
-  color: #0775ba;
+  color: #3a515f;
   margin: 0.5em 0 0.8em 0;
   border-bottom: 1px solid #666; }
 
@@ -54,20 +54,20 @@ h2 {
    header style rules 
    ======================= */
 .chlog-header {
-  background: #0083D5;
+  background: #5b7f95;
   padding: 0.5em 0.8em;
   overflow: hidden; }
   .chlog-header a {
     text-decoration: none;
     font-size: 2em;
     font-weight: bold;
-    color: #eee;
+    color: #fff;
     display: inline-block;
     float: left; }
 
 .chlog-header-subheader {
   font-weight: bold;
-  color: #faf107;
+  color: #ede859;
   display: block; }
 
 .chlog-header-environment {
@@ -79,7 +79,7 @@ h2 {
 
 .chlog-header-user {
   padding: 0 0.8em;
-  background: #0775ba;
+  background: #3a515f;
   color: #ddd;
   text-align: right;
   font-size: 0.9em; }
@@ -87,7 +87,7 @@ h2 {
     text-decoration: none;
     margin: 0;
     padding: 0;
-    background: #0775ba;
+    background: #3a515f;
     color: #ddd;
     font-size: 0.9em; }
 
@@ -128,15 +128,14 @@ h2 {
         color: #666;
         text-decoration: none; }
       #chlog-mainmenu ul li.chlog-mainmenu-highlighted {
-        background: #0775ba;
-        color: #faf107;
-        border-bottom: 3px solid #faf107; }
+        background: #c4c4e5;
+        border-bottom: 3px solid #ede859; }
 
 /* MEGAMENUS */
 .chlog-submenu {
   float: left;
   width: 58%;
-  background: #0775ba;
+  background: #c4c4e5;
   display: none;
   padding: 0.5em; }
   .chlog-submenu section {
@@ -144,21 +143,21 @@ h2 {
     width: 100%;
     margin: 0; }
     .chlog-submenu section .chlog-submenu-header {
-      color: #faf107;
+      color: #3a515f;
       font-size: 1em;
-      font-weight: bold;
+      font-weight: normal;
       padding-bottom: 0.3em;
       margin-top: 0.5em;
       margin-bottom: 1em;
-      border-bottom: 3px solid #faf107; }
+      border-bottom: 2px solid #3a515f; }
     .chlog-submenu section ul > li {
       list-style: none;
       margin-bottom: 1em; }
       .chlog-submenu section ul > li a, .chlog-submenu section ul > li a:link, .chlog-submenu section ul > li a:hover, .chlog-submenu section ul > li a:visited, .chlog-submenu section ul > li a:focus {
         text-decoration: none;
-        color: #fff; }
+        color: #666; }
       .chlog-submenu section ul > li a:hover {
-        color: #faf107; }
+        color: #ede859; }
 
 /* =======================
    Main Screen Area & Footer classes 
@@ -172,11 +171,11 @@ h2 {
   padding: 0.5em; }
 
 /* 
-    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-    Widescreen rules - extend the full menu
-    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+                        Widescreen rules - extend the full menu
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 */
 @media (min-width: 620px) {
   html {
@@ -201,7 +200,7 @@ h2 {
       #chlog-mainmenu ul li {
         display: inline-block;
         color: #666;
-        font-weight: bold;
+        font-weight: normal;
         font-size: 0.9em; }
         #chlog-mainmenu ul li.dummya, #chlog-mainmenu ul li a, #chlog-mainmenu ul li a:link, #chlog-mainmenu ul li a:visited, #chlog-mainmenu ul li a:active, #chlog-mainmenu ul li a:focus {
           display: inline-block;
@@ -211,34 +210,37 @@ h2 {
           line-height: 3em;
           transition: background 0.5s; }
         #chlog-mainmenu ul li.dummya:hover, #chlog-mainmenu ul li a:hover {
-          background: #0775ba;
-          color: #faf107;
-          border-bottom: 3px solid #faf107; }
+          background: #c4c4e5;
+          border-bottom: 3px solid #ede859; }
+        #chlog-mainmenu ul li.chlog-mainmenu-highlighted {
+          background: #c4c4e5;
+          border-bottom: 3px solid #ede859; }
 
   /* MEGAMENUS */
   .chlog-submenu {
     position: absolute;
     left: 0;
     width: 100vw;
-    background: #ddf;
+    background: #fff;
     color: #fff;
     display: none;
     min-height: 15em;
     padding: 0em 0.5em 0.5em 0.5em;
-    border-bottom: 1px solid #444; }
+    border-bottom: 3px solid #3a515f; }
     .chlog-submenu section {
       display: block;
       float: left;
       height: 13em;
       padding: 0 1em;
       background: #fff;
-      border: 2px solid #444;
+      border-left: 2px solid #444;
+      border-right: 2px solid #444;
       border-radius: 10px;
       width: 30%;
       margin: 1% 1.5%; }
       .chlog-submenu section .chlog-submenu-header {
         margin-bottom: 0.5em;
-        color: #666; }
+        color: #3a515f; }
       .chlog-submenu section ul > li {
         margin-bottom: 0.5em;
         font-size: 0.9em; }
@@ -250,7 +252,7 @@ h2 {
           width: 100%;
           padding: 0.2em 0.5em; }
         .chlog-submenu section ul > li a:hover {
-          color: #666;
-          background: #faf107; } }
+          color: #3a515f;
+          text-decoration: underline; } }
 
 /*# sourceMappingURL=chlog-style-main.css.map */
