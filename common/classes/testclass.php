@@ -8,9 +8,27 @@
 
     $sl = ch\Lookups::getSymptomsList("marktonks75@gmail.com");
 
+    foreach ($sl as $s) {
+        echo $s->symptomid."\t".$s->description."\t".$s->sortorder."\t".$s->hidden."\n";   
+    }
+
+    echo "-------\n";
+
+    $sl->getSymptom(1)->updateAdmin("Teary Eyes");
+    $sl->getSymptom(2)->updateAdmin("Runny Nose");
+
+    foreach ($sl as $s) {
+        echo $s->symptomid."\t".$s->description."\t".$s->sortorder."\t".$s->hidden."\n";   
+    }
+
+    ch\Lookups::updateSymptomsList("marktonks75@gmail.com", $sl);
+
+    echo "\nupdated.\n";
+
 
     //unset($sl[1]);
 
+/*
     foreach ($sl as $s) {
         echo $s->symptomid."\t".$s->description."\t".$s->sortorder."\t".$s->hidden."\n";   
     }
@@ -19,7 +37,6 @@
     
     echo "changed? ".$sl[1]->descriptionhaschanged."\n";
 
-    $sl->getSymptom(4)->updateAdmin("red dwarf!!!");
     
     $sl[1]->updateAdmin("hello kitty!", 5002, 1);
     
@@ -30,6 +47,7 @@
     foreach ($sl as $s) {
         echo $s->symptomid."\t".$s->description."\t".$s->sortorder."\t".$s->hidden."\n";   
     }
+*/
     
 
 

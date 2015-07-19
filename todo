@@ -22,6 +22,8 @@ ADMINISTER LISTS
             - only ADMINS can change existing descriptions. 
             - individual USERS can change their own sort order and hide certain symptoms
             
+        >> Remove temporary disabling of user checking in getSymptomsList    
+            
     TRIGGERS
         Should work the same as the Symptoms list. Try to find ways of reusing code.
         

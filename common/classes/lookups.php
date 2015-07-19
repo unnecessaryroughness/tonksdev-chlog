@@ -94,9 +94,43 @@
                 foreach ($lst as $symptom) {
                  
                     //check if description has changed
-                    if ($lst->descriptionhaschanged) {
+                    if ($symptom->descriptionhaschanged) {
                         
                         //update description
+                        try {
+                            $sql = "CALL updateSymptomDesc(:sid, :dsc, :ndsc)";
+                            $qry = $dbc->prepare($sql);
+                            $qry->bindValue(":sid", $symptom->symptomid);
+                            $qry->bindValue(":dsc", $symptom->originaldescription);
+                            $qry->bindValue(":ndsc", $symptom->description);
+                            $qSuccess = $qry->execute(); 
+
+                            //rowcount = 1 if the update worked properly
+                            if ($qSuccess) {
+                                if ($qry->rowCount() == 1) {
+                                    $errmsg = "Updated description for ".$symptom->description;
+                                    Logger::log($errmsg);    
+                                } elseif ($qry->rowCount() > 1) {
+                                    $errmsg = "More than one symptom record updated. Looks suspicious. ";
+                                    Logger::log($errmsg); 
+                                    throw new \Exception(EM_LOOKUPCHANGEFAILED, EC_LOOKUPCHANGEFAILED);
+                                } else { 
+                                    $errmsg = "Failed to update description for ".$symptom->description." - 0 rows updated";
+                                    Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                                    throw new \Exception(EM_LOOKUPCHANGEFAILED, EC_LOOKUPCHANGEFAILED);
+                                }
+                            } else {
+                                $errmsg = "Failed to update description for ".$symptom->description." - query failed";
+                                Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                                throw new \Exception(EM_LOOKUPCHANGEFAILED, EC_LOOKUPCHANGEFAILED);
+                            }
+                            
+                        } catch (\PDOException $e) {
+                            Logger::log("Error updating symptom description.", $e->getMessage());
+                            throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
+                        }
+                    } else {
+                        //description has not changed
                     }
                     
                     //remove all symptom mappings for this user
@@ -105,9 +139,9 @@
                     //create all new symptom mappings for this user 
                     // (only if this symptom with a sort value < 1000)
                     
-                    
-                }
             }
         }
         
+    }
+
     }

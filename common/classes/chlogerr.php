@@ -72,6 +72,7 @@
                     );
         
         
+        
         //DATA ACCESS ERROR CODES
         const EC_MISCDATAERR        = 3001;
         
@@ -83,6 +84,17 @@
                             self::EC_MISCDATAERR    => self::EM_MISCDATAERR    
             );
         
+        
+        //LOOKUP ERROR CODES
+        const EC_LOOKUPCHANGEFAILED = 4001;
+        
+        //LOOKUP ERROR MESSAGES
+        const EM_LOOKUPCHANGEFAILED = "Uh oh, I was unable to update the lookup data as requested.";
+        
+        //LOOKUP ERROR ARRAY
+        public static $EA_LOOKUPERRORS = array(
+                            self::EC_LOOKUPCHANGEFAILED   => self::EM_LOOKUPCHANGEFAILED
+            );
         
         
     }
