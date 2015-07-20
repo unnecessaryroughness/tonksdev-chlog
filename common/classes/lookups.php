@@ -56,7 +56,7 @@
                     //iterate data results set adding symptoms to the list  
                     foreach ($symdata as $sym) {
                         $rtnlist->addSymptom($sym["id"], $sym["description"],
-                                            $sym["sort"], $sym["hidden"]);   
+                                            $sym["sort"], $sym["hidden"], $sym["defaultsort"]);   
                     }
                 }
                 
@@ -113,16 +113,16 @@
                                 } elseif ($qry->rowCount() > 1) {
                                     $errmsg = "More than one symptom record updated. Looks suspicious. ";
                                     Logger::log($errmsg); 
-                                    throw new \Exception(EM_LOOKUPCHANGEFAILED, EC_LOOKUPCHANGEFAILED);
+                                    throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                                 } else { 
                                     $errmsg = "Failed to update description for ".$symptom->description." - 0 rows updated";
                                     Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                                    throw new \Exception(EM_LOOKUPCHANGEFAILED, EC_LOOKUPCHANGEFAILED);
+                                    throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                                 }
                             } else {
                                 $errmsg = "Failed to update description for ".$symptom->description." - query failed";
                                 Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                                throw new \Exception(EM_LOOKUPCHANGEFAILED, EC_LOOKUPCHANGEFAILED);
+                                throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                             }
                             
                         } catch (\PDOException $e) {
@@ -133,15 +133,50 @@
                         //description has not changed
                     }
                     
-                    //remove all symptom mappings for this user
-                    
-                    
-                    //create all new symptom mappings for this user 
+                    //update/add this symptom mapping for this user
                     // (only if this symptom with a sort value < 1000)
-                    
+                    if ($symptom->isdirty) {
+                        
+                        //if a symptom sort order of >= 1000 (default) is found and the record 
+                        //is hidden, set the sort order to max+1 so a link record will be created.
+                        if ($symptom->sortorder >= 1000 && $symptom->hidden) {
+                            $symptom->update($lst->getMaxSortOrder() + 1);
+                        }
+                        
+                        try {
+                            $sql = "CALL addUpdateUserSymptom(:sid, :eml, :srt, :hid)";
+                            $qry = $dbc->prepare($sql);
+                            $qry->bindValue(":sid", $symptom->symptomid);
+                            $qry->bindValue(":eml", $eml);
+                            $qry->bindValue(":srt", $symptom->sortorder);
+                            $qry->bindValue(":hid", $symptom->hidden);
+                            $qSuccess = $qry->execute(); 
+                            
+                            if ($qSuccess) {
+                                if ($qry->rowCount() == 1) {
+                                    $errmsg = "Updated usersymptom for ".$eml;
+                                    Logger::log($errmsg);    
+                                } elseif ($qry->rowCount() > 1) {
+                                    $errmsg = "More than one usersymptom record updated. Looks suspicious. ";
+                                    Logger::log($errmsg); 
+                                    throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
+                                } else { 
+                                    $errmsg = "Failed to update usersymptom for ".$symptom->description." - 0 rows updated";
+                                    Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                                    throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
+                                }
+                            } else {
+                                $errmsg = "Failed to update usersymptom for ".$symptom->symptomid." - query failed";
+                                Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                                throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
+                            }
+                        } catch (\PDOException $e) {
+                            Logger::log("Error updating user-symptom link for ".$eml, $e->getMessage());
+                            throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
+                        }
+                    }
+                }
             }
-        }
-        
-    }
+        }   
 
     }

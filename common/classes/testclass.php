@@ -14,14 +14,15 @@
 
     echo "-------\n";
 
-    $sl->getSymptom(1)->updateAdmin("Teary Eyes");
-    $sl->getSymptom(2)->updateAdmin("Runny Nose");
+    $sl->getSymptom(1)->update(0, 1);
+    $sl->getSymptom(2)->update(25);
 
+    ch\Lookups::updateSymptomsList("marktonks75@gmail.com", $sl);
+    
+    $sl->sort();
     foreach ($sl as $s) {
         echo $s->symptomid."\t".$s->description."\t".$s->sortorder."\t".$s->hidden."\n";   
     }
-
-    ch\Lookups::updateSymptomsList("marktonks75@gmail.com", $sl);
 
     echo "\nupdated.\n";
 

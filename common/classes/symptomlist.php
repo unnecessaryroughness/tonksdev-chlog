@@ -23,9 +23,9 @@ class SymptomList implements \Iterator, \ArrayAccess, \Countable {
     RETURNS:    (object)
     PURPOSE:    adds a symptom object to the list
     ============================================  */
-    public function addSymptom($sid = null, $des = null, $srt = null, $hid = null) {
+    public function addSymptom($sid = null, $des = null, $srt = null, $hid = null, $def = null) {
         if ($sid && $des && $srt) {
-            $this->symptoms[] = new Symptom($sid, $des, $srt, $hid);   
+            $this->symptoms[] = new Symptom($sid, $des, $srt, $hid, $def);   
         } else {
             echo "oops - abend\n";   
         }
@@ -60,6 +60,22 @@ class SymptomList implements \Iterator, \ArrayAccess, \Countable {
         });
     }
     
+    
+/*  ============================================
+    FUNCTION:   getMaxSortOrder 
+    PARAMS:     (none)
+    RETURNS:    (integer)
+    PURPOSE:    Returns the highest sort order (that is < 1000)
+    ============================================  */
+    public function getMaxSortOrder() {
+        $max = 0;
+        foreach ($this->symptoms as $s) {
+            if ($s->sortorder < 1000 && $s->sortorder > $max) {
+                $max = $s->sortorder;
+            }
+        }
+        return $max;
+    }
 
     
     /* ITERATOR METHODS */

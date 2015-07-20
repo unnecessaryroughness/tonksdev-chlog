@@ -16,12 +16,14 @@ UI FRAMEWORK
 
 ADMINISTER LISTS
     SYMPTOMS
-        Symptoms List Object
-            - complete "updateSymptomsList" static method that accepts a symptom list object and
-              effects a mass record change back to the database
-            - only ADMINS can change existing descriptions. 
-            - individual USERS can change their own sort order and hide certain symptoms
-            
+        UI
+            + Simple UI for displaying all symptoms
+            + Allow re-sorting of symptoms
+            + Allow hiding of symptoms
+    
+        Classes
+            + Allow addition of a new symptom
+
         >> Remove temporary disabling of user checking in getSymptomsList    
             
     TRIGGERS
