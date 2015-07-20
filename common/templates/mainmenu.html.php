@@ -61,7 +61,7 @@
     <section>
         <div class="chlog-submenu-header">Set Up Lists</div>
         <ul>
-            <li><a href="/">Symptoms</a></li>
+            <li><a href="/symptoms/">Symptoms</a></li>
             <li><a href="/">Triggers</a></li>
             <li><a href="/">Treatments</a></li>
             <li><a href="/">Side Effects</a></li>

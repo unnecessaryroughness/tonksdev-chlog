@@ -2,7 +2,7 @@
 
     namespace chlog;
 
-    class RecoverPW_Control {
+    class RecoverPW_Control extends ChlogController {
  
     /*  ============================================
         FUNCTION:   __construct

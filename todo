@@ -17,9 +17,9 @@ UI FRAMEWORK
 ADMINISTER LISTS
     SYMPTOMS
         UI
-            + Simple UI for displaying all symptoms
             + Allow re-sorting of symptoms
             + Allow hiding of symptoms
+            + Styling
     
         Classes
             + Allow addition of a new symptom
@@ -53,6 +53,9 @@ CLASSES
     * Make a superclass for the controllers
     * Make a container class for lookup lists
     
+USER
+    * Make "gravatar" a switchable option, off by default
+
 
 PENDING PRODUCTION DATABASE CHANGES
     + (none)

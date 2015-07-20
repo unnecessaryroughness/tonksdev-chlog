@@ -2,7 +2,7 @@
 
     namespace chlog;
 
-    class Login_Control {
+    class Login_Control extends ChlogController {
 
     /*  ============================================
         FUNCTION:   __construct

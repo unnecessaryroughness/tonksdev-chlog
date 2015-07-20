@@ -60,15 +60,18 @@
         //NAVIGATION ERROR CODES
         const EC_INVALIDOPERATION   = 2001;
         const EC_MISMATCHEDUSER     = 2002;
+        const EC_FAILEDTOSTARTVIEW  = 2003;
         
         //NAVIGATION ERROR MESSAGES
         const EM_INVALIDOPERATION   = "Sorry, I'm not quite sure what you are asking me to do. Please contact the administrator.";
         const EM_MISMATCHEDUSER     = "Oops, you requested data that isn't meant for you. Naughty.";
+        const EM_FAILEDTOSTARTVIEW  = "An error occurred trying to show that page. Please contact the administrator.";
         
         //NAVIGATION ERROR ARRAY
         public static $EA_NAVERRORS = array(
-                            self::EC_INVALIDOPERATION => self::EM_INVALIDOPERATION,
-                            self::EC_MISMATCHEDUSER   => self::EM_MISMATCHEDUSER
+                            self::EC_INVALIDOPERATION  => self::EM_INVALIDOPERATION,
+                            self::EC_MISMATCHEDUSER    => self::EM_MISMATCHEDUSER,
+                            self::EC_FAILEDTOSTARTVIEW => self::EM_FAILEDTOSTARTVIEW
                     );
         
         

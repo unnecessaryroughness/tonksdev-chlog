@@ -2,8 +2,8 @@
 
     namespace chlog;
 
-    class About_Control extends ChlogController {
- 
+    class Symptoms_Control extends ChlogController {
+
     /*  ============================================
         FUNCTION:   __construct
         PARAMS:     (none_
@@ -11,7 +11,6 @@
         PURPOSE:    constructs the class 
         ============================================  */
         public function __construct() {}
-        
         
     /*  ============================================
         FUNCTION:   process
@@ -21,19 +20,17 @@
         PURPOSE:    returns the relevant view object for display
         ============================================  */
         public function process($type, $fields) {
-            
+
             switch ($type) {
-                case "about":
-                    //show default "about" view
-                    return new About_View();
-                    break;
+                
                 
                 default:
-                    //in case of emergency, redirect to home page
-                    return new Redirect_View("/");
+                    $eml = safeget::session("user", "email", null);
+                    $sl = Lookups::getSymptomsList($eml);
+                    return new Symptoms_View($sl);
                     break;
             }
         }
-    
+
     }
 

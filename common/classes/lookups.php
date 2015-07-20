@@ -27,9 +27,7 @@
         public static function getSymptomsList($eml, \PDO $dbc=null) {
             
             //check user requested is currently logged in user
-        
-        // TEMPORARILY DISABLED !!!!!!!!!!!    
-            $loggedinuser = safeget::session("user", "email", "marktonks75@gmail.com");
+            $loggedinuser = safeget::session("user", "email", null);
                                              
             if ($eml == $loggedinuser) {
             
@@ -81,9 +79,7 @@
         public static function updateSymptomsList($eml=null, $lst=null, \PDO $dbc=null) {
          
             //check user requested is currently logged in user
-        
-        // TEMPORARILY DISABLED !!!!!!!!!!!    
-            $loggedinuser = safeget::session("user", "email", "marktonks75@gmail.com");
+            $loggedinuser = safeget::session("user", "email", null);
                                              
             if ($eml == $loggedinuser) {
             

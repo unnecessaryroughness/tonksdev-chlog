@@ -1,0 +1,46 @@
+table {
+
+    tr {
+        height: 1.2em;   
+        
+        th {
+            font-size: 0.9em;
+        }
+            
+        td {
+            padding: 0.1em;
+            font-size: 0.9em;
+            
+            input[type="text"] {
+            }
+        }
+    }
+}
+
+
+#symptoms-content-area {
+    width: 29em;
+}
+
+.fldNarrow {
+    display: inline-block;
+    width: 5em;   
+}
+
+.fldWide {
+    display: inline-block;
+    width: 15em;
+}
+
+.fldNumeric {
+    text-align: right;   
+}
+
+.fldChar {
+    text-align: left;
+}
+
+.divAlignRight {
+       float: right;
+}
+

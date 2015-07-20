@@ -2,7 +2,7 @@
 
     namespace chlog;
 
-    class Frontpage_Control {
+    class Frontpage_Control extends ChlogController {
 
     /*  ============================================
         FUNCTION:   __construct
