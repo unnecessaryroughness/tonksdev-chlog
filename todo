@@ -64,3 +64,77 @@ PENDING PRODUCTION DATABASE CHANGES
 CORE APP FUNCTIONALITY
     * To be determined. Need to plan this out offline.
     
+    
+jS flipRecords...
+
+<html>
+<head>
+    <title>jsReorder test</title>
+    <script type="text/javascript" src="https://www.avivaworld.com/sites/StrategyArchitecture/_layouts/1033/Aviva.OneIntranet/jquery-1.4.4.min.js"></script>
+</head>
+</html>
+
+<body>
+    <div id="divBody"></div>
+</body>
+
+
+<script language="javascript">
+
+    var jso = {"symptoms": [
+                    {"sequence": 1, "symptomid": 101, "description": "symptom one", "sortorder": 2, "hidden": 0},
+                    {"sequence": 2, "symptomid": 102, "description": "symptom two", "sortorder": 3, "hidden": 0},
+                    {"sequence": 3, "symptomid": 103, "description": "symptom three", "sortorder": 1, "hidden": 0},
+            ]};
+    
+    $(function(){
+        
+        displayRecords();
+        
+    });
+    
+    function displayRecords(){
+        $("#divBody").html("");
+        
+        for (i=0; i<jso.symptoms.length; i++) {
+            $("#divBody").append(jso.symptoms[i].description);
+            $("#divBody").append("<button onclick='refreshRecords(" + (i>0 ? i-1 : 0) + ", " + i + ")'>Up</button>");
+            $("#divBody").append("<button onclick='refreshRecords(" + i + ", " + (i+1 < jso.symptoms.length ? i+1 : i) + ")'>Down</button>");
+            $("#divBody").append("<br>");
+        }
+    }
+    
+    
+    function refreshRecords(r_a, r_b) {
+                
+        if (flipRecords(r_a, r_b)) {
+            displayRecords();   
+        }
+    }
+    
+    
+    function flipRecords(r_a, r_b) {
+        
+        if (r_b - r_a != 1) {
+            return false;
+        }
+        
+        jso.symptoms.splice(r_a, 0, jso.symptoms[r_b]);
+        jso.symptoms.splice(r_b+1, 1);
+        
+        return true;
+    }
+    
+    //notes: 
+    /*
+        maintain the JSO in a hidden field value so it will find its way back to the controller via $_POST.
+        On receipt in the controller, cycle the JSON object updating the sort order of each object in the cached
+        version of the symptomlist.
+    */
+    
+</script>
+
+
+
+
+    
