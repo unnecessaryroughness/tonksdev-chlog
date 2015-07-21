@@ -19,16 +19,19 @@ class Symptom {
                 des     symptom description
                 srt     sort order
                 hid     hidden
+                def     default sort order
+                ods     original description
     RETURNS:    (object)
     PURPOSE:    creates a symptom object
     ============================================  */
-    public function __construct($sid = null, $des = null, $srt = null, $hid = null, $def = null) {
+    public function __construct($sid = null, $des = null, $srt = null, $hid = null, $def = null, $ods = null) {
         $this->symptomid = $sid;
         $this->description = $des;
-        $this->originaldescription = $des;
         $this->sortorder = $srt;
         $this->hidden = $hid;
         $this->defaultsort = $def;
+        $this->originaldescription = $ods ? $ods : $des;
+        $this->isdirty = $ods ? true : false;
     }
 
     
@@ -100,5 +103,22 @@ class Symptom {
         }
     }
     
+    
+    
+/*  ============================================
+    FUNCTION:   toJSON
+    PARAMS:     (none)
+    RETURNS:    (string)
+    PURPOSE:    Returns the a JSON notation version of this symptom
+    ============================================  */
+    public function toJSON() {
+        return '{"symptomid": '.$this->symptomid.
+                ', "description": "'.$this->description.'"'.
+                ', "originaldescription": "'.$this->originaldescription.'"'.
+                ', "sortorder": '.$this->sortorder.
+                ', "hidden": '.$this->hidden.
+                ', "sequence": @@ }';
+    }
+
 }
 

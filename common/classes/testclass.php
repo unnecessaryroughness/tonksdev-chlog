@@ -6,12 +6,19 @@
     include_once 'common/chlogautoload.php';
 
 
+/*
     $sl = ch\Lookups::getSymptomsList("marktonks75@gmail.com");
+
+    echo "\n".$sl->toJSON()."\n";
+*/
+
+    $sl = new ch\SymptomList('{"symptoms": [{"symptomid": 5, "description": "Dizziness", "originaldescription": "Dizziness", "sortorder": 3, "hidden": 0, "sequence": 0 },{"symptomid": 1, "description": "Teary Eye", "originaldescription": "Teary Eye", "sortorder": 23, "hidden": 1, "sequence": 1 },{"symptomid": 2, "description": "Runny Nose", "originaldescription": "Runny Nose", "sortorder": 25, "hidden": 0, "sequence": 2 },{"symptomid": 3, "description": "Small Pupil", "originaldescription": "Small Pupil", "sortorder": 1003, "hidden": 0, "sequence": 3 },{"symptomid": 4, "description": "Blocked Sinus", "originaldescription": "Blocked Sinus", "sortorder": 1004, "hidden": 0, "sequence": 4 }]}');
 
     foreach ($sl as $s) {
         echo $s->symptomid."\t".$s->description."\t".$s->sortorder."\t".$s->hidden."\n";   
     }
 
+/*
     echo "-------\n";
 
     $sl->getSymptom(1)->update(0, 1);
@@ -25,6 +32,7 @@
     }
 
     echo "\nupdated.\n";
+*/
 
 
     //unset($sl[1]);
@@ -123,5 +131,5 @@
 
 
 
-    return true;
+//    return true;
 

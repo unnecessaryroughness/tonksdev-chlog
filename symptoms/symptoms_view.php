@@ -53,6 +53,7 @@
         public function defaulthtml() {
 
             $sl = $this->symptomlist;
+/*
             $repeatinggroup = "";
             $thisrow = "";
             
@@ -67,6 +68,7 @@
                 
                 $repeatinggroup .= $thisrow;
             }
+*/
             
             return <<<HTML
             <h2>Administer Symptoms ({$sl->count()})</h2>        
@@ -74,15 +76,8 @@
                 
                 <form id="frmSymptoms" action="." method="POST">
                     
-                    <table>
-                        <tr>
-                            <th class="fldNumeric">id</th>
-                            <th class="fldChar">description</th>
-                            <th class="fldNumeric">sortorder</th>
-                            <th class="fldNumeric">hidden</th>
-                        </tr>
-                        $repeatinggroup
-                    </table>
+                    <table id="tblSymptoms"></table>
+                    <input type="hidden" id="jsoSymptoms" name="jsosymptoms" value="">
                     
                     <div class="divAlignRight">
                         <button type="submit" id="cmdUpdate" name="action" value="update" class="update">Update</button>
@@ -92,12 +87,35 @@
                     <div class="endfloat"></div>
                 </form>
             </div>
+            
+            <script language="javascript">
+                var jso = {$this->symptomlist->toJSON()};
+                $("#jsoSymptoms").val(JSON.stringify(jso));
+            </script>
+            
+            <script language="javascript" src="symptoms.js"></script>
 HTML;
         }
 
+    /*  ============================================
+        FUNCTION:   css
+        PARAMS:     (none)
+        RETURNS:    (string)
+        PURPOSE:    returns the default CSS path 
+        ============================================  */
         public function css() {
             return "/symptoms/symptoms.css";   
         }
         
+        
+    /*  ============================================
+        FUNCTION:   json
+        PARAMS:     (none)
+        RETURNS:    (string)
+        PURPOSE:    returns the default JSON data to use in this view 
+        ============================================  */
+        public function json() {
+            return $this->symptomlist->toJSON();
+        }
     }
         

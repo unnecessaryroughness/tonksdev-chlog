@@ -8,10 +8,28 @@ class SymptomList implements \Iterator, \ArrayAccess, \Countable {
     
 /*  ============================================
     FUNCTION:   __construct 
-    PARAMS:     none
+    PARAMS:     jso         JSON object representing list to build
     RETURNS:    (object)
+    PURPOSE:    constructs the class.
+                optionally constructs the class based on a json object spec.
     ============================================  */
-    public function __construct() {}
+    public function __construct($jso = null) {
+        if ($jso) {
+            $jobj =  json_decode($jso);
+            $symlist = $jobj->symptoms;
+            $cnt = 1;
+            
+            foreach ($symlist as $s) {
+                $this->addSymptom($s->symptomid,
+                                    $s->description,
+                                    $cnt,
+                                    $s->hidden,
+                                    null,
+                                    $s->originaldescription);
+                $cnt += 1;
+            }
+        }
+    }
 
     
 /*  ============================================
@@ -23,9 +41,9 @@ class SymptomList implements \Iterator, \ArrayAccess, \Countable {
     RETURNS:    (object)
     PURPOSE:    adds a symptom object to the list
     ============================================  */
-    public function addSymptom($sid = null, $des = null, $srt = null, $hid = null, $def = null) {
+    public function addSymptom($sid = null, $des = null, $srt = null, $hid = null, $def = null, $ods = null) {
         if ($sid && $des && $srt) {
-            $this->symptoms[] = new Symptom($sid, $des, $srt, $hid, $def);   
+            $this->symptoms[] = new Symptom($sid, $des, $srt, $hid, $def, $ods);   
         } else {
             echo "oops - abend\n";   
         }
@@ -77,6 +95,30 @@ class SymptomList implements \Iterator, \ArrayAccess, \Countable {
         return $max;
     }
 
+    
+/*  ============================================
+    FUNCTION:   toJSON
+    PARAMS:     (none)
+    RETURNS:    (string)
+    PURPOSE:    Returns the a JSON notation version of this symptoms list
+    ============================================  */
+    public function toJSON() {
+        
+        $json = '{"symptoms": [';
+        $cnt = 0;
+        
+        foreach ($this->symptoms as $sym) {
+            $json .= str_replace("@@", $cnt, $sym->toJSON()).',';
+            $cnt += 1;
+        }
+        
+        $json = substr($json, 0, strlen($json)-1);
+        
+        $json .= ']}';
+        
+        return $json;
+    }
+    
     
     /* ITERATOR METHODS */
     

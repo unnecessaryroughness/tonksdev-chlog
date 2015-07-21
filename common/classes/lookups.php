@@ -54,7 +54,8 @@
                     //iterate data results set adding symptoms to the list  
                     foreach ($symdata as $sym) {
                         $rtnlist->addSymptom($sym["id"], $sym["description"],
-                                            $sym["sort"], $sym["hidden"], $sym["defaultsort"]);   
+                                             $sym["sort"], $sym["hidden"], 
+                                             $sym["defaultsort"], $sym["description"]);   
                     }
                 }
                 
@@ -111,9 +112,8 @@
                                     Logger::log($errmsg); 
                                     throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                                 } else { 
-                                    $errmsg = "Failed to update description for ".$symptom->description." - 0 rows updated";
+                                    $errmsg = "Nothing to update description for ".$symptom->description." - 0 rows updated";
                                     Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                                    throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                                 }
                             } else {
                                 $errmsg = "Failed to update description for ".$symptom->description." - query failed";
@@ -157,9 +157,8 @@
                                     Logger::log($errmsg); 
                                     throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                                 } else { 
-                                    $errmsg = "Failed to update usersymptom for ".$symptom->description." - 0 rows updated";
+                                    $errmsg = "Nothing to update usersymptom for ".$symptom->description." - 0 rows updated";
                                     Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                                    throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                                 }
                             } else {
                                 $errmsg = "Failed to update usersymptom for ".$symptom->symptomid." - query failed";
@@ -172,7 +171,11 @@
                         }
                     }
                 }
+            } else {
+                Logger::log("User attempted to update data for another user. ");
+                throw new \Exception(chlogErr::EM_MISMATCHEDUSER, chlogErr::EC_MISMATCHEDUSER);
             }
+
         }   
 
     }

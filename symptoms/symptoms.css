@@ -1,13 +1,24 @@
 table tr {
   height: 1.2em; }
   table tr th {
-    font-size: 0.9em; }
+    background: #ddd;
+    font-size: 0.9em;
+    padding: 0.2em 0.5em; }
   table tr td {
     padding: 0.1em;
     font-size: 0.9em; }
+    table tr td input[type="text"] {
+      height: 1.8em; }
+    table tr td input[type="checkbox"] {
+      display: block;
+      margin: auto; }
+  table tr button {
+    border: 1px solid #666;
+    margin: 0.2em;
+    height: 1.8em; }
 
 #symptoms-content-area {
-  width: 29em; }
+  width: 100%; }
 
 .fldNarrow {
   display: inline-block;
@@ -15,7 +26,7 @@ table tr {
 
 .fldWide {
   display: inline-block;
-  width: 15em; }
+  width: 10em; }
 
 .fldNumeric {
   text-align: right; }
@@ -25,5 +36,10 @@ table tr {
 
 .divAlignRight {
   float: right; }
+
+@media (min-width: 620px) {
+  .fldWide {
+    display: inline-block;
+    width: 15em; } }
 
 /*# sourceMappingURL=symptoms.css.map */
