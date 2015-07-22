@@ -58,9 +58,9 @@
             $thisrow = "";
             
             foreach ($sl as $s) {
-                $rowid = '_'.$s->symptomid;
+                $rowid = '_'.$s->id;
                 $thisrow = '<tr>';
-                $thisrow .= '<td><label class="fldNarrow fldNumeric">'.$s->symptomid.'</div></td>';
+                $thisrow .= '<td><label class="fldNarrow fldNumeric">'.$s->id.'</div></td>';
                 $thisrow .= '<td><input type="text" class="fldWide fldChar adminonly" id="dsc_'.$rowid.'" name="dsc_'.$rowid.'" value="'.$s->description.'"></td>';
                 $thisrow .= '<td><input type="text" class="fldNarrow fldNumeric" id="srt_'.$rowid.'" name="srt_'.$rowid.'" value="'.$s->sortorder.'"></td>';
                 $thisrow .= '<td><input type="text" class="fldNarrow fldNumeric" id="hid_'.$rowid.'" name="hid_'.$rowid.'" value="'.$s->hidden.'"></td>';

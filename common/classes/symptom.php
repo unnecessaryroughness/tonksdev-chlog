@@ -5,7 +5,7 @@ namespace chlog;
 
 class Symptom {
 
-    protected $symptomid = null;
+    protected $id = null;
     protected $description = null;
     protected $sortorder = null;
     protected $hidden = false;
@@ -25,7 +25,7 @@ class Symptom {
     PURPOSE:    creates a symptom object
     ============================================  */
     public function __construct($sid = null, $des = null, $srt = null, $hid = null, $def = null, $ods = null) {
-        $this->symptomid = $sid;
+        $this->id = $sid;
         $this->description = $des;
         $this->sortorder = $srt;
         $this->hidden = $hid;
@@ -43,8 +43,8 @@ class Symptom {
         ============================================  */
         public function __get( $field ) {
             switch( $field ) {
-              case 'symptomid':
-                return $this->symptomid;
+              case 'id':
+                return $this->id;
               case 'description':
                 return $this->description;
               case 'originaldescription':
@@ -112,7 +112,7 @@ class Symptom {
     PURPOSE:    Returns the a JSON notation version of this symptom
     ============================================  */
     public function toJSON() {
-        return '{"symptomid": '.$this->symptomid.
+        return '{"id": '.$this->id.
                 ', "description": "'.$this->description.'"'.
                 ', "originaldescription": "'.$this->originaldescription.'"'.
                 ', "sortorder": '.$this->sortorder.

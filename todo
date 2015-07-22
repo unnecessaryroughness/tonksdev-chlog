@@ -18,6 +18,13 @@ ADMINISTER LISTS
     SYMPTOMS    
         Classes
             + Allow addition of a new symptom
+    
+        UI 
+            + Restrict non-Admins from editing description
+
+        All
+            + Forensic review of code - tidying up & making more efficient
+            + Superclassing whatever I can to make the next set of lookups easier to build.
 
     TRIGGERS
         Should work the same as the Symptoms list. Try to find ways of reusing code.
@@ -29,7 +36,7 @@ ADMINISTER LISTS
         Should work the same as the Symptoms list. Try to find ways of reusing code.
         
     ATTACK WAVES
-        - investigate the small inline menus found in this article: 
+        - investigate the small inline charts found in this article: 
             http://www.sitepoint.com/11-best-jquery-charting-libraries/
     
     * Mega Menu

@@ -97,7 +97,7 @@
                         try {
                             $sql = "CALL updateSymptomDesc(:sid, :dsc, :ndsc)";
                             $qry = $dbc->prepare($sql);
-                            $qry->bindValue(":sid", $symptom->symptomid);
+                            $qry->bindValue(":sid", $symptom->id);
                             $qry->bindValue(":dsc", $symptom->originaldescription);
                             $qry->bindValue(":ndsc", $symptom->description);
                             $qSuccess = $qry->execute(); 
@@ -142,7 +142,7 @@
                         try {
                             $sql = "CALL addUpdateUserSymptom(:sid, :eml, :srt, :hid)";
                             $qry = $dbc->prepare($sql);
-                            $qry->bindValue(":sid", $symptom->symptomid);
+                            $qry->bindValue(":sid", $symptom->id);
                             $qry->bindValue(":eml", $eml);
                             $qry->bindValue(":srt", $symptom->sortorder);
                             $qry->bindValue(":hid", $symptom->hidden);
@@ -161,7 +161,7 @@
                                     Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
                                 }
                             } else {
-                                $errmsg = "Failed to update usersymptom for ".$symptom->symptomid." - query failed";
+                                $errmsg = "Failed to update usersymptom for ".$symptom->id." - query failed";
                                 Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
                                 throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                             }
