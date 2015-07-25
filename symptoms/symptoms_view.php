@@ -67,11 +67,21 @@
                     
                     <div class="divAlignRight">
                         <button type="submit" id="cmdUpdate" name="action" value="update" class="update">Update</button>
+                        <button type="button" id="cmdNew" name="new" value="new" class="new">New</button>
                         <button type="submit" id="cmdCancel" name="action" value="cancel" class="cancel">Cancel</button>
                     </div>
                     
                     <div class="endfloat"></div>
                 </form>
+            </div>
+                        
+            <div id="modalDialog" class="hidden-modal">
+                <h2>Add New Symptom</h2>
+                <form>
+                <input type="text" id="txtNewSymptom" value="">
+                </form>
+                <button id="cmdAdd" class="update">Add</button>
+                <button id="cmdCancel">Cancel</button>
             </div>
             
             <script language="javascript">
@@ -81,6 +91,7 @@
             </script>
             
             <script language="javascript" src="symptoms.js"></script>
+            <script language="javascript" src="/common/templates/modal.js"></script>
 HTML;
         }
 

@@ -63,6 +63,19 @@ class LookupList implements \Iterator, \ArrayAccess, \Countable {
 
     
 /*  ============================================
+    FUNCTION:   setAllClean
+    PARAMS:     (none)
+    RETURNS:    (none)
+    PURPOSE:    Sets all records to isdirty=false
+    ============================================  */
+    public function setAllClean() {
+        foreach ($this->records as $r) {
+            $r->setDirty(false);
+        }
+    }
+    
+    
+/*  ============================================
     FUNCTION:   toJSON
     PARAMS:     (none)
     RETURNS:    (string)

@@ -12,6 +12,7 @@ class Symptom {
     protected $defaultsort = null;
     protected $originaldescription = null;
     protected $isdirty = false;
+    protected $isnew = false;
     
 /*  ============================================
     FUNCTION:   __construct 
@@ -31,7 +32,8 @@ class Symptom {
         $this->hidden = $hid;
         $this->defaultsort = $def;
         $this->originaldescription = $ods ? $ods : $des;
-        $this->isdirty = $ods ? true : false;
+        $this->isdirty = true;
+        $this->isnew = $sid ? false : true;
     }
 
     
@@ -59,10 +61,24 @@ class Symptom {
                 return $this->hidden;
               case 'isdirty':
                 return $this->isdirty;
+              case 'isnew':
+                return $this->isnew;
               default:
                 throw new \Exception('Invalid property: '.$field);
             }
         }
+    
+    
+/*  ============================================
+    FUNCTION:   setDirty 
+    PARAMS:     bln     boolean value representing dirty/clean status
+    RETURNS:    (object)
+    PURPOSE:    Updates a symptom object "isdirty" flag 
+    ============================================  */
+    public function setDirty($bln) {
+        $this->isdirty = $bln;   
+    }
+
     
 /*  ============================================
     FUNCTION:   updateAdmin 

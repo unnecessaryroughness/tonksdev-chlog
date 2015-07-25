@@ -1,4 +1,16 @@
 $(function(){    
+    $("#cmdNew").on("click", function() { 
+        modalwin = getModal();
+        modalwin.open({content: $("#modalDialog").html()}); 
+        $("#modalcontent #cmdCancel").on("click", function() { modalwin.close(); });
+        $("#modalcontent #cmdAdd").on("click", function() { 
+            if ($("#modalcontent #txtNewSymptom").val().length > 0) {
+                addRecord($("#modalcontent #txtNewSymptom").val());    
+            }
+            modalwin.close();
+        });
+    });
+    
     displayRecords();
 });
 
@@ -6,10 +18,10 @@ $(function(){
 function displayRecords(){
     $("#tblSymptoms").html("");
     $("#tblSymptoms").append('<tr class="header">' +
-                                //'<th class="fldNumeric">id</th>' +
+                                '<th class="fldNumeric">id</th>' +
                                 '<th class="fldNumeric">Hide</th>' +
                                 '<th class="fldChar">Description</th>' +
-                                //'<th class="fldNumeric">sortorder</th>' +
+                                '<th class="fldNumeric">sortorder</th>' +
                                 '<th class="fldButton" colspan="2">Re-Order</th>' +
                             '</tr>');
     
@@ -23,10 +35,10 @@ function displayRecords(){
         buttonDown = "<button onclick='flipRecords(" + i + ", " + (i+1 < jso.record.length ? i+1 : i) + ")'>Dn</button>";
 
         $("#tblSymptoms").append("<tr id='row_" + i + "' class='row'></tr>");
-        //$("#row_"+i).append("<td>" + sid + "</td>");
+        $("#row_"+i).append("<td>" + sid + "</td>");
         $("#row_"+i).append("<td><input type='checkbox' class='fldChk' id='chkHid' name='hidden' onclick='hideRecord("+i+")'" + (hid ? " checked " : "") + "></td>");
         $("#row_"+i).append("<td><input type='text' " + dro + " class='fldWide' id='txtDesc name='description' onblur='updateDesc("+i+",this)' value='" + des + "'></td>");
-        //$("#row_"+i).append("<td>" + srt + "</td>");
+        $("#row_"+i).append("<td>" + srt + "</td>");
         $("#row_"+i).append("<td>" + (i == 0 ? "" : buttonUp) + "</td>");
         $("#row_"+i).append("<td>" + (i == jso.record.length-1 ? "" : buttonDown) + "</td>");
     }
@@ -54,3 +66,21 @@ function updateDesc(r, dfld) {
     $("#jsoSymptoms").val(JSON.stringify(jso));
     displayRecords();
 }
+
+function maxSort() {
+    var max=0;
+    for (i=0; i<jso.record.length; i++) {
+        if (jso.record[i].sortorder > max) {
+            max = jso.record[i].sortorder;   
+        }
+    }
+    return max+1;
+}
+
+function addRecord(desc) {
+    jso.record.push({id: 0, description: desc, originaldescription: desc, 
+                    sortorder: maxSort(), hidden: 0, sequence: 999});
+    $("#jsoSymptoms").val(JSON.stringify(jso));
+    displayRecords();
+}
+

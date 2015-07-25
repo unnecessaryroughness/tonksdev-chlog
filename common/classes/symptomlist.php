@@ -19,7 +19,7 @@ class SymptomList extends LookupList {
             $cnt = 1;
             
             foreach ($symlist as $s) {
-                $this->addSymptom($s->id,
+                $this->addSymptom($s->id > 0 ? $s->id : null,
                                     $s->description,
                                     $cnt,
                                     $s->hidden,

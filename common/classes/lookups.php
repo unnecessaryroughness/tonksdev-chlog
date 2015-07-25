@@ -125,8 +125,6 @@
                             Logger::log("Error updating symptom description.", $e->getMessage());
                             throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                         }
-                    } else {
-                        //description has not changed
                     }
                     
                     //update/add this symptom mapping for this user
@@ -171,6 +169,9 @@
                         }
                     }
                 }
+                
+                //reset "isdirty" flags for all records in the list.
+                $lst->setAllClean();
             } else {
                 Logger::log("User attempted to update data for another user. ");
                 throw new \Exception(chlogErr::EM_MISMATCHEDUSER, chlogErr::EC_MISMATCHEDUSER);

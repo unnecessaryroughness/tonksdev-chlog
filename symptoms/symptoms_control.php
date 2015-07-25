@@ -34,7 +34,7 @@
                     }
                 
                     $sl = Lookups::getSymptomsList($eml);
-                    return new Symptoms_View($sl);
+                    return new Redirect_View("/symptoms/");
                     break;
                 
                 case "cancel":
