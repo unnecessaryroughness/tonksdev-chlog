@@ -76,10 +76,12 @@ class Symptom {
                 description.
     ============================================  */
     public function updateAdmin($des = null, $srt = null, $hid = null) {
-        if ($des) { $this->description = $des; }
-        if ($srt) { $this->sortorder = $srt; }
-        if ($hid) { $this->hidden = $hid; }
-        if ($des || $srt || $hid) { $this->isdirty = true; }
+        if ($des) { 
+            $this->description = $des; 
+            $this->dirty = true;
+        }
+        
+        $this->update($srt, $hid);
     }
     
     

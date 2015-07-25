@@ -1,4 +1,4 @@
-$(function(){
+$(function(){    
     displayRecords();
 });
 
@@ -18,13 +18,14 @@ function displayRecords(){
         hid = jso.record[i].hidden;
         des = jso.record[i].description;
         srt = jso.record[i].sortorder;
+        dro = (isAdmin ? "" : "readonly");
         buttonUp = "<button onclick='flipRecords(" + (i>0 ? i-1 : 0) + ", " + i + ")'>Up</button>";
         buttonDown = "<button onclick='flipRecords(" + i + ", " + (i+1 < jso.record.length ? i+1 : i) + ")'>Dn</button>";
 
         $("#tblSymptoms").append("<tr id='row_" + i + "' class='row'></tr>");
         //$("#row_"+i).append("<td>" + sid + "</td>");
         $("#row_"+i).append("<td><input type='checkbox' class='fldChk' id='chkHid' name='hidden' onclick='hideRecord("+i+")'" + (hid ? " checked " : "") + "></td>");
-        $("#row_"+i).append("<td><input type='text' class='fldWide' id='txtDesc' name='description' value='" + des + "'></td>");
+        $("#row_"+i).append("<td><input type='text' " + dro + " class='fldWide' id='txtDesc name='description' onblur='updateDesc("+i+",this)' value='" + des + "'></td>");
         //$("#row_"+i).append("<td>" + srt + "</td>");
         $("#row_"+i).append("<td>" + (i == 0 ? "" : buttonUp) + "</td>");
         $("#row_"+i).append("<td>" + (i == jso.record.length-1 ? "" : buttonDown) + "</td>");
@@ -44,6 +45,12 @@ function flipRecords(r_a, r_b) {
 
 function hideRecord(r) {
     jso.record[r].hidden = ! jso.record[r].hidden;
+    $("#jsoSymptoms").val(JSON.stringify(jso));
+    displayRecords();
+}
+
+function updateDesc(r, dfld) {
+    jso.record[r].description = $(dfld).val();     
     $("#jsoSymptoms").val(JSON.stringify(jso));
     displayRecords();
 }

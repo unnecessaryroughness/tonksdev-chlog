@@ -20,8 +20,8 @@ ADMINISTER LISTS
             + Allow addition of a new symptom
     
         UI 
-            + Restrict non-Admins from editing description
-
+            + CSS doesn't look very good on mobile
+            
         All
             + Forensic review of code - tidying up & making more efficient
             + Superclassing whatever I can to make the next set of lookups easier to build.

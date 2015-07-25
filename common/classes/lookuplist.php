@@ -15,7 +15,8 @@ class LookupList implements \Iterator, \ArrayAccess, \Countable {
     ============================================  */
     public function __construct($jso = null) {}
 
-         
+        
+    
 /*  ============================================
     FUNCTION:   getRecord 
     PARAMS:     rid     record id

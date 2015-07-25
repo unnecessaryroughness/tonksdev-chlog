@@ -53,31 +53,17 @@
         public function defaulthtml() {
 
             $sl = $this->symptomlist;
-/*
-            $repeatinggroup = "";
-            $thisrow = "";
-            
-            foreach ($sl as $s) {
-                $rowid = '_'.$s->id;
-                $thisrow = '<tr>';
-                $thisrow .= '<td><label class="fldNarrow fldNumeric">'.$s->id.'</div></td>';
-                $thisrow .= '<td><input type="text" class="fldWide fldChar adminonly" id="dsc_'.$rowid.'" name="dsc_'.$rowid.'" value="'.$s->description.'"></td>';
-                $thisrow .= '<td><input type="text" class="fldNarrow fldNumeric" id="srt_'.$rowid.'" name="srt_'.$rowid.'" value="'.$s->sortorder.'"></td>';
-                $thisrow .= '<td><input type="text" class="fldNarrow fldNumeric" id="hid_'.$rowid.'" name="hid_'.$rowid.'" value="'.$s->hidden.'"></td>';
-                $thisrow .= '</tr>';
-                
-                $repeatinggroup .= $thisrow;
-            }
-*/
+            $isAdmin = safeget::session("user", "isadmin", false, false);
             
             return <<<HTML
-            <h2>Administer Symptoms ({$sl->count()})</h2>        
+            <h2>Administer Symptoms</h2>        
             <div id="symptoms-content-area">
                 
                 <form id="frmSymptoms" action="." method="POST">
                     
                     <table id="tblSymptoms"></table>
                     <input type="hidden" id="jsoSymptoms" name="jsosymptoms" value="">
+                    
                     
                     <div class="divAlignRight">
                         <button type="submit" id="cmdUpdate" name="action" value="update" class="update">Update</button>
@@ -89,6 +75,7 @@
             </div>
             
             <script language="javascript">
+                var isAdmin = {$isAdmin};
                 var jso = {$this->symptomlist->toJSON()};
                 $("#jsoSymptoms").val(JSON.stringify(jso));
             </script>
