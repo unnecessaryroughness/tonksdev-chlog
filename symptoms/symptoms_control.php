@@ -26,6 +26,7 @@
                 case "update":
                     $tsl = new SymptomList(safeget::kvp($fields, "jsosymptoms", "", false));
                     $eml = safeget::session("user", "email", null);
+
                     try {
                         Lookups::updateSymptomsList($eml, $tsl);
                     } catch (\Exception $e) {

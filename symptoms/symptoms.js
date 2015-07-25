@@ -9,6 +9,7 @@ $(function(){
             }
             modalwin.close();
         });
+        $("#modalcontent #txtNewSymptom").focus();
     });
     
     displayRecords();

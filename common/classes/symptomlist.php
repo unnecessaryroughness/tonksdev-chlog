@@ -41,7 +41,7 @@ class SymptomList extends LookupList {
     PURPOSE:    adds a symptom object to the list
     ============================================  */
     public function addSymptom($sid = null, $des = null, $srt = null, $hid = null, $def = null, $ods = null) {
-        if ($sid && $des && $srt) {
+        if ($des && $srt) {
             $this->records[] = new Symptom($sid, $des, $srt, $hid, $def, $ods);   
         }
     }

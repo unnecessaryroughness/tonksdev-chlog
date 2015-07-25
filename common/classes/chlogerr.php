@@ -100,4 +100,19 @@
             );
         
         
+        public function processRowcount($subject="(none)", $rowcount=0, $errmsg="err", 
+                                        $errcode=0, $zeroiserror=false) {
+            if ($rowcount == 1) {
+                Logger::log("Updated ".$subject." ok");    
+            } elseif ($rowcount > 1) {
+                Logger::log("More than one ".$subject." record updated. Looks suspicious."); 
+                throw new \Exception($errmsg, $errcode);
+            } else { 
+                Logger::log("Nothing to update for ".$subject." - ".$rowcount." rows updated"); 
+                if ($zeroiserror) {
+                    throw new \Exception($errmsg, $errcode);
+                }
+            }
+        }
+        
     }

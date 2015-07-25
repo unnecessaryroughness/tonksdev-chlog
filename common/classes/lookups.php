@@ -131,21 +131,36 @@
                     // (only if this symptom with a sort value < 1000)
                     if ($symptom->isdirty) {
                         
-                        //if a symptom sort order of >= 1000 (default) is found and the record 
-                        //is hidden, set the sort order to max+1 so a link record will be created.
-                        if ($symptom->sortorder >= 1000 && $symptom->hidden) {
-                            $symptom->update($lst->getMaxSortOrder() + 1);
+                        $sid = $symptom->id; 
+                        
+                        //if this symptom is new, add it to the database first.
+                        if ($symptom->isnew) {
+                            try {
+                                $sql = "CALL addSymptom(:des)";
+                                $qry = $dbc->prepare($sql);
+                                $qry->bindValue(":des", $symptom->description);
+                                $qSuccess = $qry->execute(); 
+                                $rtn = $qry->fetch(\PDO::FETCH_ASSOC);
+                                $sid = $rtn["lastid"];
+                                
+                                chlogErr::processRowCount("New Symptom", $qry->rowCount(), 
+                                                ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
+                                
+                            } catch (\Exception $e) {
+                                Logger::log("Error adding new symptom (".$symptom->description.")", $e->getMessage());
+                                throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
+                            }
                         }
                         
                         try {
                             $sql = "CALL addUpdateUserSymptom(:sid, :eml, :srt, :hid)";
                             $qry = $dbc->prepare($sql);
-                            $qry->bindValue(":sid", $symptom->id);
+                            $qry->bindValue(":sid", $sid);
                             $qry->bindValue(":eml", $eml);
                             $qry->bindValue(":srt", $symptom->sortorder);
                             $qry->bindValue(":hid", $symptom->hidden);
                             $qSuccess = $qry->execute(); 
-                            
+
                             if ($qSuccess) {
                                 if ($qry->rowCount() == 1) {
                                     $errmsg = "Updated usersymptom for ".$eml;
@@ -163,7 +178,7 @@
                                 Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
                                 throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                             }
-                        } catch (\PDOException $e) {
+                        } catch (\Exception $e) {
                             Logger::log("Error updating user-symptom link for ".$eml, $e->getMessage());
                             throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                         }

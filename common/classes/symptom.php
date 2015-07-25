@@ -12,7 +12,6 @@ class Symptom {
     protected $defaultsort = null;
     protected $originaldescription = null;
     protected $isdirty = false;
-    protected $isnew = false;
     
 /*  ============================================
     FUNCTION:   __construct 
@@ -32,8 +31,7 @@ class Symptom {
         $this->hidden = $hid;
         $this->defaultsort = $def;
         $this->originaldescription = $ods ? $ods : $des;
-        $this->isdirty = true;
-        $this->isnew = $sid ? false : true;
+        $this->isdirty = 1;
     }
 
     
@@ -62,7 +60,7 @@ class Symptom {
               case 'isdirty':
                 return $this->isdirty;
               case 'isnew':
-                return $this->isnew;
+                return $this->id ? false : true;
               default:
                 throw new \Exception('Invalid property: '.$field);
             }
