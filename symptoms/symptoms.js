@@ -48,7 +48,7 @@ function hideRecord(r) {
     $("#jsoSymptoms").val(JSON.stringify(jso));
     displayRecords();
 }
-
+    
 function updateDesc(r, dfld) {
     jso.record[r].description = $(dfld).val();     
     $("#jsoSymptoms").val(JSON.stringify(jso));

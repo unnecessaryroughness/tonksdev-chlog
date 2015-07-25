@@ -59,12 +59,14 @@
         protected function supplyemailhtml() {
             return <<<HTML
 
+            <h2>Account Recovery</h2>
+            
             <form id="frmRecover" action="." method="POST">
                 <label for="txtEmail">Recover Account for Email:</label>
                 <input type="textbox" id="txtEmail" name="email" value="">
                 
                 <br><br>
-                <button type="submit" id="btnSubmit" name="action" value="recover">Recover Account</button>
+                <button type="submit" id="btnSubmit" name="action" value="recover">Recover</button>
                 <button type="submit" id="btnCancel" name="action" value="cancel">Cancel</button>
             </form>
 HTML;

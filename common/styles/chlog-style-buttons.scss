@@ -1,0 +1,49 @@
+button {
+    color: #000;
+    background: $chlog-buttondefault;
+    padding: 0.2em 0.5em;
+    margin: 0.5em 0.2em;
+    border: 0px solid $chlog-greytext;
+    border-radius: 5px;
+    height: 2em;
+    width: 8em;
+    font-size: 1em;
+    
+    &:hover {
+        background: $chlog-darkgrey;
+        color: #fff;
+    }
+    
+    &.update {
+        background: $chlog-updateorange;   
+        
+        &:hover {
+            background: $chlog-darkgrey;
+            color: $chlog-updateorange;
+        }
+    }
+    
+    &.cancel {
+        background: $chlog-cancelgrey;   
+        color: $chlog-darkgrey;
+        
+        &:hover {
+            background: $chlog-darkgrey;
+            color: #fff;
+        }
+    }
+}
+
+/* 
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+                                    Widescreen rules 
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+*/
+
+@media (min-width: 620px) {
+    button {
+        font-size: 0.9em;   
+    }    
+}

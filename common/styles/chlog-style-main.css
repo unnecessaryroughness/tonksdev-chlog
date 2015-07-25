@@ -15,21 +15,16 @@
 .endfloat {
   clear: both; }
 
-/* =======================
-   element layout rules 
-   ======================= */
-form > label {
-  display: block; }
-
-form > input[type=checkbox] {
-  display: inline-block; }
-
 button {
   color: #000;
+  background: #ccc;
   padding: 0.2em 0.5em;
   margin: 0.5em 0.2em;
   border: 0px solid #666;
-  border-radius: 5px; }
+  border-radius: 5px;
+  height: 2em;
+  width: 8em;
+  font-size: 1em; }
   button:hover {
     background: #444;
     color: #fff; }
@@ -45,52 +40,16 @@ button {
       background: #444;
       color: #fff; }
 
-h2 {
-  color: #3a515f;
-  margin: 0.5em 0 0.8em 0;
-  border-bottom: 1px solid #666; }
-
-/* =======================
-   header style rules 
-   ======================= */
-.chlog-header {
-  background: #5b7f95;
-  padding: 0.5em 0.8em;
-  overflow: hidden; }
-  .chlog-header a {
-    text-decoration: none;
-    font-size: 2em;
-    font-weight: bold;
-    color: #fff;
-    display: inline-block;
-    float: left; }
-
-.chlog-header-subheader {
-  font-weight: bold;
-  color: #ede859;
-  display: block; }
-
-.chlog-header-environment {
-  font-size: 2em;
-  font-weight: bold;
-  color: #eee;
-  display: inline-block;
-  float: right; }
-
-.chlog-header-user {
-  padding: 0 0.8em;
-  background: #3a515f;
-  color: #ddd;
-  text-align: right;
-  font-size: 0.9em; }
-  .chlog-header-user a {
-    text-decoration: none;
-    margin: 0;
-    padding: 0;
-    background: #3a515f;
-    color: #ddd;
-    font-size: 0.9em; }
-
+/* 
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+                                    Widescreen rules 
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+*/
+@media (min-width: 620px) {
+  button {
+    font-size: 0.9em; } }
 /* =======================
    main menu layout rules (Mobile-First) 
    ======================= */
@@ -159,17 +118,6 @@ h2 {
       .chlog-submenu section ul > li a:hover {
         color: #ede859; }
 
-/* =======================
-   Main Screen Area & Footer classes 
-   ======================= */
-#chlog-main {
-  padding: 0.5em 1em 1em 1em; }
-
-#chlog-footer {
-  text-align: center;
-  border-top: 1px solid #666;
-  padding: 0.5em; }
-
 /* 
     =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
     =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
@@ -178,13 +126,6 @@ h2 {
     =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 */
 @media (min-width: 620px) {
-  html {
-    overflow-y: scroll; }
-
-  #chlog-main {
-    width: 95%;
-    margin: auto; }
-
   #chlog-mainmenu-toggle {
     display: none; }
 
@@ -254,5 +195,94 @@ h2 {
         .chlog-submenu section ul > li a:hover {
           color: #3a515f;
           text-decoration: underline; } }
+/* =======================
+   element layout rules 
+   ======================= */
+form > label {
+  display: block;
+  font-size: 1em; }
+
+form > input[type=checkbox] {
+  display: inline-block; }
+
+form > input[type="text"], form > input[type="textbox"], form > input[type="password"] {
+  margin: 0 0 0.8em 0;
+  font-size: 1em; }
+
+p > a {
+  display: inline-block;
+  margin: 0.3em 0 0.3em 0; }
+
+h2 {
+  color: #3a515f;
+  margin: 0.5em 0 0.8em 0;
+  border-bottom: 1px solid #666; }
+
+/* =======================
+   header style rules 
+   ======================= */
+.chlog-header {
+  background: #5b7f95;
+  padding: 0.5em 0.8em;
+  overflow: hidden; }
+  .chlog-header a {
+    text-decoration: none;
+    font-size: 2em;
+    font-weight: bold;
+    color: #fff;
+    display: inline-block;
+    float: left; }
+
+.chlog-header-subheader {
+  font-weight: bold;
+  color: #ede859;
+  display: block; }
+
+.chlog-header-environment {
+  font-size: 2em;
+  font-weight: bold;
+  color: #eee;
+  display: inline-block;
+  float: right; }
+
+.chlog-header-user {
+  padding: 0 0.8em;
+  background: #3a515f;
+  color: #ddd;
+  text-align: right;
+  font-size: 0.9em; }
+  .chlog-header-user a {
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    background: #3a515f;
+    color: #ddd;
+    font-size: 0.9em; }
+
+/* =======================
+   Main Screen Area & Footer classes 
+   ======================= */
+#chlog-main {
+  padding: 0.5em 1em 1em 1em; }
+
+#chlog-footer {
+  text-align: center;
+  border-top: 1px solid #666;
+  padding: 0.5em; }
+
+/* 
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+                                    Widescreen rules 
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+*/
+@media (min-width: 620px) {
+  html {
+    overflow-y: scroll; }
+
+  #chlog-main {
+    width: 95%;
+    margin: auto; } }
 
 /*# sourceMappingURL=chlog-style-main.css.map */

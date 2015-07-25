@@ -1,0 +1,205 @@
+/* =======================
+   main menu layout rules (Mobile-First) 
+   ======================= */
+
+#chlog-mainmenu-toggle {
+	display: block;
+	background: #fff;
+	color: $chlog-greytext;
+	padding: 10px 15px;
+	margin-bottom: 0.3em;
+    border-bottom: 1px solid $chlog-greytext;
+    
+    img {
+        height: 1em;
+        width: 1.3em;
+        margin-right: 1em;
+    }
+}
+
+
+#chlog-mainmenu {
+    display: none;
+    margin-bottom: 0.3em;
+    float: left;
+    width: 40%;
+    background: $chlog-mainmenublue;
+
+    ul {
+        list-style: none;   
+
+        li {
+            display: block;
+
+            &.dummya {
+                display: block;
+                padding: 0.2em 0.8em;
+                line-height: 1.9em;
+                color: $chlog-greytext;    
+            }
+            
+            a, a:link, a:visited, a:active, a:focus{
+                display: block;
+                padding: 0.2em 0.8em;
+                line-height: 1.9em;
+                color: $chlog-greytext;
+                text-decoration: none;
+            }
+
+            &.chlog-mainmenu-highlighted {
+                background: $chlog-mainmenufocus;
+                border-bottom: 3px solid $chlog-contrast;
+            }
+        }
+    }
+}
+
+
+/* MEGAMENUS */
+
+.chlog-submenu {
+    float: left;
+    width: 58%;
+    background: $chlog-mainmenufocus;
+    display: none;
+    padding: 0.5em; 
+    
+    section {
+        float: none;
+        width: 100%;
+        margin: 0;
+        
+        .chlog-submenu-header {
+            color: $chlog-darkblue;
+            font-size: 1em;
+            font-weight: normal;
+            padding-bottom: 0.3em;
+            margin-top: 0.5em;
+            margin-bottom: 1em;
+            border-bottom: 2px solid $chlog-darkblue;
+        }
+
+        ul>li {
+            list-style: none;
+            margin-bottom: 1em;   
+
+            a, a:link, a:hover, a:visited, a:focus {
+                text-decoration: none;
+                color: $chlog-greytext;
+            }
+            
+            a:hover {
+                color: $chlog-contrast;   
+            }
+        }
+    }
+}
+
+
+/* 
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+                        Widescreen rules - extend the full menu
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+    =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+*/
+
+@media (min-width: 620px) {
+
+        #chlog-mainmenu-toggle {
+        display: none;
+    }
+
+    #chlog-mainmenu {
+        display: block;
+        width: 100%;
+        float: none;
+        margin-bottom: 0;
+        
+        ul {
+            list-style: none;   
+            margin: 0;
+            background: $chlog-mainmenublue;
+            
+            li {
+                display: inline-block;
+                color: $chlog-greytext;
+                font-weight: normal;
+                font-size: 0.9em;
+                
+                &.dummya, a, a:link, a:visited, a:active, a:focus{
+                    display: inline-block;
+                    text-align: left;
+                    padding: 0 0.8em;
+                    height: 3em;
+                    line-height: 3em;
+                    transition: background 0.5s;
+                }
+                
+                &.dummya:hover, a:hover {
+                    background: $chlog-mainmenufocus;
+                    border-bottom: 3px solid $chlog-contrast;
+                }
+                
+                &.chlog-mainmenu-highlighted {
+                    background: $chlog-mainmenufocus;
+                    border-bottom: 3px solid $chlog-contrast;
+                }
+            }
+        }
+    }
+
+    
+        
+    /* MEGAMENUS */
+
+    .chlog-submenu {
+        position: absolute;
+        left: 0;
+        width: 100vw;
+        background: #fff;
+        color: #fff;
+        display: none;
+        min-height: 15em;
+        padding: 0em 0.5em 0.5em 0.5em; 
+        border-bottom: 2px solid $chlog-darkblue;
+        
+        section {
+            display: block;
+            float: left;
+            height: 13em;
+            padding: 0 1em;
+            background: #fff;
+            border-left: 2px solid $chlog-darkgrey;
+            border-right: 2px solid $chlog-darkgrey;
+            border-radius: 10px;
+            width: 30%;
+            margin: 1% 1.5%;
+            
+            .chlog-submenu-header {
+                margin-bottom: 0.5em;
+                color: $chlog-darkblue;
+            }
+            
+            ul>li {
+                margin-bottom: 0.5em;   
+                font-size: 0.9em;
+                
+                a, a:link, a:hover, a:visited, a:focus {
+                    text-decoration: none;
+                    color: $chlog-greytext;
+                    display: block;
+                    height: 100%;
+                    width: 100%;
+                    padding: 0.2em 0.5em;
+                }
+
+                a:hover {
+                    color: $chlog-darkblue;   
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+}

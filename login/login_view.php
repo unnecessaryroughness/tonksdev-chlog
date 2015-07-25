@@ -54,6 +54,8 @@
         ============================================  */
         protected function loginhtml() {
             return <<<HTML
+            
+            <h2>Log In</h2>
 
             <form id="frmLogin" action="." method="POST">
                 <label for="txtEmail">Email:</label>
