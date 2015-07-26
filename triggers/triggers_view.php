@@ -2,9 +2,9 @@
 
     namespace chlog;
 
-    class Symptoms_View extends ChlogView {
+    class Triggers_View extends ChlogView {
         
-        protected $symptomlist = null;
+        protected $triggerlist = null;
         
         
     /*  ============================================
@@ -13,9 +13,9 @@
         RETURNS:    (object)
         PURPOSE:    constructs the class. No special functions.
         ============================================  */
-        public function __construct(LookupList $sl = null) {
-            if ($sl) {
-                $this->symptomlist = $sl;   
+        public function __construct(LookupList $tl = null) {
+            if ($tl) {
+                $this->triggerlist = $tl;   
             } else {
                 throw new \Exception (ChlogErr::EM_FAILEDTOSTARTVIEW, ChlogErr::EC_FAILEDTOSTARTVIEW);   
             }
@@ -29,7 +29,7 @@
         PURPOSE:    returns the appropriate page title for the current state
         ============================================  */
         public function title() {
-            return "chLOG - Administer Symptoms";
+            return "chLOG - Administer Triggers";
         }
         
         
@@ -52,16 +52,16 @@
         ============================================  */
         public function defaulthtml() {
 
-            $sl = $this->symptomlist;
+            $tl = $this->triggerlist;
             $isAdmin = safeget::session("user", "isadmin", false, false);
             
             return <<<HTML
-            <h2>Administer Symptoms</h2>        
-            <div id="symptoms-content-area">
+            <h2>Administer Triggers</h2>        
+            <div id="triggers-content-area">
                 
-                <form id="frmSymptoms" action="." method="POST">
+                <form id="frmTriggers" action="." method="POST">
                     
-                    <table id="tblSymptoms"></table>
+                    <table id="tblTriggers"></table>
                     <input type="hidden" id="jsoString" name="jsoString" value="">
                     
                     
@@ -78,8 +78,8 @@
             <div id="modalDialog" class="hidden-modal">
                 <h2>Add New Symptom</h2>
                 <form>
-                    <label for="txtNewSymptom">New Symptom Description:</label>
-                    <input type="text" id="txtNewSymptom" value="">
+                    <label for="txtNewTrigger">New Trigger Description:</label>
+                    <input type="text" id="txtNewTrigger" value="">
                 </form>
                 <button id="cmdAdd" class="update">Add</button>
                 <button id="cmdCancel">Cancel</button>
@@ -87,11 +87,11 @@
             
             <script language="javascript">
                 var isAdmin = {$isAdmin};
-                var jso = {$this->symptomlist->toJSON()};
+                var jso = {$this->triggerlist->toJSON()};
                 $("#jsoString").val(JSON.stringify(jso));
             </script>
             
-            <script language="javascript" src="symptoms.js"></script>
+            <script language="javascript" src="triggers.js"></script>
             <script language="javascript" src="/common/templates/modal.js"></script>
             <script language="javascript" src="/common/templates/lookup.js"></script>
 HTML;
@@ -104,7 +104,7 @@ HTML;
         PURPOSE:    returns the default CSS path 
         ============================================  */
         public function css() {
-            return "/symptoms/symptoms.css";   
+            return "/triggers/triggers.css";   
         }
         
         
@@ -115,7 +115,7 @@ HTML;
         PURPOSE:    returns the default JSON data to use in this view 
         ============================================  */
         public function json() {
-            return $this->symptomlist->toJSON();
+            return $this->triggerlist->toJSON();
         }
     }
         

@@ -18,19 +18,21 @@ UI FRAMEWORK
         + Some includes dont compile into css cleanly due to dependencies - investigate
 
 ADMINISTER LISTS
+    GENERAL
+        + Consolidate JS for lookup pages into lookup.js
+        + Consolidate CSS for lookup pages into a single .css file
+        ...bear in mind, these lookups might not be identical always,
+           so full consolidation might be a false economy over the long term.
+        
     SYMPTOMS    
-        Classes
-            ==> UpdateSymptomsList
-                + use chlogErr::processRowCount to tidy up the error handling after PDO calls 
                 
     TRIGGERS
-        Should work the same as the Symptoms list. Try to find ways of reusing code.
         
     SIDE EFFECTS
-        Should work the same as the Symptoms list. Try to find ways of reusing code.
+        Should work the same as the Symptoms list. 
         
     TREATMENTS
-        Should work the same as the Symptoms list. Try to find ways of reusing code.
+        Should work the same as the Symptoms list. 
         
     ATTACK WAVES
         - investigate the small inline charts found in this article: 
@@ -41,9 +43,6 @@ ADMINISTER LISTS
         + icons on the menus?
         + descriptions under the menu items (in a smaller font)
        
-
-CLASSES
-
 
 USER
     * Make "gravatar" a switchable option, off by default

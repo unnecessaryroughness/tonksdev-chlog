@@ -3,8 +3,8 @@
 namespace chlog;
 
 
-class Symptom {
-
+class Lookup {
+ 
     protected $id = null;
     protected $description = null;
     protected $sortorder = null;
@@ -12,6 +12,7 @@ class Symptom {
     protected $defaultsort = null;
     protected $originaldescription = null;
     protected $isdirty = false;
+
     
 /*  ============================================
     FUNCTION:   __construct 
@@ -34,39 +35,38 @@ class Symptom {
         $this->isdirty = 1;
     }
 
-    
-    /*  ============================================
-        FUNCTION:   __get
-        PARAMS:     field - the read only field required
-        RETURNS:    (variable)
-        PURPOSE:    General purpose ReadOnly property getter
-        ============================================  */
-        public function __get( $field ) {
-            switch( $field ) {
-              case 'id':
-                return $this->id;
-              case 'description':
-                return $this->description;
-              case 'originaldescription':
-                return $this->originaldescription;
-              case 'descriptionhaschanged':
-                return $this->description == $this->originaldescription ? false : true;
-              case 'sortorder':
-                return $this->sortorder;
-              case 'defaultsort':
-                return $this->defaultsort;
-              case 'hidden':
-                return $this->hidden;
-              case 'isdirty':
-                return $this->isdirty;
-              case 'isnew':
-                return $this->id ? false : true;
-              default:
-                throw new \Exception('Invalid property: '.$field);
-            }
+
+/*  ============================================
+    FUNCTION:   __get
+    PARAMS:     field - the read only field required
+    RETURNS:    (variable)
+    PURPOSE:    General purpose ReadOnly property getter
+    ============================================  */
+    public function __get( $field ) {
+        switch( $field ) {
+          case 'id':
+            return $this->id;
+          case 'description':
+            return $this->description;
+          case 'originaldescription':
+            return $this->originaldescription;
+          case 'descriptionhaschanged':
+            return $this->description == $this->originaldescription ? false : true;
+          case 'sortorder':
+            return $this->sortorder;
+          case 'defaultsort':
+            return $this->defaultsort;
+          case 'hidden':
+            return $this->hidden;
+          case 'isdirty':
+            return $this->isdirty;
+          case 'isnew':
+            return $this->id ? false : true;
+          default:
+            throw new \Exception('Invalid property: '.$field);
         }
-    
-    
+    }
+
 /*  ============================================
     FUNCTION:   setDirty 
     PARAMS:     bln     boolean value representing dirty/clean status
@@ -97,7 +97,7 @@ class Symptom {
         
         $this->update($srt, $hid);
     }
-    
+
     
 /*  ============================================
     FUNCTION:   update 
@@ -118,8 +118,7 @@ class Symptom {
             $this->isdirty = true;
         }
     }
-    
-    
+
     
 /*  ============================================
     FUNCTION:   toJSON
@@ -135,6 +134,5 @@ class Symptom {
                 ', "hidden": '.$this->hidden.
                 ', "sequence": @@ }';
     }
-
+    
 }
-

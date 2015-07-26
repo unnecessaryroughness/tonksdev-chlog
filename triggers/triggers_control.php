@@ -2,7 +2,7 @@
 
     namespace chlog;
 
-    class Symptoms_Control extends ChlogController {
+    class Triggers_Control extends ChlogController {
 
     /*  ============================================
         FUNCTION:   __construct
@@ -22,20 +22,20 @@
         public function process($type, $fields) {
 
             switch ($type) {
-                                
+                
                 case "update":
                     $tsl = new LookupList(safeget::kvp($fields, "jsoString", "", false));
                     $eml = safeget::session("user", "email", null);
 
                     try {
-                        Lookups::updateLookupList($eml, "Symptom", $tsl);
+                        Lookups::updateLookupList($eml, "ChTrigger", $tsl);
                     } catch (\Exception $e) {
-                        Logger::log("Failed trying to update symptoms from JSON object. ", $e->getMessage());
+                        Logger::log("Failed trying to update triggers from JSON object. ", $e->getMessage());
                         return new Error_View($e->getCode(), getNiceErrorMessage($e));
                     }
                 
-                    $sl = Lookups::getLookupList($eml, "Symptom");
-                    return new Redirect_View("/symptoms/");
+                    $sl = Lookups::getLookupList($eml, "ChTrigger");
+                    return new Redirect_View("/triggers/");
                     break;
                 
                 case "cancel":
@@ -44,8 +44,8 @@
                 
                 default:
                     $eml = safeget::session("user", "email", null);
-                    $sl = Lookups::getLookupList($eml, "Symptom");
-                    return new Symptoms_View($sl);
+                    $sl = Lookups::getLookupList($eml, 'ChTrigger');
+                    return new Triggers_View($sl);
                     break;
             }
         }

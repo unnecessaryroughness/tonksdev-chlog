@@ -13,8 +13,39 @@ class LookupList implements \Iterator, \ArrayAccess, \Countable {
     PURPOSE:    constructs the class.
                 optionally constructs the class based on a json object spec.
     ============================================  */
-    public function __construct($jso = null) {}
+    public function __construct($jso = null) {
+        if ($jso) {
+            $jobj =  json_decode($jso);
+            $lkulist = $jobj->record;
+            $cnt = 1;
+            
+            foreach ($lkulist as $lku) {
+                $this->addLookup($lku->id > 0 ? $lku->id : null,
+                                    $lku->description,
+                                    $cnt,
+                                    $lku->hidden,
+                                    null,
+                                    $lku->originaldescription);
+                $cnt += 1;
+            }
+        }
+    }
 
+    
+/*  ============================================
+    FUNCTION:   addLookup 
+    PARAMS:     lid     lookup id
+                des     lookup description
+                srt     sort order
+                hid     hidden
+    RETURNS:    (object)
+    PURPOSE:    adds a lookup object to the list
+    ============================================  */
+    public function addLookup($sid = null, $des = null, $srt = null, $hid = null, $def = null, $ods = null) {
+        if ($des && $srt) {
+            $this->records[] = new Lookup($sid, $des, $srt, $hid, $def, $ods);   
+        }
+    }
         
     
 /*  ============================================
