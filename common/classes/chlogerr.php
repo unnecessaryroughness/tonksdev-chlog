@@ -100,7 +100,7 @@
             );
         
         
-        public function processRowcount($subject="(none)", $rowcount=0, $errmsg="err", 
+        public static function processRowcount($subject="(none)", $rowcount=0, $errmsg="err", 
                                         $errcode=0, $zeroiserror=false) {
             if ($rowcount == 1) {
                 Logger::log("Updated ".$subject." ok");    
