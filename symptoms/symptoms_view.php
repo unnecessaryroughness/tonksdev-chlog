@@ -62,7 +62,7 @@
                 <form id="frmSymptoms" action="." method="POST">
                     
                     <table id="tblSymptoms"></table>
-                    <input type="hidden" id="jsoSymptoms" name="jsosymptoms" value="">
+                    <input type="hidden" id="jsoString" name="jsoString" value="">
                     
                     
                     <div class="divAlignRight">
@@ -78,7 +78,8 @@
             <div id="modalDialog" class="hidden-modal">
                 <h2>Add New Symptom</h2>
                 <form>
-                <input type="text" id="txtNewSymptom" value="">
+                    <label for="txtNewSymptom">New Symptom Description:</label>
+                    <input type="text" id="txtNewSymptom" value="">
                 </form>
                 <button id="cmdAdd" class="update">Add</button>
                 <button id="cmdCancel">Cancel</button>
@@ -87,11 +88,12 @@
             <script language="javascript">
                 var isAdmin = {$isAdmin};
                 var jso = {$this->symptomlist->toJSON()};
-                $("#jsoSymptoms").val(JSON.stringify(jso));
+                $("#jsoString").val(JSON.stringify(jso));
             </script>
             
             <script language="javascript" src="symptoms.js"></script>
             <script language="javascript" src="/common/templates/modal.js"></script>
+            <script language="javascript" src="/common/templates/lookup.js"></script>
 HTML;
         }
 

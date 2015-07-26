@@ -23,9 +23,6 @@ ADMINISTER LISTS
             ==> UpdateSymptomsList
                 + use chlogErr::processRowCount to tidy up the error handling after PDO calls 
                 
-        Javascript
-            + Abstract a bunch of generic scripting into generic LOOKUP scripts
-            
     TRIGGERS
         Should work the same as the Symptoms list. Try to find ways of reusing code.
         

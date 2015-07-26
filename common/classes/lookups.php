@@ -104,17 +104,8 @@
 
                             //rowcount = 1 if the update worked properly
                             if ($qSuccess) {
-                                if ($qry->rowCount() == 1) {
-                                    $errmsg = "Updated description for ".$symptom->description;
-                                    Logger::log($errmsg);    
-                                } elseif ($qry->rowCount() > 1) {
-                                    $errmsg = "More than one symptom record updated. Looks suspicious. ";
-                                    Logger::log($errmsg); 
-                                    throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
-                                } else { 
-                                    $errmsg = "Nothing to update description for ".$symptom->description." - 0 rows updated";
-                                    Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                                }
+                                chlogErr::processRowCount("Description", $qry->rowCount(), 
+                                        ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
                             } else {
                                 $errmsg = "Failed to update description for ".$symptom->description." - query failed";
                                 Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
@@ -162,17 +153,8 @@
                             $qSuccess = $qry->execute(); 
 
                             if ($qSuccess) {
-                                if ($qry->rowCount() == 1) {
-                                    $errmsg = "Updated usersymptom for ".$eml;
-                                    Logger::log($errmsg);    
-                                } elseif ($qry->rowCount() > 1) {
-                                    $errmsg = "More than one usersymptom record updated. Looks suspicious. ";
-                                    Logger::log($errmsg); 
-                                    throw new \Exception(ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);
-                                } else { 
-                                    $errmsg = "Nothing to update usersymptom for ".$symptom->description." - 0 rows updated";
-                                    Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                                }
+                                chlogErr::processRowCount("UserSymptom", $qry->rowCount(),
+                                                    ChlogErr::EM_LOOKUPCHANGEFAILED, ChlogErr::EC_LOOKUPCHANGEFAILED);          
                             } else {
                                 $errmsg = "Failed to update usersymptom for ".$symptom->id." - query failed";
                                 Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 

@@ -33,6 +33,11 @@
 // =======================
 @import "chlog-style-menu.scss";
 
+// =======================
+//   import modal form styles 
+// =======================
+@import "chlog-style-modal.scss";
+
 
 /* =======================
    element layout rules 
@@ -70,6 +75,28 @@ h2 {
 
 .hidden-modal {
     display: none;   
+}
+
+.fldNarrow {
+    display: inline-block;
+    width: 5em;   
+}
+
+.fldWide {
+    display: inline-block;
+    width: 7.5em;
+}
+
+.fldNumeric {
+    text-align: right;   
+}
+
+.fldChar {
+    text-align: left;
+}
+
+.divAlignRight {
+   float: right;
 }
 
 

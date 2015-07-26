@@ -23,52 +23,10 @@ table tr {
 #symptoms-content-area {
   width: 100%; }
 
-.fldNarrow {
-  display: inline-block;
-  width: 5em; }
-
-.fldWide {
-  display: inline-block;
-  width: 7.5em; }
-
-.fldNumeric {
-  text-align: right; }
-
-.fldChar {
-  text-align: left; }
-
-.divAlignRight {
-  float: right; }
-
-#overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  opacity: 0.5; }
-
-#modal {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 14px;
-  padding: 8px; }
-
-#content {
-  border-radius: 8px;
-  background: #fff;
-  padding: 20px; }
-
-#close {
-  position: absolute;
-  background: url("/common/images/close.png") 0 0 no-repeat;
-  width: 24px;
-  height: 27px;
-  display: block;
-  text-indent: -9999px;
-  top: -7px;
-  right: -7px; }
+form > label {
+  font-size: 0.9em;
+  margin-bottom: 0.3em;
+  margin-left: 0.2em; }
 
 button {
   width: 5em; }
