@@ -4,18 +4,16 @@ TODO:
 BUGS
     * (none)
         
-USERS
-    * (none)
-
 UI FRAMEWORK
-    * Style login screen
-    
     * Javascript improvements
         + Data entry form field validation 
         
     * Sass
         + Reuse of variables in module-level scss
-        + Some includes dont compile into css cleanly due to dependencies - investigate
+
+    * Views
+        + Allow views to return multiple CSS references
+        
 
 ADMINISTER LISTS
     GENERAL
@@ -23,13 +21,6 @@ ADMINISTER LISTS
         + Consolidate CSS for lookup pages into a single .css file
         ...bear in mind, these lookups might not be identical always,
            so full consolidation might be a false economy over the long term.
-        
-    SYMPTOMS    
-                
-    TRIGGERS
-        
-    SIDE EFFECTS
-        Should work the same as the Symptoms list. 
         
     TREATMENTS
         Should work the same as the Symptoms list. 

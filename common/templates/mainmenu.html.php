@@ -64,7 +64,7 @@
             <li><a href="/symptoms/">Symptoms</a></li>
             <li><a href="/triggers/">Triggers</a></li>
             <li><a href="/">Treatments</a></li>
-            <li><a href="/">Side Effects</a></li>
+            <li><a href="/sideeffects/">Side Effects</a></li>
             <li><a href="/">Attack Waves</a></li>
             
         </ul>
