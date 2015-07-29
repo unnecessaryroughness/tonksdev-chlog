@@ -17,13 +17,6 @@ UI FRAMEWORK
 
 ADMINISTER LISTS
     GENERAL
-        + Consolidate JS for lookup pages into lookup.js
-        + Consolidate CSS for lookup pages into a single .css file
-        ...bear in mind, these lookups might not be identical always,
-           so full consolidation might be a false economy over the long term.
-        
-    TREATMENTS
-        Should work the same as the Symptoms list. 
         
     ATTACK WAVES
         - investigate the small inline charts found in this article: 

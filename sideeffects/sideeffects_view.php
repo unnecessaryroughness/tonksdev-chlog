@@ -57,11 +57,11 @@
             
             return <<<HTML
             <h2>Administer Side Effects</h2>        
-            <div id="sideeffects-content-area">
+            <div id="lookup-content-area">
                 
-                <form id="frmSideEffects" action="." method="POST">
+                <form id="frmLookups" action="." method="POST">
                     
-                    <table id="tblSideEffects"></table>
+                    <table id="tblLookups"></table>
                     <input type="hidden" id="jsoString" name="jsoString" value="">
                     
                     
@@ -78,8 +78,8 @@
             <div id="modalDialog" class="hidden-modal">
                 <h2>Add New Side Effect</h2>
                 <form>
-                    <label for="txtNewTrigger">New Side Effect Description:</label>
-                    <input type="text" id="txtNewSideEffect" value="">
+                    <label for="txtNewRecord">New Side Effect Description:</label>
+                    <input type="text" id="txtNewRecord" value="">
                 </form>
                 <button id="cmdAdd" class="update">Add</button>
                 <button id="cmdCancel">Cancel</button>
@@ -91,7 +91,6 @@
                 $("#jsoString").val(JSON.stringify(jso));
             </script>
             
-            <script language="javascript" src="sideeffects.js"></script>
             <script language="javascript" src="/common/templates/modal.js"></script>
             <script language="javascript" src="/common/templates/lookup.js"></script>
 HTML;
@@ -104,7 +103,7 @@ HTML;
         PURPOSE:    returns the default CSS path 
         ============================================  */
         public function css() {
-            return "/sideeffects/sideeffects.css";   
+            return "/common/styles/chlog-style-lookup.css";   
         }
         
         

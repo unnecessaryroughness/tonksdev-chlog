@@ -34,7 +34,6 @@
                         return new Error_View($e->getCode(), getNiceErrorMessage($e));
                     }
                 
-                    $sl = Lookups::getLookupList($eml, "SideEffect");
                     return new Redirect_View("/sideeffects/");
                     break;
                 

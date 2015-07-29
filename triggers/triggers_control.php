@@ -34,7 +34,6 @@
                         return new Error_View($e->getCode(), getNiceErrorMessage($e));
                     }
                 
-                    $sl = Lookups::getLookupList($eml, "ChTrigger");
                     return new Redirect_View("/triggers/");
                     break;
                 

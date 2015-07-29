@@ -2,9 +2,9 @@
 
     namespace chlog;
 
-    class Triggers_View extends ChlogView {
+    class Treatments_View extends ChlogView {
         
-        protected $triggerlist = null;
+        protected $treatmentlist = null;
         
         
     /*  ============================================
@@ -15,7 +15,7 @@
         ============================================  */
         public function __construct(LookupList $tl = null) {
             if ($tl) {
-                $this->triggerlist = $tl;   
+                $this->treatmentlist = $tl;   
             } else {
                 throw new \Exception (ChlogErr::EM_FAILEDTOSTARTVIEW, ChlogErr::EC_FAILEDTOSTARTVIEW);   
             }
@@ -29,7 +29,7 @@
         PURPOSE:    returns the appropriate page title for the current state
         ============================================  */
         public function title() {
-            return "chLOG - Administer Triggers";
+            return "chLOG - Administer Treatments";
         }
         
         
@@ -52,11 +52,11 @@
         ============================================  */
         public function defaulthtml() {
 
-            $tl = $this->triggerlist;
+            $tl = $this->treatmentlist;
             $isAdmin = safeget::session("user", "isadmin", false, false);
             
             return <<<HTML
-            <h2>Administer Triggers</h2>        
+            <h2>Administer Treatments</h2>        
             <div id="lookup-content-area">
                 
                 <form id="frmLookups" action="." method="POST">
@@ -76,9 +76,9 @@
             </div>
                         
             <div id="modalDialog" class="hidden-modal">
-                <h2>Add New Trigger</h2>
+                <h2>Add New Treatment</h2>
                 <form>
-                    <label for="txtNewRecord">New Trigger Description:</label>
+                    <label for="txtNewRecord">New Treatment Description:</label>
                     <input type="text" id="txtNewRecord" value="">
                 </form>
                 <button id="cmdAdd" class="update">Add</button>
@@ -87,7 +87,7 @@
             
             <script language="javascript">
                 var isAdmin = {$isAdmin};
-                var jso = {$this->triggerlist->toJSON()};
+                var jso = {$this->treatmentlist->toJSON()};
                 $("#jsoString").val(JSON.stringify(jso));
             </script>
             
@@ -114,7 +114,7 @@ HTML;
         PURPOSE:    returns the default JSON data to use in this view 
         ============================================  */
         public function json() {
-            return $this->triggerlist->toJSON();
+            return $this->treatmentlist->toJSON();
         }
     }
         

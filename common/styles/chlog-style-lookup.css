@@ -20,7 +20,7 @@ table tr {
     height: 1.8em;
     width: 2.7em; }
 
-#triggers-content-area {
+#lookup-content-area {
   width: 100%; }
 
 form > label {
@@ -39,7 +39,7 @@ button {
     =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 */
 @media (min-width: 620px) {
-  #triggers-content-area {
+  #lookup-content-area {
     width: 24em; }
 
   table tr th {
@@ -57,4 +57,4 @@ button {
   button {
     width: 7em; } }
 
-/*# sourceMappingURL=triggers.css.map */
+/*# sourceMappingURL=chlog-style-lookup.css.map */
