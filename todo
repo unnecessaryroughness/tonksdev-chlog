@@ -32,6 +32,10 @@ USER
     * Make "gravatar" a switchable option, off by default
 
 
+SQL DB
+    + Performance tuning, indices, etc.
+
+
 PENDING PRODUCTION DATABASE CHANGES
     + (none)
     

@@ -36,7 +36,7 @@
                 //connect to database 
                 $dbc = ($dbc) ? : Database::connect();
 
-                //get symptoms list for user
+                //get lookup list for user
                 try {
                     $sql = "CALL get".$lku."sForUser(:eml)";
                     $qry = $dbc->prepare($sql);

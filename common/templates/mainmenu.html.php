@@ -60,14 +60,20 @@
     </section>
     <section>
         <div class="chlog-submenu-header">Set Up Lists</div>
-        <ul>
-            <li><a href="/symptoms/">Symptoms</a></li>
-            <li><a href="/triggers/">Triggers</a></li>
-            <li><a href="/treatments/">Treatments</a></li>
-            <li><a href="/sideeffects/">Side Effects</a></li>
-            <li><a href="/">Attack Waves</a></li>
-            
-        </ul>
+        <div class="chlog-submenu-linkcolumn">
+            <ul>
+                <li><a href="/triggers/">Triggers</a></li>
+                <li><a href="/symptoms/">Symptoms</a></li>
+                <li><a href="/locations/">Pain Locations</a></li>
+            </ul>
+        </div>
+        <div class="chlog-submenu-linkcolumn">
+            <ul>
+                <li><a href="/treatments/">Treatments</a></li>
+                <li><a href="/sideeffects/">Side Effects</a></li>
+                <li><a href="/">Attack Waves</a></li>
+            </ul>
+        </div>
     </section>
 </nav>
 

@@ -181,6 +181,11 @@
                 color: $chlog-darkblue;
             }
             
+            .chlog-submenu-linkcolumn {
+                float: left;
+                width: 50%;
+            }   
+            
             ul>li {
                 margin-bottom: 0.5em;   
                 font-size: 0.9em;

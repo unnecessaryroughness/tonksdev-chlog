@@ -182,6 +182,9 @@ button {
       .chlog-submenu section .chlog-submenu-header {
         margin-bottom: 0.5em;
         color: #3a515f; }
+      .chlog-submenu section .chlog-submenu-linkcolumn {
+        float: left;
+        width: 50%; }
       .chlog-submenu section ul > li {
         margin-bottom: 0.5em;
         font-size: 0.9em; }
