@@ -28,6 +28,18 @@ ADMINISTER LISTS
         + descriptions under the menu items (in a smaller font)
        
 
+ATTACK
+    UI
+        + build basic UI for capturing attack events
+        + capture related triggers leading to the attack
+        + capture pain locations associated with the attack
+        + capture symptoms of the attack
+        + capture treatments administered
+        + capture side effects of the treatments administered
+        + Investigate graphical way of representing pain locations? 
+        + Investigate graphical way of capturing attack waves
+        
+
 USER
     * Make "gravatar" a switchable option, off by default
 
