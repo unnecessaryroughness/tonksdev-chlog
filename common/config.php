@@ -31,7 +31,7 @@
                     try {
                         //retrieve user object using newly created cookie details instead of password
                         $_SESSION["user"] = chlog\User::getUserFromSession($eml, $ser, $tok, $fpt);
-
+                                                
                     } catch (\Exception $e) {
                         unset ($_SESSION["user"]);
                         setcookie("chlrm", "", time()-3600, "/");
