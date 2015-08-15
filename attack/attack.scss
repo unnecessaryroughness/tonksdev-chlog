@@ -1,0 +1,25 @@
+@import "../common/styles/chlog-style-globalvars.scss";
+@import "../common/styles/chlog-style-calendar.scss";
+
+.attackgroup {
+    float: left;
+    border: 1px solid #666;   
+    width: 30%;
+    margin: 1.5%;
+    min-width: 15em;
+    overflow: hidden;
+
+    header {
+        background: $chlog-darkblue;   
+        color: $chlog-contrast;
+        padding: 0.5em;
+        font-size: 1.1em;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .sectionbody {
+        padding: 1em;
+    }
+}
+

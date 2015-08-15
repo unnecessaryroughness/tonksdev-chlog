@@ -8,7 +8,16 @@
     <script src="/jquery/jquery-1.11.3.min.js"></script>
   
     <link rel="stylesheet" href="/common/styles/chlog-style-main.css">
-    <?php echo ($vw->css()) ? "<link rel='stylesheet' href='".$vw->css()."'>" : "" ?>
+    <?php 
+        $cssfiles = $vw->css();
+        if (is_array($cssfiles)) {
+            foreach ($cssfiles as $css) {
+                echo (($css) ? "<link rel='stylesheet' href='".$css."'>" : "");        
+            }
+        } else {
+            echo (($cssfiles) ? "<link rel='stylesheet' href='".$cssfiles."'>" : ""); 
+        }
+    ?>
       
     <title><?php htmlout($vw->title() ? $vw->title() : "untitled page") ?></title>
   </head>

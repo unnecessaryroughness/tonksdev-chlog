@@ -231,18 +231,21 @@ button {
 /* =======================
    element layout rules 
    ======================= */
-form > label {
+form label {
   display: block;
   font-size: 1em; }
 
-form > input[type=checkbox] {
+form input[type=checkbox] {
   display: inline-block; }
 
-form > input[type="text"], form > input[type="textbox"], form > input[type="password"] {
+form input[type="text"],
+form input[type="textbox"],
+form input[type="password"],
+form input[type="range"] {
   margin: 0 0 0.8em 0;
   font-size: 1em; }
 
-p > a {
+p a {
   display: inline-block;
   margin: 0.3em 0 0.3em 0; }
 
@@ -261,9 +264,17 @@ h2 {
   display: inline-block;
   width: 5em; }
 
+.fldMedium {
+  display: inline-block;
+  width: 6.5em; }
+
 .fldWide {
   display: inline-block;
   width: 7.5em; }
+
+.fldWider {
+  display: inline-block;
+  width: 9em; }
 
 .fldNumeric {
   text-align: right; }
