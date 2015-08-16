@@ -1,3 +1,6 @@
+.dtpCalendar {
+  display: none; }
+
 .divCalendar {
   box-sizing: border-box;
   font: normal 1em sans-serif, sans-serif;
@@ -43,7 +46,7 @@
   border: 1px solid #666;
   width: 30%;
   margin: 1.5%;
-  min-width: 15em;
+  min-width: 275px;
   overflow: hidden; }
   .attackgroup header {
     background: #3a515f;

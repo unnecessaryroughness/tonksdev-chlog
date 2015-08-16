@@ -15,7 +15,7 @@
             
             return <<<HTML
 
-<div id="{$nm}">
+<div id="{$nm}" class="dtpCalendar">
 
     <table class="tblCalendar">
         <tr>

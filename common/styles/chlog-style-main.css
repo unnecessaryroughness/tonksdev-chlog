@@ -245,6 +245,10 @@ form input[type="range"] {
   margin: 0 0 0.8em 0;
   font-size: 1em; }
 
+form select {
+  font-size: 1em;
+  height: 26px; }
+
 p a {
   display: inline-block;
   margin: 0.3em 0 0.3em 0; }
@@ -259,6 +263,10 @@ h2 {
    ======================= */
 .hidden-modal {
   display: none; }
+
+.fldNarrower {
+  display: inline-block;
+  width: 3em; }
 
 .fldNarrow {
   display: inline-block;

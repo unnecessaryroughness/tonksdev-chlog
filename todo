@@ -2,7 +2,8 @@ TODO:
 ======
 
 BUGS
-    * session starting suspiciously often - investigate
+    * Dropdowns for hours/mins on iphone truncate the last digit.
+    
         
 UI FRAMEWORK
     * Javascript improvements
