@@ -15,7 +15,8 @@
         <ul>
             <li><a href="/">I'm having an attack NOW</a></li>
             <li><a href="/">My attack is now over</a></li>
-            <li><a href="/attack/">Add/Amend Attack Details</a></li>
+            <li><a href="/attack/">Record an Attack</a></li>
+            <li><a href="/review/">Review My Attacks</a></li>
         </ul>    
     </section>
 </nav>

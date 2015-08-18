@@ -100,6 +100,31 @@
             );
         
         
+        //ATTACK ERROR CODES
+        const EC_ATTACKADDFAILED    = 5001;
+        const EC_ATTACKADDNOUSER    = 5002;
+        const EC_ATTACKUPDFAILED    = 5003;
+        const EC_GETMYATTACKSFAILED = 5004;
+        const EC_GETATTACKSNOUSER   = 5005;
+        
+        //ATTACK ERROR MESSAGES
+        const EM_ATTACKADDFAILED    = "Sorry, I was unable to store those attack details";
+        const EM_ATTACKADDNOUSER    = "Sorry, I was unable to figure out your user details, so I can't record your attack. Please log out and back in again.";
+        const EM_ATTACKUPDFAILED    = "Sorry, I was unable to amend those attack details";
+        const EM_GETMYATTACKSFAILED = "Sorry, I was unable to retrieve a list of your attacks.";
+        const EM_GETATTACKSNOUSER   = "Sorry, I was unable to figure out your user details, so I can't retrieve details of your attacks.";
+        
+        //ATTACK ERROR ARRAY
+        public static $EA_ATTACKERRORS = array(
+                            self::EC_ATTACKADDFAILED        => self::EM_ATTACKADDFAILED,
+                            self::EC_ATTACKADDNOUSER        => self::EM_ATTACKADDNOUSER,
+                            self::EC_ATTACKUPDFAILED        => self::EM_ATTACKUPDFAILED,
+                            self::EC_GETMYATTACKSFAILED     => self::EM_GETMYATTACKSFAILED,
+                            self::EC_GETATTACKSNOUSER       => self::EM_GETATTACKSNOUSER
+            );
+        
+        
+        
         public static function processRowcount($subject="(none)", $rowcount=0, $errmsg="err", 
                                         $errcode=0, $zeroiserror=false) {
             if ($rowcount == 1) {

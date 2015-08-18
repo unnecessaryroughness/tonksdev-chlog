@@ -54,7 +54,8 @@
         $errsources = array(chlog\ChlogErr::$EA_USERERRORS,
                             chlog\ChlogErr::$EA_NAVERRORS,
                             chlog\ChlogErr::$EA_DATAERRORS,
-                            chlog\ChlogErr::$EA_LOOKUPERRORS);
+                            chlog\ChlogErr::$EA_LOOKUPERRORS,
+                            chlog\ChlogErr::$EA_ATTACKERRORS);
         
         foreach ($errsources as $es) {
             if (isset($es[$e->getCode()])) {
