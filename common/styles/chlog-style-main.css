@@ -264,9 +264,13 @@ h2 {
 .hidden-modal {
   display: none; }
 
-.fldNarrower {
+.fldNarrowest {
   display: inline-block;
   width: 3em; }
+
+.fldNarrower {
+  display: inline-block;
+  width: 4em; }
 
 .fldNarrow {
   display: inline-block;
@@ -283,6 +287,10 @@ h2 {
 .fldWider {
   display: inline-block;
   width: 9em; }
+
+.fldWidest {
+  display: inline-block;
+  width: 11em; }
 
 .fldNumeric {
   text-align: right; }

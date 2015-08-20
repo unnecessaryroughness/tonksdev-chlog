@@ -3,7 +3,7 @@
 
 .attackgroup {
     float: left;
-    border: 1px solid #666;   
+    border: 1px solid  $chlog-bordergrey;   
     width: 30%;
     margin: 1.5%;
     min-width: 275px;
@@ -23,3 +23,27 @@
     }
 }
 
+#kipscale {
+    border: 0px solid  $chlog-bordergrey;
+    border-collapse: collapse;
+    margin-bottom: 1em;
+    
+    table {
+        width: 100%;
+        
+        tbody {
+            tr {
+                td {
+                    border: 1px solid $chlog-bordergrey;
+                    height: 3em;
+                    width: 20%;
+                    text-align: center;
+                    
+                    &.kipcell:hover {
+                        background: $chlog-contrast !important;   
+                    }   
+                }   
+            }
+        }
+    }
+}

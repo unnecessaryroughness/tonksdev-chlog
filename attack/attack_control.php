@@ -108,6 +108,45 @@
                 //If we got here, it worked! so redirect to the home page.
                 return new Redirect_View("/");
                 break;
+
+                case "review":
+                    //get Attack object based on id passed
+                    $aid = safeget::kvp($fields, "id", null, false);
+                    $user = safeget::session("user", null, false);
+                    $eml = $user->email;
+                    $dbc = Database::connect();
+                
+                    if ($aid) {
+                        
+                        //retrieve a record
+                        try {
+                            $sql = "CALL getAttack (:eml, :aid)";
+                            $qry = $dbc->prepare($sql);
+                            $qry->bindValue(":eml", $eml);
+                            $qry->bindValue(":aid", $aid);
+                            $qSuccess = $qry->execute(); 
+                            
+                            if ($qSuccess) {
+                                $aRec = $qry->fetch(\PDO::FETCH_ASSOC);
+                                $attack = new Attack($aRec["id"], $aRec["useremail"], $aRec["start"],
+                                             $aRec["end"], $aRec["level"], $aRec["waveid"]);
+                                
+                            } else {
+                                $errmsg = "Failed to update attack ".$aid." - query failed";
+                                Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                                throw new \Exception(ChlogErr::EM_GETATTACKFAILED, ChlogErr::EC_GETATTACKFAILED);
+                            }
+
+                        } catch (\Exception $e) {
+                            Logger::log(getNiceErrorMessage($e), $usr->email); 
+                            return new Error_View($e->getCode(), getNiceErrorMessage($e));
+                        }
+                        
+                        return new Attack_View($attack);
+                    } else {
+                        Logger::log("Failed to retrieve attack ".$attackid, $usr->email); 
+                        return new Error_View(ChlogErr::EC_GETATTACKFAILED, ChlogErr::EM_GETATTACKFAILED);
+                    }
                 
                 case "cancel":
                     return new Redirect_View("/");

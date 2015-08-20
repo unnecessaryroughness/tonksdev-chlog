@@ -41,6 +41,9 @@
   background: #bbb;
   color: #444; }
 
+.timeDropdown {
+  width: 3.5em; }
+
 .attackgroup {
   float: left;
   border: 1px solid #666;
@@ -57,5 +60,19 @@
     text-align: center; }
   .attackgroup .sectionbody {
     padding: 1em; }
+
+#kipscale {
+  border: 0px solid #666;
+  border-collapse: collapse;
+  margin-bottom: 1em; }
+  #kipscale table {
+    width: 100%; }
+    #kipscale table tbody tr td {
+      border: 1px solid #666;
+      height: 3em;
+      width: 20%;
+      text-align: center; }
+      #kipscale table tbody tr td.kipcell:hover {
+        background: #ede859 !important; }
 
 /*# sourceMappingURL=attack.css.map */

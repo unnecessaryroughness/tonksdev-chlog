@@ -12,21 +12,37 @@
             $this->dtpcaption = $dtpcaption;
         }
         
-        public function html() {
+        public function html($default = null) {
             $nm = $this->dtpname;
             $cnm = $nm."_cal";
             $cal1 = new calendar_view($cnm);
+            
+            if ($default) {
+                $ddateobj = new \DateTime($default);
+            } else {
+                $ddateobj = new \DateTime();
+            }
+            $deffull = $ddateobj->format("Y-m-d H:i");
+            $defdate = $ddateobj->format("Y-m-d");
+            $defhrs = $ddateobj->format("H");
+            $defmin = $ddateobj->format("i");
             
             return <<<HTML
             
     <div id="{$nm}">
 
         <label for="txtStartDate">{$this->dtpcaption}</label>
-        <input type="text" id="{$nm}_txtStartDate" name="{$nm}_txtStartDate" class="fldWide" value="">@<select id="{$nm}_selStartHour" name="{$nm}_selStartHour" class="fldNarrower"></select>:<select id="{$nm}_selStartMin" name="{$nm}_selStartMin" class="fldNarrower"></select>
+        <input type="text" id="{$nm}_txtStartDate" name="{$nm}_txtStartDate" 
+                class="fldMedium" value="{$defdate}">@<select id="{$nm}_selStartHour" 
+                name="{$nm}_selStartHour" class="timeDropdown"">
+                </select>:<select id="{$nm}_selStartMin" name="{$nm}_selStartMin" 
+                class="timeDropdown"></select>
+                
         {$cal1->html()}
 
         <div id="hiddenFields">
-            <input type="hidden" name="{$nm}_txtFullDateTime" id="{$nm}_txtFullDateTime">
+            <input type="hidden" name="{$nm}_txtFullDateTime" 
+                    id="{$nm}_txtFullDateTime" value="{$deffull}">
         </div>
     </div>
 
@@ -35,10 +51,10 @@
         $(function() {
             var i = 0;
             for (i=0; i<=23; i++) {
-                $("#{$nm} #{$nm}_selStartHour").append("<option>" + (("00" + i).slice(-2)) + "</option>"); 
+                $("#{$nm} #{$nm}_selStartHour").append("<option" + (i=={$defhrs} ? " selected" : "") + ">" + (("00" + i).slice(-2)) + "</option>"); 
             }
             for (i=0; i<=59; i++) {
-                $("#{$nm} #{$nm}_selStartMin").append("<option>" + (("00" + i).slice(-2)) + "</option>"); 
+                $("#{$nm} #{$nm}_selStartMin").append("<option " + (i=={$defmin} ? " selected" : "") + ">" + (("00" + i).slice(-2)) + "</option>"); 
             }
             var c1 = new Chlog_Calendar("{$cnm}");
             var dToday = new Date();

@@ -86,9 +86,14 @@ h2 {
 }
 
 
-.fldNarrower {
+.fldNarrowest {
     display: inline-block;
     width: 3em;   
+}
+
+.fldNarrower {
+    display: inline-block;
+    width: 4em;   
 }
 
 .fldNarrow {
@@ -109,6 +114,11 @@ h2 {
 .fldWider {
     display: inline-block;
     width: 9em;
+}
+
+.fldWidest {
+    display: inline-block;
+    width: 11em;
 }
 
 .fldNumeric {

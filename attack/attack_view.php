@@ -4,6 +4,7 @@
 
     class Attack_View extends ChlogView {
         
+        protected $attack;
         
     /*  ============================================
         FUNCTION:   __construct
@@ -11,7 +12,12 @@
         RETURNS:    (object)
         PURPOSE:    constructs the class. No special functions.
         ============================================  */
-        public function __construct() {
+        public function __construct($attack = null) {
+            if ($attack) {
+                $this->attack = $attack;
+            } else {
+                $this->attack = new Attack();
+            }
             //throw new \Exception (ChlogErr::EM_FAILEDTOSTARTVIEW, ChlogErr::EC_FAILEDTOSTARTVIEW);   
         }
 
@@ -48,7 +54,6 @@
 
             $dtp1 = new datetimepicker_view("dtp1", "Attack Started:");
             $dtp2 = new datetimepicker_view("dtp2", "Attack Was Over:");
-            //$cal2 = new calendar_view("c2");
             
             return <<<HTML
             <h2>Record an Attack</h2>        
@@ -61,16 +66,38 @@
                     
                     <div class="sectionbody">
                         <label for="txtID">Attack ID</label>
-                        <input type="text" id="txtID" name="txtID" class="fldNarrow" readonly value="">
+                        <input type="text" id="txtID" name="txtID" class="fldNarrow" 
+                                readonly value="{$this->attack->id}">
 
-                        {$dtp1->html()}
-                        {$dtp2->html()}
+                        {$dtp1->html($this->attack->startdt)}
+                        {$dtp2->html($this->attack->enddt)}
 
+                        
                         <label for="rngLevel">Level</label>
-                        <input type="range" id="rngLevel" name="rngLevel" min="1" max="10" step="1" value="1">
+                        <div id="kipscale"> 
+                            <table><tbody>
+                                <tr>
+                                    <td class='kipcell'>1</td>
+                                    <td class='kipcell'>2</td>
+                                    <td class='kipcell'>3</td>
+                                    <td class='kipcell'>4</td>
+                                    <td class='kipcell'>5</td>
+                                </tr>
+                                <tr>
+                                    <td class='kipcell'>6</td>
+                                    <td class='kipcell'>7</td>
+                                    <td class='kipcell'>8</td>
+                                    <td class='kipcell'>9</td>
+                                    <td class='kipcell'>10</td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+                        <input type="hidden" id="rngLevel" name="rngLevel" 
+                                min="1" max="10" step="1" value="{$this->attack->level}">
 
                         <label for="txtWave">Wave</label>
-                        <input type="text" id="txtWave" name="txtWave" class="fldNarrow" value="">
+                        <input type="text" id="txtWave" name="txtWave" 
+                                class="fldNarrow" value="{$this->attack->wave}">
                     </div>
                 </section>
                 

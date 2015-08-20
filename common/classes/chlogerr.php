@@ -106,6 +106,7 @@
         const EC_ATTACKUPDFAILED    = 5003;
         const EC_GETMYATTACKSFAILED = 5004;
         const EC_GETATTACKSNOUSER   = 5005;
+        const EC_GETATTACKFAILED    = 5006;
         
         //ATTACK ERROR MESSAGES
         const EM_ATTACKADDFAILED    = "Sorry, I was unable to store those attack details";
@@ -113,6 +114,7 @@
         const EM_ATTACKUPDFAILED    = "Sorry, I was unable to amend those attack details";
         const EM_GETMYATTACKSFAILED = "Sorry, I was unable to retrieve a list of your attacks.";
         const EM_GETATTACKSNOUSER   = "Sorry, I was unable to figure out your user details, so I can't retrieve details of your attacks.";
+        const EM_GETATTACKFAILED    = "Sorry, I was unable to retrieve that attack.";
         
         //ATTACK ERROR ARRAY
         public static $EA_ATTACKERRORS = array(
@@ -120,7 +122,8 @@
                             self::EC_ATTACKADDNOUSER        => self::EM_ATTACKADDNOUSER,
                             self::EC_ATTACKUPDFAILED        => self::EM_ATTACKUPDFAILED,
                             self::EC_GETMYATTACKSFAILED     => self::EM_GETMYATTACKSFAILED,
-                            self::EC_GETATTACKSNOUSER       => self::EM_GETATTACKSNOUSER
+                            self::EC_GETATTACKSNOUSER       => self::EM_GETATTACKSNOUSER,
+                            self::EC_GETATTACKFAILED        => self::EM_GETATTACKFAILED
             );
         
         
