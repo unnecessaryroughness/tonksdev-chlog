@@ -9,18 +9,12 @@
 
 namespace chlog;
 
-    class Attack {
+    class Symptom {
 
         const SOME_CONST = "";
 
         protected $id = null;
-        protected $email = null;
-        protected $startdt = null;
-        protected $enddt = null;
-        protected $level = null;
-        protected $wave = null;
-        
-        protected $symptoms = null;
+        protected $description = null;
 
     /*  ============================================
         FUNCTION:   __construct()
@@ -32,13 +26,9 @@ namespace chlog;
                     wv      wave of an attack
         RETURNS:    (object)
         ============================================  */
-        public function __construct($id=null, $em=null, $st=null, $en=null, $lv=null, $wv=null) {
+        public function __construct($id=null, $de=null) {
             $this->id = $id;
-            $this->email = $em;
-            $this->startdt = $st;
-            $this->enddt = $en;
-            $this->level = $lv;
-            $this->wave = $wv;
+            $this->description = $de;
         }
 
 
@@ -52,35 +42,13 @@ namespace chlog;
             switch( $field ) {
               case 'id':
                 return $this->id;
-              case 'email':
-                return $this->email;
-              case 'startdt':
-                return $this->startdt;
-              case 'enddt':
-                return $this->enddt;
-              case 'level':
-                return $this->level;
-              case 'wave':
-                return $this->wave;
-              case 'symptoms':
-                return $this->symptoms;
+              case 'description':
+                return $this->decription;
               default:
                 throw new \Exception('Invalid property: '.$field);
             }
         }
     
-    /*  ============================================
-        FUNCTION:   attachSymptoms
-        PARAMS:     array - an array of symptom objects
-        RETURNS:    (none)
-        PURPOSE:    attaches an array of symptoms to this attack
-        ============================================  */
-        public function attachSymptoms($aSym) {
-            if ($aSym) {
-                $this->symptoms = $aSym;
-            }
-        }
-        
     }
 
 

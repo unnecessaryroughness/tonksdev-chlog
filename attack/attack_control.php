@@ -21,6 +21,10 @@
         ============================================  */
         public function process($type, $fields) {
 
+            $usr = safeget::session("user", null, null, false);
+            $eml = $usr->email;
+            $dbc = Database::connect();
+            
             switch ($type) {
                 
                 case "update":
@@ -29,134 +33,186 @@
                     $aen = safeget::kvp($fields, "dtp2_txtFullDateTime", null, false);
                     $alv = safeget::kvp($fields, "rngLevel", null, false);
                     $awv = safeget::kvp($fields, "txtWave", null, false);
-                    $usr = safeget::session("user", null, null, false);
-                    $dbc = Database::connect();
 
                     //new record
-                    if (isset($usr)) {
-                        $eml = $usr->email;
+                    if (isset($usr) && strlen($eml) > 0 ) {
+                        
+                        if (strlen($aid) == 0) {
+                            //add a new record
+                            try {
+                                $sql = "CALL addAttack (:eml, :ast, :aen, :alv, :awv)";
+                                $qry = $dbc->prepare($sql);
+                                $qry->bindValue(":eml", $eml);
+                                $qry->bindValue(":ast", $ast);
+                                $qry->bindValue(":aen", $aen);
+                                $qry->bindValue(":alv", $alv);
+                                $qry->bindValue(":awv", $awv);
+                                $qSuccess = $qry->execute(); 
 
-                        if (strlen($eml) > 0) {
-                            if (strlen($aid) == 0) {
-
-                                //add a new record
-                                try {
-                                    $sql = "CALL addAttack (:eml, :ast, :aen, :alv, :awv)";
-                                    $qry = $dbc->prepare($sql);
-                                    $qry->bindValue(":eml", $eml);
-                                    $qry->bindValue(":ast", $ast);
-                                    $qry->bindValue(":aen", $aen);
-                                    $qry->bindValue(":alv", $alv);
-                                    $qry->bindValue(":awv", $awv);
-                                    $qSuccess = $qry->execute(); 
-
-                                    if ($qSuccess) {
-                                        chlogErr::processRowCount("New Attack", $qry->rowCount(),
-                                            ChlogErr::EM_ATTACKADDFAILED, ChlogErr::EC_ATTACKADDFAILED, true);          
-                                    } else {
-                                        $errmsg = "Failed to add new attack - query failed";
-                                        Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                                        throw new \Exception(ChlogErr::EM_ATTACKADDFAILED, ChlogErr::EC_ATTACKADDFAILED);
-                                    }
-                                
-                                } catch (\Exception $e) {
-                                    Logger::log(getNiceErrorMessage($e), $usr->email); 
-                                    return new Error_View($e->getCode(), getNiceErrorMessage($e));
+                                if ($qSuccess) {
+                                    chlogErr::processRowCount("New Attack", $qry->rowCount(),
+                                        ChlogErr::EM_ATTACKADDFAILED, ChlogErr::EC_ATTACKADDFAILED, true);          
+                                } else {
+                                    $errmsg = "Failed to add new attack - query failed";
+                                    Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                                    throw new \Exception(ChlogErr::EM_ATTACKADDFAILED, ChlogErr::EC_ATTACKADDFAILED);
                                 }
-                            } else {
-                                
-                                //update a record
-                                try {
-                                    $sql = "CALL updateAttack (:eml, :aid, :ast, :aen, :alv, :awv)";
-                                    $qry = $dbc->prepare($sql);
-                                    $qry->bindValue(":eml", $eml);
-                                    $qry->bindValue(":aid", $aid);
-                                    $qry->bindValue(":ast", $ast);
-                                    $qry->bindValue(":aen", $aen);
-                                    $qry->bindValue(":alv", $alv);
-                                    $qry->bindValue(":awv", $awv);
-                                    $qSuccess = $qry->execute(); 
 
-                                    if ($qSuccess) {
-                                        chlogErr::processRowCount("Updated Attack ".$aid, $qry->rowCount(),
-                                            ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, true);          
-                                    } else {
-                                        $errmsg = "Failed to update attack ".$aid." - query failed";
-                                        Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                                        throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
-                                    }
-                                
-                                } catch (\Exception $e) {
-                                    Logger::log(getNiceErrorMessage($e), $usr->email); 
-                                    return new Error_View($e->getCode(), getNiceErrorMessage($e));
-                                }
-                                
+                            } catch (\Exception $e) {
+                                Logger::log(getNiceErrorMessage($e), $usr->email); 
+                                return new Error_View($e->getCode(), getNiceErrorMessage($e));
                             }
                         } else {
-                            //no user email
-                            $errmsg = "Failed to add/amend attack - no email address";
-                            Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                            throw new \Exception(ChlogErr::EM_ATTACKADDNOUSER, ChlogErr::EC_ATTACKADDNOUSER);
-                        } 
+
+                            //update a record
+                            try {
+                                $sql = "CALL updateAttack (:eml, :aid, :ast, :aen, :alv, :awv)";
+                                $qry = $dbc->prepare($sql);
+                                $qry->bindValue(":eml", $eml);
+                                $qry->bindValue(":aid", $aid);
+                                $qry->bindValue(":ast", $ast);
+                                $qry->bindValue(":aen", $aen);
+                                $qry->bindValue(":alv", $alv);
+                                $qry->bindValue(":awv", $awv);
+                                $qSuccess = $qry->execute(); 
+
+                                if ($qSuccess) {
+                                    chlogErr::processRowCount("Updated Attack ".$aid, $qry->rowCount(),
+                                        ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
+                                } else {
+                                    $errmsg = "Failed to update attack ".$aid." - query failed";
+                                    Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                                    throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
+                                }
+
+                            } catch (\Exception $e) {
+                                Logger::log(getNiceErrorMessage($e), $usr->email); 
+                                return new Error_View($e->getCode(), getNiceErrorMessage($e));
+                            }
+
+                        }
                     } else {
-                        //no user object in session
-                        $errmsg = "Failed to add/amend attack - no user object";
+                        //no user email
+                        $errmsg = "Failed to add/amend attack - no email address";
                         Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
                         throw new \Exception(ChlogErr::EM_ATTACKADDNOUSER, ChlogErr::EC_ATTACKADDNOUSER);
-                  }
+                    } 
 
-                //If we got here, it worked! so redirect to the home page.
-                return new Redirect_View("/");
-                break;
+                    //If we got here, it worked! so redirect to the home page.
+                    return new Redirect_View("/");
+                    break;
 
+                
                 case "review":
                     //get Attack object based on id passed
                     $aid = safeget::kvp($fields, "id", null, false);
-                    $user = safeget::session("user", null, false);
-                    $eml = $user->email;
-                    $dbc = Database::connect();
-                
-                    if ($aid) {
-                        
-                        //retrieve a record
+
+                    if ($aid && $eml && $dbc) {
                         try {
-                            $sql = "CALL getAttack (:eml, :aid)";
-                            $qry = $dbc->prepare($sql);
-                            $qry->bindValue(":eml", $eml);
-                            $qry->bindValue(":aid", $aid);
-                            $qSuccess = $qry->execute(); 
-                            
-                            if ($qSuccess) {
-                                $aRec = $qry->fetch(\PDO::FETCH_ASSOC);
-                                $attack = new Attack($aRec["id"], $aRec["useremail"], $aRec["start"],
-                                             $aRec["end"], $aRec["level"], $aRec["waveid"]);
-                                
-                            } else {
-                                $errmsg = "Failed to update attack ".$aid." - query failed";
-                                Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                                throw new \Exception(ChlogErr::EM_GETATTACKFAILED, ChlogErr::EC_GETATTACKFAILED);
-                            }
+                            $attack = self::getAttack($aid, $eml, $dbc);                
+                            $attack->attachSymptoms(self::getSymptoms($aid, $eml, $dbc));
+
+                            $vw = new Attack_View($eml, $attack);
+                            $vw->symptomlist = Lookups::getLookupList($eml, "Symptom", true);
+                            $vw->triggerlist = Lookups::getLookupList($eml, "Chtrigger", true);
+                            $vw->locationlist = Lookups::getLookupList($eml, "Location", true);
+                            $vw->treatmentlist = Lookups::getLookupList($eml, "Treatment", true);                            
+                            return $vw;
 
                         } catch (\Exception $e) {
                             Logger::log(getNiceErrorMessage($e), $usr->email); 
                             return new Error_View($e->getCode(), getNiceErrorMessage($e));
                         }
-                        
-                        return new Attack_View($attack);
                     } else {
-                        Logger::log("Failed to retrieve attack ".$attackid, $usr->email); 
-                        return new Error_View(ChlogErr::EC_GETATTACKFAILED, ChlogErr::EM_GETATTACKFAILED);
+                        //no user email
+                        $errmsg = "Failed to add/amend attack - no email address";
+                        Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                        throw new \Exception(ChlogErr::EM_GETATTACKSNOUSER, ChlogErr::EC_GETATTACKSNOUSER);
                     }
+                
                 
                 case "cancel":
                     return new Redirect_View("/");
                     break;
                 
                 default:
-                    return new Attack_View();
+                    $vw = new Attack_View($eml);
+                    $vw->symptomlist = Lookups::getLookupList($eml, "Symptom", true);
+                    $vw->triggerlist = Lookups::getLookupList($eml, "Chtrigger", true);
+                    $vw->locationlist = Lookups::getLookupList($eml, "Location", true);
+                    $vw->treatmentlist = Lookups::getLookupList($eml, "Treatment", true);
+                    return $vw;
                     break;
             }
         }
 
+        
+        private function getAttack($aid, $eml, $dbc=null) {
+            $dbc = $dbc ? : Database::connect();
+            
+            if ($eml && $aid) {
+                //retrieve a record
+                try {
+                    $sql = "CALL getAttack (:eml, :aid)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qry->bindValue(":aid", $aid);
+                    $qSuccess = $qry->execute(); 
+
+                    if ($qSuccess) {
+                        $aRec = $qry->fetch(\PDO::FETCH_ASSOC);
+                        $attack = new Attack($aRec["id"], $aRec["useremail"], $aRec["start"],
+                                     $aRec["end"], $aRec["level"], $aRec["waveid"]);
+
+                        return $attack;
+                        
+                    } else {
+                        $errmsg = "Failed to update attack ".$aid." - query failed";
+                        Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                        throw new \Exception(ChlogErr::EM_GETATTACKFAILED, ChlogErr::EC_GETATTACKFAILED);
+                    }
+
+                } catch (\Exception $e) {
+                    Logger::log(getNiceErrorMessage($e), $usr->email); 
+                    throw new \Exception(ChlogErr::EM_GETATTACKFAILED, ChlogErr::EC_GETATTACKFAILED);
+                }
+            }
+        }
+        
+        private function getSymptoms($aid, $eml, $dbc=null) {
+            $dbc = $dbc ? : Database::connect();
+            
+            if ($eml && $aid) {
+                try {
+                    $sql = "CALL getAttackSymptoms (:eml, :aid)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qry->bindValue(":aid", $aid);
+                    $qSuccess = $qry->execute(); 
+
+                    if ($qSuccess) {
+                        $aRecs = $qry->fetchAll(\PDO::FETCH_ASSOC);
+                        $aRtn = [];
+                        
+                        foreach ($aRecs as $aRec) {
+                            $aRtn[] = new Symptom($aRec["symptomid"], $aRec["description"]);
+                        }
+                        
+                        return $aRtn;
+                        
+                    } else {
+                        $errmsg = "Failed to update attack ".$aid." - query failed";
+                        Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                        throw new \Exception(ChlogErr::EM_GETATTACKFAILED, ChlogErr::EC_GETATTACKFAILED);
+                    }
+
+                } catch (\Exception $e) {
+                    Logger::log(getNiceErrorMessage($e), $usr->email); 
+                    throw new \Exception(ChlogErr::EM_GETATTACKFAILED, ChlogErr::EC_GETATTACKFAILED);
+                }
+            }
+        }
+        
+        
     }
 

@@ -4,7 +4,13 @@
 
     class Attack_View extends ChlogView {
         
+        protected $email;
         protected $attack;
+        public $triggerlist;
+        public $locationlist;
+        public $symptomlist;
+        public $treatmentlist;
+        
         
     /*  ============================================
         FUNCTION:   __construct
@@ -12,16 +18,22 @@
         RETURNS:    (object)
         PURPOSE:    constructs the class. No special functions.
         ============================================  */
-        public function __construct($attack = null) {
+        public function __construct($eml, $attack = null) {
+            if ($eml) {
+                $this->email = $eml;   
+            } else {
+                throw new \Exception (ChlogErr::EM_FAILEDTOSTARTVIEW, ChlogErr::EC_FAILEDTOSTARTVIEW);   
+            }
+            
             if ($attack) {
                 $this->attack = $attack;
             } else {
                 $this->attack = new Attack();
             }
-            //throw new \Exception (ChlogErr::EM_FAILEDTOSTARTVIEW, ChlogErr::EC_FAILEDTOSTARTVIEW);   
         }
 
-
+        
+        
     /*  ============================================
         FUNCTION:   title
         PARAMS:     (none)
@@ -104,24 +116,36 @@
                 <section class="attackgroup">
                     <header>Triggers</header>
                     <div class="sectionbody">
+                        <table id="tblTriggers"><tbody>    
+                        {$this->lookuphtml($this->triggerlist)}
+                        </tbody></table>
                     </div>
                 </section>
                 
                 <section class="attackgroup">
                     <header>Pain Locations</header>
                     <div class="sectionbody">
+                        <table id="tblLocations"><tbody>    
+                        {$this->lookuphtml($this->locationlist)}
+                        </tbody></table>
                     </div>
                 </section>
                 
                 <section class="attackgroup">
                     <header>Symptoms</header>
                     <div class="sectionbody">
+                        <table id="tblSymptoms"><tbody>    
+                        {$this->lookuphtml($this->symptomlist)}
+                        </tbody></table>
                     </div>
                 </section>
                 
                 <section class="attackgroup">
                     <header>Treatments</header>
                     <div class="sectionbody">
+                        <table id="tblTreatments"><tbody>    
+                        {$this->lookuphtml($this->treatmentlist)}
+                        </tbody></table>
                     </div>
                 </section>
                 
@@ -139,6 +163,27 @@
 HTML;
         }
 
+        
+    /*  ============================================
+        FUNCTION:   lookuphtml
+        PARAMS:     sl      symptom list to render
+        RETURNS:    (string)
+        PURPOSE:    returns the default rendering of a symptom list 
+        ============================================  */
+        function lookuphtml($sl) {
+            $rtn = "";
+            
+            foreach ($sl->records as $sym) {
+                $rtn .= "<tr>";
+                $rtn .= "<td>".$sym->description."</td>";
+                $rtn .= "<td><input type='checkbox' id='chk' name='chk'></td>";
+                $rtn .= "</tr>";    
+            }
+            
+            return $rtn;
+        }
+        
+        
     /*  ============================================
         FUNCTION:   css
         PARAMS:     (none)

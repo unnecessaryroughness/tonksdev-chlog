@@ -73,6 +73,7 @@
       width: 20%;
       text-align: center; }
       #kipscale table tbody tr td.kipcell:hover {
-        background: #ede859 !important; }
+        xxbackground: #ede859 !important;
+        xxcolor: #000; }
 
 /*# sourceMappingURL=attack.css.map */

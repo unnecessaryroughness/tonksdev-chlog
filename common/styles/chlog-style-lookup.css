@@ -8,7 +8,8 @@ table tr {
     padding: 0.1em; }
     table tr td input[type="text"] {
       font-size: 1em;
-      height: 1.8em; }
+      height: 1.8em;
+      margin: 0; }
     table tr td input[type="checkbox"] {
       display: block;
       margin: auto; }
@@ -45,7 +46,8 @@ button {
   table tr th {
     font-size: 0.9em; }
   table tr td input[type="text"] {
-    font-size: 0.9em; }
+    font-size: 0.9em;
+    margin: 0; }
   table tr td button {
     font-size: 0.9em;
     margin: 0.2em; }

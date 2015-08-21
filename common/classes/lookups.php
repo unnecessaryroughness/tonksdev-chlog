@@ -26,7 +26,7 @@
         RETURNS:    (object)
         PURPOSE:    returns a lookup list object tailored to this user
         ============================================  */
-        public static function getLookupList($eml=null, $lku=null, \PDO $dbc=null) {
+        public static function getLookupList($eml=null, $lku=null, $visibleonly=null, \PDO $dbc=null) {
             
             //check user requested is currently logged in user
             $loggedinuser = safeget::session("user", "email", null);
@@ -49,19 +49,21 @@
                     throw new \Exception(ChlogErr::EM_MISCDATAERR, ChLogErr::EC_MISCDATAERR);
                 }
                 
-                //create symptoms list object
+                //create lookup list object
                 if ($lkudata) {
                     $rtnlist = new LookupList();
                     
                     //iterate data results set adding lookups to the list  
                     foreach ($lkudata as $lku) {
-                        $rtnlist->addLookup($lku["id"], $lku["description"],
-                                             $lku["sort"], $lku["hidden"], 
-                                             $lku["defaultsort"], $lku["description"]);   
+                        if (!$visibleonly || ($visibleonly && $lku["hidden"] == 0)) { 
+                            $rtnlist->addLookup($lku["id"], $lku["description"],
+                                                 $lku["sort"], $lku["hidden"], 
+                                                 $lku["defaultsort"], $lku["description"]);   
+                        }
                     }
                 }
                 
-                //return symptom list object
+                //return lookup list object
                 return $rtnlist;
                 
             } else {
