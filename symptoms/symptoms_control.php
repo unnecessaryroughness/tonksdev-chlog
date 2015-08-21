@@ -24,7 +24,7 @@
             switch ($type) {
                                 
                 case "update":
-                    $tsl = new LookupList(safeget::kvp($fields, "jsoString", "", false));
+                    $tsl = new LookupList("symptom", safeget::kvp($fields, "jsoString", "", false));
                     $eml = safeget::session("user", "email", null);
 
                     try {

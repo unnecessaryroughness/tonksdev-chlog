@@ -51,7 +51,7 @@
                 
                 //create lookup list object
                 if ($lkudata) {
-                    $rtnlist = new LookupList();
+                    $rtnlist = new LookupList($lku);
                     
                     //iterate data results set adding lookups to the list  
                     foreach ($lkudata as $lku) {

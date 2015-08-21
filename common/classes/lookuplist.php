@@ -5,7 +5,8 @@ namespace chlog;
 class LookupList implements \Iterator, \ArrayAccess, \Countable {
  
     public $records = null;
-
+    public $type = "";
+    
 /*  ============================================
     FUNCTION:   __construct 
     PARAMS:     jso         JSON object representing list to build
@@ -13,7 +14,9 @@ class LookupList implements \Iterator, \ArrayAccess, \Countable {
     PURPOSE:    constructs the class.
                 optionally constructs the class based on a json object spec.
     ============================================  */
-    public function __construct($jso = null) {
+    public function __construct($type="unknown", $jso = null) {
+        $this->type = $type;
+        
         if ($jso) {
             $jobj =  json_decode($jso);
             $lkulist = $jobj->record;

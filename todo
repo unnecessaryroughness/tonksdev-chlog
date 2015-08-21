@@ -62,7 +62,7 @@ ATTACK
         
 
     UI
-        + build basic UI for capturing attack events
+        x build basic UI for capturing attack events
         + capture related triggers leading to the attack
         + capture pain locations associated with the attack
         + capture symptoms of the attack

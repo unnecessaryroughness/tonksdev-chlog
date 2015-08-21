@@ -117,7 +117,7 @@
                     <header>Triggers</header>
                     <div class="sectionbody">
                         <table id="tblTriggers"><tbody>    
-                        {$this->lookuphtml($this->triggerlist)}
+                        {$this->lookuphtml($this->triggerlist, $this->attack->triggers)}
                         </tbody></table>
                     </div>
                 </section>
@@ -126,7 +126,7 @@
                     <header>Pain Locations</header>
                     <div class="sectionbody">
                         <table id="tblLocations"><tbody>    
-                        {$this->lookuphtml($this->locationlist)}
+                        {$this->lookuphtml($this->locationlist, $this->attack->locations)}
                         </tbody></table>
                     </div>
                 </section>
@@ -135,7 +135,7 @@
                     <header>Symptoms</header>
                     <div class="sectionbody">
                         <table id="tblSymptoms"><tbody>    
-                        {$this->lookuphtml($this->symptomlist)}
+                        {$this->lookuphtml($this->symptomlist, $this->attack->symptoms)}
                         </tbody></table>
                     </div>
                 </section>
@@ -144,7 +144,7 @@
                     <header>Treatments</header>
                     <div class="sectionbody">
                         <table id="tblTreatments"><tbody>    
-                        {$this->lookuphtml($this->treatmentlist)}
+                        {$this->lookuphtml($this->treatmentlist, $this->attack->treatments)}
                         </tbody></table>
                     </div>
                 </section>
@@ -166,18 +166,31 @@ HTML;
         
     /*  ============================================
         FUNCTION:   lookuphtml
-        PARAMS:     sl      symptom list to render
+        PARAMS:     sl      lookup list to render
+                    ll      linked list to evaluate for selected/unselected
         RETURNS:    (string)
         PURPOSE:    returns the default rendering of a symptom list 
         ============================================  */
-        function lookuphtml($sl) {
+        function lookuphtml($sl, $ll=null) {
             $rtn = "";
+            $typ = $sl->type;
+            $i = 0;
             
             foreach ($sl->records as $sym) {
+                $i++;
                 $rtn .= "<tr>";
-                $rtn .= "<td>".$sym->description."</td>";
-                $rtn .= "<td><input type='checkbox' id='chk' name='chk'></td>";
-                $rtn .= "</tr>";    
+                $rtn .= "<td><label for='chk".$typ.$i."'>".$sym->description."</label></td>";
+                $rtn .= "<td><input type='checkbox' id='chk".$typ.$i."' name='chk".$typ.$i."' ";
+                $rtn .= "value='".$sym->id."' ";
+                if ($ll) {
+                    foreach ($ll as $rec) {
+                        if ($rec->id == $sym->id) {
+                            $rtn .= "checked";   
+                        }
+                    }
+                }
+                $rtn .= "></td>";
+                $rtn .= "</tr>\n";    
             }
             
             return $rtn;

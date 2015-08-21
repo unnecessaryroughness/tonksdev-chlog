@@ -110,8 +110,11 @@
                     if ($aid && $eml && $dbc) {
                         try {
                             $attack = self::getAttack($aid, $eml, $dbc);                
-                            $attack->attachSymptoms(self::getSymptoms($aid, $eml, $dbc));
-
+                            $attack->attachSymptoms(self::getLinkedData($aid, $eml, "symptom", $dbc));
+                            $attack->attachTriggers(self::getLinkedData($aid, $eml, "trigger", $dbc));
+                            $attack->attachLocations(self::getLinkedData($aid, $eml, "location", $dbc));
+                            $attack->attachTreatments(self::getLinkedData($aid, $eml, "treatment", $dbc));
+                            
                             $vw = new Attack_View($eml, $attack);
                             $vw->symptomlist = Lookups::getLookupList($eml, "Symptom", true);
                             $vw->triggerlist = Lookups::getLookupList($eml, "Chtrigger", true);
@@ -179,12 +182,12 @@
             }
         }
         
-        private function getSymptoms($aid, $eml, $dbc=null) {
+        private function getLinkedData($aid, $eml, $typ, $dbc=null) {
             $dbc = $dbc ? : Database::connect();
             
             if ($eml && $aid) {
                 try {
-                    $sql = "CALL getAttackSymptoms (:eml, :aid)";
+                    $sql = "CALL getAttack".$typ."s (:eml, :aid)";
                     $qry = $dbc->prepare($sql);
                     $qry->bindValue(":eml", $eml);
                     $qry->bindValue(":aid", $aid);
@@ -195,24 +198,23 @@
                         $aRtn = [];
                         
                         foreach ($aRecs as $aRec) {
-                            $aRtn[] = new Symptom($aRec["symptomid"], $aRec["description"]);
+                            $aRtn[] = new Lookup($aRec[$typ."id"], $aRec["description"]);
                         }
                         
                         return $aRtn;
                         
                     } else {
-                        $errmsg = "Failed to update attack ".$aid." - query failed";
+                        $errmsg = "Failed to get attack liked data ".$aid." ".$typ." - query failed";
                         Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
                         throw new \Exception(ChlogErr::EM_GETATTACKFAILED, ChlogErr::EC_GETATTACKFAILED);
                     }
 
                 } catch (\Exception $e) {
-                    Logger::log(getNiceErrorMessage($e), $usr->email); 
+                    Logger::log(getNiceErrorMessage($e), $eml); 
                     throw new \Exception(ChlogErr::EM_GETATTACKFAILED, ChlogErr::EC_GETATTACKFAILED);
                 }
             }
         }
-        
         
     }
 

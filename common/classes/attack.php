@@ -21,6 +21,9 @@ namespace chlog;
         protected $wave = null;
         
         protected $symptoms = null;
+        protected $triggers = null;
+        protected $locations = null;
+        protected $treatments = null;
 
     /*  ============================================
         FUNCTION:   __construct()
@@ -64,6 +67,12 @@ namespace chlog;
                 return $this->wave;
               case 'symptoms':
                 return $this->symptoms;
+              case 'triggers':
+                return $this->triggers;
+              case 'locations':
+                return $this->locations;
+              case 'treatments':
+                return $this->treatments;
               default:
                 throw new \Exception('Invalid property: '.$field);
             }
@@ -80,6 +89,43 @@ namespace chlog;
                 $this->symptoms = $aSym;
             }
         }
+        
+    /*  ============================================
+        FUNCTION:   attachLocations
+        PARAMS:     array - an array of location objects
+        RETURNS:    (none)
+        PURPOSE:    attaches an array of locations to this attack
+        ============================================  */
+        public function attachlocations($aLoc) {
+            if ($aLoc) {
+                $this->locations = $aLoc;
+            }
+        }
+        
+    /*  ============================================
+        FUNCTION:   attachtreatments
+        PARAMS:     array - an array of treatment objects
+        RETURNS:    (none)
+        PURPOSE:    attaches an array of treatments to this attack
+        ============================================  */
+        public function attachtreatments($aTre) {
+            if ($aTre) {
+                $this->treatments = $aTre;
+            }
+        }
+        
+    /*  ============================================
+        FUNCTION:   attachTriggers
+        PARAMS:     array - an array of trigger objects
+        RETURNS:    (none)
+        PURPOSE:    attaches an array of triggers to this attack
+        ============================================  */
+        public function attachTriggers($aTrg) {
+            if ($aTrg) {
+                $this->triggers = $aTrg;
+            }
+        }
+        
         
     }
 
