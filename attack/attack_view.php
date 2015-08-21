@@ -6,6 +6,8 @@
         
         protected $email;
         protected $attack;
+        
+        //lookup lists of all available options for this user
         public $triggerlist;
         public $locationlist;
         public $symptomlist;
@@ -180,7 +182,7 @@ HTML;
                 $i++;
                 $rtn .= "<tr>";
                 $rtn .= "<td><label for='chk".$typ.$i."'>".$sym->description."</label></td>";
-                $rtn .= "<td><input type='checkbox' id='chk".$typ.$i."' name='chk".$typ.$i."' ";
+                $rtn .= "<td><input type='checkbox' id='chk".$typ.$i."' name='chk".$typ."[]' ";
                 $rtn .= "value='".$sym->id."' ";
                 if ($ll) {
                     foreach ($ll as $rec) {

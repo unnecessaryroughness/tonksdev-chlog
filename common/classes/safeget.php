@@ -140,7 +140,7 @@
                 if (!isset($kvp[$property])) {
                     return $default;   
                 } else {
-                    if (strlen($kvp[$property])==0 && !$returnblanks) {
+                    if (!is_array($kvp[$property]) && strlen($kvp[$property])==0 && !$returnblanks) {
                         return $default;
                     } else {
                         return $kvp[$property];
