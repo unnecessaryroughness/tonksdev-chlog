@@ -118,7 +118,7 @@
                 <section class="attackgroup">
                     <header>Triggers</header>
                     <div class="sectionbody">
-                        <table id="tblTriggers"><tbody>    
+                        <table id="tblTriggers" class="tablelinkedlist"><tbody>    
                         {$this->lookuphtml($this->triggerlist, $this->attack->triggers)}
                         </tbody></table>
                     </div>
@@ -127,7 +127,7 @@
                 <section class="attackgroup">
                     <header>Pain Locations</header>
                     <div class="sectionbody">
-                        <table id="tblLocations"><tbody>    
+                        <table id="tblLocations" class="tablelinkedlist"><tbody>    
                         {$this->lookuphtml($this->locationlist, $this->attack->locations)}
                         </tbody></table>
                     </div>
@@ -136,7 +136,7 @@
                 <section class="attackgroup">
                     <header>Symptoms</header>
                     <div class="sectionbody">
-                        <table id="tblSymptoms"><tbody>    
+                        <table id="tblSymptoms" class="tablelinkedlist"><tbody>    
                         {$this->lookuphtml($this->symptomlist, $this->attack->symptoms)}
                         </tbody></table>
                     </div>
@@ -145,7 +145,7 @@
                 <section class="attackgroup">
                     <header>Treatments</header>
                     <div class="sectionbody">
-                        <table id="tblTreatments"><tbody>    
+                        <table id="tblTreatments" class="tablelinkedlist"><tbody>    
                         {$this->lookuphtml($this->treatmentlist, $this->attack->treatments)}
                         </tbody></table>
                     </div>

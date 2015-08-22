@@ -52,7 +52,9 @@
                                 
                                 //update record    
                                 self::updateAttack($eml, $aid, $ast, $aen, $alv, $awv, $dbc);
-                                
+                                self::updateLinkedData($eml, $aid, "chtrigger", $trg, $dbc);
+                                self::updateLinkedData($eml, $aid, "location", $loc, $dbc);
+                                self::updateLinkedData($eml, $aid, "symptom", $sym, $dbc);
                                 //NOTE: 
                                 //SIMPLEST WAY TO HANDLE UPDATES TO LINKED DATA IS TO REMOVE
                                 //ALL PREVIOUS LINKS FOR THIS RECORD AND RE-ADD THE NEW ONES
@@ -270,6 +272,48 @@
                         Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
                         throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
                     }
+                }
+            } catch (\Exception $e) {
+                Logger::log(getNiceErrorMessage($e), $eml); 
+                throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);                
+            }
+        }
+
+        
+        private function updateLinkedData($eml, $aid, $typ, $arr, $dbc=null) {
+            $dbc = $dbc ? : Database::connect();
+            try {
+                $sql = "CALL removeAllAttackLinks (:eml, :aid, :typ)";
+                $qry = $dbc->prepare($sql);
+                $qry->bindValue(":eml", $eml);
+                $qry->bindValue(":aid", $aid);
+                $qry->bindValue(":typ", $typ);
+                $qSuccess = $qry->execute(); 
+                
+                if ($qSuccess) {
+                    $sql = "CALL addAttackLink (:eml, :aid, :typ, :lid)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qry->bindValue(":aid", $aid);
+                    $qry->bindValue(":typ", $typ);
+
+                    foreach ($arr as $rec) {
+                        $qry->bindValue(":lid", $rec);
+                        $qSuccess = $qry->execute(); 
+
+                        if ($qSuccess) {
+                            chlogErr::processRowCount("Added ".$typ." link ".$rec." for attack ".$aid, $qry->rowCount(),
+                                ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
+                        } else {
+                            $errmsg = "Failed to add ".$typ." link for attack ".$aid." - query failed";
+                            Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                            throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
+                        }
+                    }
+                } else {
+                    $errmsg = "Failed to remove all ".$typ." link for attack ".$aid." - query failed";
+                    Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                    throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
                 }
             } catch (\Exception $e) {
                 Logger::log(getNiceErrorMessage($e), $eml); 
