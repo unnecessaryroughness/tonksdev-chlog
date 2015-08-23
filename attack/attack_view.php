@@ -146,8 +146,10 @@
                     <header>Treatments</header>
                     <div class="sectionbody">
                         <table id="tblTreatments" class="tablelinkedlist"><tbody>    
-                        {$this->lookuphtml($this->treatmentlist, $this->attack->treatments)}
                         </tbody></table>
+                    </div>
+                    <div class="TreatmentButtons">
+                        <button type="button" id="cmdAddTreatment" name="action" value="addTre" class="update">Add</button>
                     </div>
                 </section>
                 
@@ -159,6 +161,11 @@
                 
                 <div class="endfloat"></div>
             </form>
+
+            <script language="javascript">
+                var jsoTre = {$this->json()};
+                var jsoTlist = {$this->treatmentlist->toJSON()};
+            </script>
 
             <script src="/common/templates/calendar.js"></script>
             <script src="attack.js"></script>
@@ -182,7 +189,7 @@ HTML;
                 $i++;
                 $rtn .= "<tr>";
                 $rtn .= "<td><label for='chk".$typ.$i."'>".$sym->description."</label></td>";
-                $rtn .= "<td><input type='checkbox' id='chk".$typ.$i."' name='chk".$typ."[]' ";
+                $rtn .= "<td class='chkcol'><input type='checkbox' id='chk".$typ.$i."' name='chk".$typ."[]' ";
                 $rtn .= "value='".$sym->id."' ";
                 if ($ll) {
                     foreach ($ll as $rec) {
@@ -197,6 +204,8 @@ HTML;
             
             return $rtn;
         }
+
+        
         
         
     /*  ============================================
@@ -216,6 +225,14 @@ HTML;
         RETURNS:    (string)
         PURPOSE:    returns the default JSON data to use in this view 
         ============================================  */
-        public function json() {}
+        public function json() {
+            $json = '{"record": [';
+            foreach ($this->attack->treatments as $rec) {
+                $json .= $rec->toJSON().",";        
+            }
+            $json = substr($json, 0, strlen($json)-1);
+            $json .= ']}';
+            return $json;
+        }
     }
         

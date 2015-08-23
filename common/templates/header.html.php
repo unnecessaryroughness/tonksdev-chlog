@@ -2,7 +2,9 @@
     <div class="chlog-header">
         <a href="/">chLOG </a>
         <span class="chlog-header-environment">
-            [<?php htmlout($_SESSION["environment"]->envid); ?>]
+            <?php if ($_SESSION["environment"]->envid != "PRD") {
+                        htmlout("[".$_SESSION["environment"]->envid."]");
+                    } ?>
         </span>
         <div class="endfloat chlog-header-subheader">
             Cluster Headache Tracking 

@@ -69,7 +69,7 @@
   #kipscale table {
     width: 100%; }
     #kipscale table tbody tr td {
-      border: 1px solid #666;
+      border: 0px solid #666;
       border-radius: 5px;
       height: 3em;
       width: 20%;
@@ -81,9 +81,18 @@
 .tablelinkedlist {
   border: 0px solid #f00;
   width: 100%; }
-  .tablelinkedlist tr:nth-child(odd) {
+  .tablelinkedlist tbody tr:nth-child(odd) {
     background: #ddf; }
-  .tablelinkedlist tr td {
+  .tablelinkedlist tbody tr td {
     padding: 0.4em; }
+    .tablelinkedlist tbody tr td.chkcol {
+      width: 2em; }
+    .tablelinkedlist tbody tr td.treatmentxtra {
+      display: none; }
+
+#tblTreatments tbody tr td {
+  background: #ddf; }
+  #tblTreatments tbody tr td div.dropdownrows {
+    display: none; }
 
 /*# sourceMappingURL=attack.css.map */

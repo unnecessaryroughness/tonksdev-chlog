@@ -47,6 +47,7 @@
                                 self::addLinkedData($eml, $aid, "chtrigger", $trg, $dbc);
                                 self::addLinkedData($eml, $aid, "location", $loc, $dbc);
                                 self::addLinkedData($eml, $aid, "symptom", $sym, $dbc);
+                                self::addLinkedTreatment($eml, $aid, $tre, $fields, $dbc);
                                 
                             } else {
                                 
@@ -55,11 +56,8 @@
                                 self::updateLinkedData($eml, $aid, "chtrigger", $trg, $dbc);
                                 self::updateLinkedData($eml, $aid, "location", $loc, $dbc);
                                 self::updateLinkedData($eml, $aid, "symptom", $sym, $dbc);
-                                //NOTE: 
-                                //SIMPLEST WAY TO HANDLE UPDATES TO LINKED DATA IS TO REMOVE
-                                //ALL PREVIOUS LINKS FOR THIS RECORD AND RE-ADD THE NEW ONES
-                                // -- SAVES HAVING TO FIGURE OUT WHAT HAS CHANGED.
                             }
+                            
                         } catch (\Exception $e) {
                             Logger::log(getNiceErrorMessage($e), $usr->email); 
                             return new Error_View($e->getCode(), getNiceErrorMessage($e));                                   
@@ -171,7 +169,13 @@
                         $aRtn = [];
                         
                         foreach ($aRecs as $aRec) {
-                            $aRtn[] = new Lookup($aRec[$typ."id"], $aRec["description"]);
+                            if ($typ != "treatment") {
+                                $aRtn[] = new Lookup($aRec[$typ."id"], $aRec["description"]);
+                            } else {
+                                $nt = new LookupTreatment($aRec[$typ."id"], $aRec["description"]);
+                                $nt->setTreatmentParams($aRec["preparation"], $aRec["dosage"], $aRec["administered"]);
+                                $aRtn[] = $nt;
+                            }
                         }
                         
                         return $aRtn;
@@ -320,6 +324,48 @@
                 throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);                
             }
         }
+
+        
+        private function addLinkedTreatment($eml, $aid, $arr, $fields, $dbc=null) {
+            $dbc = $dbc ? : Database::connect();
+            try {
+                $sql = "CALL addTreatmentLink (:eml, :aid, :tid, :prp, :dos, :adm)";
+                $qry = $dbc->prepare($sql);
+                $qry->bindValue(":eml", $eml);
+                $qry->bindValue(":aid", $aid);
+                
+                foreach ($arr as $rec) {
+                    $prp = safeget::kvp($fields, "txtPrep_".$rec, "(none)", false);
+                    $dos = safeget::kvp($fields, "txtDos_".$rec, "(none)", false);
+                    $adm = safeget::kvp($fields, "txtAdmF_".$rec, "", false);
+                    
+                    Logger::log("txtPrep_".$rec, $prp);
+                    Logger::log("txtDos_".$rec, $dos);
+                    Logger::log("txtAdmF_".$rec, $adm);
+                    
+                    $qry->bindValue(":tid", $rec);
+                    $qry->bindValue(":prp", $prp);
+                    $qry->bindValue(":dos", $dos);
+                    $qry->bindValue(":adm", $adm);
+                    $qSuccess = $qry->execute(); 
+                                        
+                    if ($qSuccess) {
+                        chlogErr::processRowCount("Added treatment link ".$rec." for attack ".$aid, $qry->rowCount(),
+                            ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
+                    } else {
+                        $errmsg = "Failed to add treatment link for attack ".$aid." - query failed";
+                        Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                        throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
+                    }
+                }
+            } catch (\Exception $e) {
+                Logger::log(getNiceErrorMessage($e), $eml); 
+                throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);                
+            }
+        }
+
+
+        
         
     }
 

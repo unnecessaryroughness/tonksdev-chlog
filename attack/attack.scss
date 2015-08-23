@@ -35,7 +35,7 @@
         tbody {
             tr {
                 td {
-                    border: 1px solid $chlog-bordergrey;
+                    border: 0px solid $chlog-bordergrey;
                     border-radius: 5px;
                     height: 3em;
                     width: 20%;
@@ -56,15 +56,41 @@
     border: 0px solid #f00;
     width: 100%;
     
-    tr {
-        
-        &:nth-child(odd) {
-            background: $chlog-mainmenublue;
-        }
-        
-        td {
-            padding: 0.4em;   
+    tbody{
+        tr {
+
+            &:nth-child(odd) {
+                background: $chlog-mainmenublue;
+            }
+
+            td {
+                padding: 0.4em;   
+
+                &.chkcol {
+                    width: 2em;   
+                }
+
+                &.treatmentxtra {
+                    display: none;   
+                }
+            }
         }
     }
 }
 
+
+#tblTreatments {
+
+    tbody {
+        tr {
+            td {
+                background: $chlog-mainmenublue;
+                
+                div.dropdownrows {
+                    display: none;   
+                }
+            }
+            
+        }
+    }
+}

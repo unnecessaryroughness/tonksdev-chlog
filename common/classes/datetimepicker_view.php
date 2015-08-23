@@ -89,6 +89,8 @@
             $("#{$nm}_selStartMin").on("change", function() {
                 $("#{$nm}_txtFullDateTime").val({$nm}_genFullDT());
             });
+            
+            $("#{$nm}_txtStartDate").trigger("change");
         });
         
         function {$nm}_genFullDT() {
