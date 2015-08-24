@@ -60,7 +60,7 @@
     font-weight: bold;
     text-align: center; }
   .attackgroup .sectionbody {
-    padding: 1em; }
+    padding: 0.5em; }
 
 #kipscale {
   border: 0px solid #666;
@@ -74,9 +74,6 @@
       height: 3em;
       width: 20%;
       text-align: center; }
-      #kipscale table tbody tr td.kipcell:hover {
-        xxbackground: #ede859 !important;
-        xxcolor: #000; }
 
 .tablelinkedlist {
   border: 0px solid #f00;
@@ -92,7 +89,30 @@
 
 #tblTreatments tbody tr td {
   background: #ddf; }
+  #tblTreatments tbody tr td .dropdownrows {
+    margin: 0 0.5em;
+    padding: 0.5em;
+    background: #eee; }
   #tblTreatments tbody tr td div.dropdownrows {
     display: none; }
+  #tblTreatments tbody tr td .dropdownlink {
+    font-size: 0.9em;
+    margin-left: 1em;
+    cursor: pointer; }
+  #tblTreatments tbody tr td .remTre {
+    width: 100%;
+    background: #faa; }
+
+.TreatmentButtons {
+  width: 100%;
+  padding: 0 0.5em; }
+  .TreatmentButtons #cmdAddTreatment {
+    margin: 0 0 0.5em 0;
+    width: 100%; }
+
+@media (min-width: 620px) {
+  #tblTreatments tbody tr td .remTre:hover {
+    background: #444;
+    color: #f88; } }
 
 /*# sourceMappingURL=attack.css.map */

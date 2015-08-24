@@ -20,7 +20,7 @@
     }
 
     .sectionbody {
-        padding: 1em;
+        padding: 0.5em;
     }
 }
 
@@ -40,11 +40,6 @@
                     height: 3em;
                     width: 20%;
                     text-align: center;
-                    
-                    &.kipcell:hover {
-                        xxbackground: $chlog-contrast !important;   
-                        xxcolor: #000;
-                    }   
                 }   
             }
         }
@@ -86,11 +81,54 @@
             td {
                 background: $chlog-mainmenublue;
                 
+                .dropdownrows {
+                    margin: 0 0.5em;   
+                    padding: 0.5em;
+                    background: #eee;
+                }
+                
                 div.dropdownrows {
                     display: none;   
                 }
+                
+                .dropdownlink {
+                    font-size: 0.9em;
+                    margin-left: 1em;   
+                    cursor: pointer;
+                }
+                
+                .remTre {
+                    width: 100%;   
+                    background: #faa;
+                }                
             }
             
+        }
+    }
+}
+
+.TreatmentButtons {
+    width: 100%;
+    padding: 0 0.5em;
+    
+    #cmdAddTreatment {
+        margin: 0 0 0.5em 0;
+        width: 100%;   
+    }
+}
+
+
+@media (min-width: 620px) {
+    #tblTreatments {
+        tbody {
+            tr {
+                td {
+                    .remTre:hover {
+                        background: #444;   
+                        color: #f88;
+                    }
+                }
+            }
         }
     }
 }

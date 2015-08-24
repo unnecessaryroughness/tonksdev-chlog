@@ -55,13 +55,13 @@ form input[type=checkbox] {
 form input[type="text"], 
 form input[type="textbox"], 
 form input[type="password"],
-form input[type="range"] {
+form input[type="range"],
+form select {
     margin: 0 0 0.8em 0;
     font-size: 1em;
 }
 
 form select {
-    font-size: 1em;   
     height: 26px;
 }
 

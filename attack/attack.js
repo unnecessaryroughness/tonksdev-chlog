@@ -20,9 +20,9 @@ $(function() {
     //CODE TO POPULATE TREATMENTS USING VARIABLE jsoTre
     renderAllTreatments();
     
-    
     $("#cmdAddTreatment").on("click", function() {
-        jsoTre.record.push({id: 3, description: "Ibuprofen", preparation: "Tablet", dosage: "2x", administered: ""});
+        jsoTre.record.push({id: jsoTlist.record[0].id, description: "", preparation: "", 
+                            dosage: "", administered: $("#dtp1_txtFullDateTime").val()});
         renderAllTreatments();
     });
     
@@ -50,16 +50,18 @@ function renderAllTreatments() {
     }
     $(".dropdownlink").on("click", function() {
         $(this).siblings(".dropdownrows").toggle();
+        $(this).text( ($(this).text() == "More >>>" ? "Less <<<" : "More >>>") );
     });
     $(".remTre").on("click", function() {
-        var myId = $(this).attr("rmid");
-        window.alert("removing treatment #" + myId + " for attack #" + $("#txtID").val()); 
+        var mySeq = $(this).attr("myseq");
+        jsoTre.record.splice(mySeq, 1);
+        renderAllTreatments();
     });
 }
 
 function renderTreatment(eTable, oRec, seq) {
-    var row = '<tr><td class="treatmentcell"><label for="selTre_' + seq + '">Treatment</label>' + 
-                    '<select id="selTre_' + seq + '" name="selTre_' + seq + '">'+ renderTreatmentTypes(oRec.id) + '</select>' + 
+    var row = '<tr><td class="treatmentcell">' + 
+                    '<select id="selTre_' + seq + '" name="selTre_' + seq + '" myseq="' + seq + ' " class="selTre">'+ renderTreatmentTypes(oRec.id) + '</select>' + 
                     '<span class="dropdownlink">More >>></span>' + 
                     '<div class="dropdownrows">' +
                     '<label for="selPre_' + seq + '">Preparation</label>' + 
@@ -67,8 +69,9 @@ function renderTreatment(eTable, oRec, seq) {
                     '<label for="txtDos_' + seq + '">Dosage</label>' + 
                     '<input type="text" id="txtDos_' + seq + '" name="txtDos_' + seq + '" class="fldWidest" value="' + oRec.dosage + '">'+
                     '<label for="txtAdm_' + seq + '">Administered</label>' + 
-                    '<input type="text" id="txtAdm_' + seq + '" name="txtAdm_' + seq + '" value="' + oRec.administered + '">'+
-                    '<button type="button" id="cmdRemoveTre_' + seq + '" rmid="' + oRec.id + '" class="remTre">Remove</button>' +
+                    '<input type="text" id="txtAdm_' + seq + '" name="txtAdm_' + seq + '" class="fldWidest" value="' + oRec.administered + '">'+
+                    '<input type="hidden" id="txtTreSeq_' + seq + '" name="txtTreSeq[]" class="fldWidest" value="' + seq + '">'+
+                    '<button type="button" id="cmdRemoveTre_' + seq + '" myseq="' + seq + '" class="remTre">Remove</button>' +
                     '</div>';
     
     $(eTable).append(row);
@@ -88,7 +91,7 @@ function renderTreatmentTypes(selectedval) {
 
 function renderPreparationTypes(selectedval) {
     var rtnVal = "";
-    var pTypes = ["Tablet", "Injection", "Spray", "Gas"];
+    var pTypes = ["Injection", "Spray", "Gas", "Tablet", "Liquid"];
     for (var i=0; i<pTypes.length; i++) {
         var seltext = (pTypes[i] == selectedval ? " selected " : "");
         rtnVal += '<option value="' + pTypes[i] + '"' + seltext + '>' + pTypes[i] + '</option>'; 

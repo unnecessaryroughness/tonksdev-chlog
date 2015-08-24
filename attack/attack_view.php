@@ -76,7 +76,7 @@
                 
                 
                 <section class="attackgroup">
-                    <header>Time, Magnitude, Wave</header>
+                    <header>Attack Details</header>
                     
                     <div class="sectionbody">
                         <label for="txtID">Attack ID</label>
@@ -149,7 +149,7 @@
                         </tbody></table>
                     </div>
                     <div class="TreatmentButtons">
-                        <button type="button" id="cmdAddTreatment" name="action" value="addTre" class="update">Add</button>
+                        <button type="button" id="cmdAddTreatment" name="action" value="addTre">Add Treatment</button>
                     </div>
                 </section>
                 
@@ -227,10 +227,12 @@ HTML;
         ============================================  */
         public function json() {
             $json = '{"record": [';
-            foreach ($this->attack->treatments as $rec) {
-                $json .= $rec->toJSON().",";        
+            if ($this->attack->treatments) {
+                foreach ($this->attack->treatments as $rec) {
+                    $json .= $rec->toJSON().",";        
+                }
+                $json = substr($json, 0, strlen($json)-1);
             }
-            $json = substr($json, 0, strlen($json)-1);
             $json .= ']}';
             return $json;
         }

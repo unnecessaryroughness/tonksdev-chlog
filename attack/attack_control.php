@@ -36,8 +36,8 @@
                     $trg = safeget::kvp($fields, "chkChtrigger", null, false);
                     $loc = safeget::kvp($fields, "chkLocation", null, false);
                     $sym = safeget::kvp($fields, "chkSymptom", null, false);
-                    $tre = safeget::kvp($fields, "chkTreatment", null, false);
-                    
+                    $tre = safeget::kvp($fields, "txtTreSeq", null, false);
+                
                     if (isset($usr) && strlen($eml) > 0 ) {
                         
                         try {
@@ -56,6 +56,7 @@
                                 self::updateLinkedData($eml, $aid, "chtrigger", $trg, $dbc);
                                 self::updateLinkedData($eml, $aid, "location", $loc, $dbc);
                                 self::updateLinkedData($eml, $aid, "symptom", $sym, $dbc);
+                                self::addLinkedTreatment($eml, $aid, $tre, $fields, $dbc, true);
                             }
                             
                         } catch (\Exception $e) {
@@ -301,17 +302,19 @@
                     $qry->bindValue(":aid", $aid);
                     $qry->bindValue(":typ", $typ);
 
-                    foreach ($arr as $rec) {
-                        $qry->bindValue(":lid", $rec);
-                        $qSuccess = $qry->execute(); 
+                    if ($arr) {
+                        foreach ($arr as $rec) {
+                            $qry->bindValue(":lid", $rec);
+                            $qSuccess = $qry->execute(); 
 
-                        if ($qSuccess) {
-                            chlogErr::processRowCount("Added ".$typ." link ".$rec." for attack ".$aid, $qry->rowCount(),
-                                ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
-                        } else {
-                            $errmsg = "Failed to add ".$typ." link for attack ".$aid." - query failed";
-                            Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                            throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
+                            if ($qSuccess) {
+                                chlogErr::processRowCount("Added ".$typ." link ".$rec." for attack ".$aid, $qry->rowCount(),
+                                    ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
+                            } else {
+                                $errmsg = "Failed to add ".$typ." link for attack ".$aid." - query failed";
+                                Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                                throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
+                            }
                         }
                     }
                 } else {
@@ -326,37 +329,62 @@
         }
 
         
-        private function addLinkedTreatment($eml, $aid, $arr, $fields, $dbc=null) {
+        private function addLinkedTreatment($eml, $aid, $arr, $fields, $dbc=null, $replace=false) {            
             $dbc = $dbc ? : Database::connect();
-            try {
-                $sql = "CALL addTreatmentLink (:eml, :aid, :tid, :prp, :dos, :adm)";
-                $qry = $dbc->prepare($sql);
-                $qry->bindValue(":eml", $eml);
-                $qry->bindValue(":aid", $aid);
-                
-                foreach ($arr as $rec) {
-                    $prp = safeget::kvp($fields, "txtPrep_".$rec, "(none)", false);
-                    $dos = safeget::kvp($fields, "txtDos_".$rec, "(none)", false);
-                    $adm = safeget::kvp($fields, "txtAdmF_".$rec, "", false);
-                    
-                    Logger::log("txtPrep_".$rec, $prp);
-                    Logger::log("txtDos_".$rec, $dos);
-                    Logger::log("txtAdmF_".$rec, $adm);
-                    
-                    $qry->bindValue(":tid", $rec);
-                    $qry->bindValue(":prp", $prp);
-                    $qry->bindValue(":dos", $dos);
-                    $qry->bindValue(":adm", $adm);
+            $qSuccess = true;
+            
+            if ($replace) {
+                try {
+                    $sql = "CALL removeAllAttackTreatments (:eml, :aid)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qry->bindValue(":aid", $aid);
                     $qSuccess = $qry->execute(); 
-                                        
-                    if ($qSuccess) {
-                        chlogErr::processRowCount("Added treatment link ".$rec." for attack ".$aid, $qry->rowCount(),
-                            ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
-                    } else {
-                        $errmsg = "Failed to add treatment link for attack ".$aid." - query failed";
-                        Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                        throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
+                } catch (\Exception $e) {
+                    Logger::log(getNiceErrorMessage($e), $eml); 
+                    throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);                
+                }
+            }
+                
+            try {
+                if ($qSuccess) {
+                    $sql = "CALL addTreatmentLink (:eml, :aid, :tid, :prp, :dos, :adm)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qry->bindValue(":aid", $aid);
+
+                    if ($arr) {
+                        foreach ($arr as $rec) {
+                            $tid = safeget::kvp($fields, "selTre_".$rec, "(none)", false);
+                            $prp = safeget::kvp($fields, "selPre_".$rec, "(none)", false);
+                            $dos = safeget::kvp($fields, "txtDos_".$rec, "(none)", false);
+                            $adm = safeget::kvp($fields, "txtAdm_".$rec, "", false);
+
+                            Logger::log("selTre_".$rec, $tid);
+                            Logger::log("selPre_".$rec, $prp);
+                            Logger::log("txtDos_".$rec, $dos);
+                            Logger::log("txtAdm_".$rec, $adm);
+
+                            $qry->bindValue(":tid", $tid);
+                            $qry->bindValue(":prp", $prp);
+                            $qry->bindValue(":dos", $dos);
+                            $qry->bindValue(":adm", $adm);
+                            $qSuccess = $qry->execute(); 
+
+                            if ($qSuccess) {
+                                chlogErr::processRowCount("Added treatment link ".$rec." for attack ".$aid, $qry->rowCount(),
+                                    ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
+                            } else {
+                                $errmsg = "Failed to add treatment link for attack ".$aid." - query failed";
+                                Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                                throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
+                            }
+                        }
                     }
+                } else {
+                    $errmsg = "Failed to remove old treatment links for attack ".$aid." - query failed";
+                    Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                    throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
                 }
             } catch (\Exception $e) {
                 Logger::log(getNiceErrorMessage($e), $eml); 
