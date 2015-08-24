@@ -26,7 +26,8 @@ $(function() {
         renderAllTreatments();
     });
     
-    
+    //size boxes
+    resizeAttackGroups(); 
 });
 
 
@@ -99,4 +100,19 @@ function renderPreparationTypes(selectedval) {
         rtnVal += '<option value="' + pTypes[i] + '"' + seltext + '>' + pTypes[i] + '</option>'; 
     }
     return rtnVal;
+}
+
+
+function resizeAttackGroups() {
+    var TrigH = $("#tblTriggers").parent().height();
+    var LocH = $("#tblLocations").parent().height();
+    
+    if (TrigH > LocH) {
+        $("#tblLocations").parent().height(TrigH-1);   
+    } else {
+        $("#tblTriggers").parent().height(LocH-1);   
+    }
+    
+    
+    
 }

@@ -117,6 +117,7 @@
                     </div>
                 </section>
                 
+                
                 <section class="attackgroup">
                     <header>Triggers</header>
                     <div class="sectionbody">
@@ -127,7 +128,7 @@
                 </section>
                 
                 <section class="attackgroup">
-                    <header>Pain Locations</header>
+                    <header>Headache Locations</header>
                     <div class="sectionbody">
                         <table id="tblLocations" class="tablelinkedlist"><tbody>    
                         {$this->lookuphtml($this->locationlist, $this->attack->locations)}

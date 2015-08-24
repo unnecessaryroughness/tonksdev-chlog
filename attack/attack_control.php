@@ -354,17 +354,19 @@
                     $qry->bindValue(":aid", $aid);
                     $qry->bindValue(":typ", $typ);
 
-                    foreach ($arr as $rec) {
-                        $qry->bindValue(":lid", $rec);
-                        $qSuccess = $qry->execute(); 
+                    if ($arr) {
+                        foreach ($arr as $rec) {
+                            $qry->bindValue(":lid", $rec);
+                            $qSuccess = $qry->execute(); 
 
-                        if ($qSuccess) {
-                            chlogErr::processRowCount("Added ".$typ." link ".$rec." for attack ".$aid, $qry->rowCount(),
-                                ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
-                        } else {
-                            $errmsg = "Failed to add ".$typ." link for attack ".$aid." - query failed";
-                            Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                            throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
+                            if ($qSuccess) {
+                                chlogErr::processRowCount("Added ".$typ." link ".$rec." for attack ".$aid, $qry->rowCount(),
+                                    ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
+                            } else {
+                                $errmsg = "Failed to add ".$typ." link for attack ".$aid." - query failed";
+                                Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                                throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
+                            }
                         }
                     }
                 } else {
