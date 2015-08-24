@@ -21,8 +21,12 @@
         ============================================  */
         public function process($type, $fields) {
 
+            if (parent::notLoggedIn()) {
+                return parent::notLoggedIn();
+            }
+
             $usr = safeget::session("user", null, null, false);
-            $eml = $usr->email;
+            $eml = $usr ? $usr->email : "";
             $dbc = Database::connect();
             
             switch ($type) {
@@ -50,12 +54,11 @@
                                 self::addLinkedTreatment($eml, $aid, $tre, $fields, $dbc);
                                 
                             } else {
-                                
                                 //update record    
                                 self::updateAttack($eml, $aid, $ast, $aen, $alv, $awv, $dbc);
-                                self::updateLinkedData($eml, $aid, "chtrigger", $trg, $dbc);
-                                self::updateLinkedData($eml, $aid, "location", $loc, $dbc);
-                                self::updateLinkedData($eml, $aid, "symptom", $sym, $dbc);
+                                self::addLinkedData($eml, $aid, "chtrigger", $trg, $dbc, true);
+                                self::addLinkedData($eml, $aid, "location", $loc, $dbc, true);
+                                self::addLinkedData($eml, $aid, "symptom", $sym, $dbc, true);
                                 self::addLinkedTreatment($eml, $aid, $tre, $fields, $dbc, true);
                             }
                             
@@ -101,8 +104,8 @@
                     } else {
                         //no user email
                         $errmsg = "Failed to add/amend attack - no email address";
-                        Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                        throw new \Exception(ChlogErr::EM_GETATTACKSNOUSER, ChlogErr::EC_GETATTACKSNOUSER);
+                        Logger::log($errmsg); 
+                        return new Error_View(ChlogErr::EC_GETATTACKSNOUSER, ChlogErr::EM_GETATTACKSNOUSER);
                     }
                 
                 
@@ -111,17 +114,33 @@
                     break;
                 
                 default:
+                    //create a new attack
+                try {
                     $vw = new Attack_View($eml);
                     $vw->symptomlist = Lookups::getLookupList($eml, "Symptom", true);
                     $vw->triggerlist = Lookups::getLookupList($eml, "Chtrigger", true);
                     $vw->locationlist = Lookups::getLookupList($eml, "Location", true);
                     $vw->treatmentlist = Lookups::getLookupList($eml, "Treatment", true);
                     return $vw;
+                } catch (\Exception $e) {
+                    Logger::log($e->getMessage());
+                    return new Error_View(ChlogErr::EM_GETATTACKFAILED, ChlogErr::EC_GETATTACKFAILED);
+                }
                     break;
             }
         }
 
         
+    /*  ============================================
+        FUNCTION:   getAttack
+        PARAMS:     aid         attack id
+                    eml         email of logged in user
+                    dbc         database connection
+        RETURNS:    (object)    attack object
+        PURPOSE:    gets the requested attack from the database.
+                    uses the logged in user email to verify that 
+                    we are not peeking at another user's data.
+        ============================================  */
         private function getAttack($aid, $eml, $dbc=null) {
             $dbc = $dbc ? : Database::connect();
             
@@ -154,6 +173,18 @@
             }
         }
         
+    /*  ============================================
+        FUNCTION:   getLinkedData
+        PARAMS:     aid         attack id
+                    eml         email of logged in user
+                    typ         the type of linked data to get
+                    dbc         database connection
+        RETURNS:    (array)     array of lookup objects (or lookuptreatment objects)
+        PURPOSE:    gets the requested linked data from the database.
+                    Linked data is lookup data associated with an attack.
+                    uses the logged in user email to verify that 
+                    we are not peeking at another user's data.
+        ============================================  */
         private function getLinkedData($aid, $eml, $typ, $dbc=null) {
             $dbc = $dbc ? : Database::connect();
             
@@ -195,6 +226,19 @@
         }
         
         
+    /*  ============================================
+        FUNCTION:   addAttack
+        PARAMS:     eml         email of logged in user
+                    ast         attack start date-time
+                    aen         attack end date-time
+                    alv         attack level
+                    awv         attack wave
+                    dbc         database connection
+        RETURNS:    (object)    attack object
+        PURPOSE:    adds a new attack to the database.
+                    uses the logged in user email to verify that 
+                    we are not writing data to another user's account.
+        ============================================  */
         private function addAttack($eml, $ast, $aen, $alv, $awv, $dbc=null) {
             $dbc = $dbc ? : Database::connect();
             try {
@@ -228,6 +272,19 @@
             }
         }
         
+    /*  ============================================
+        FUNCTION:   updateAttack
+        PARAMS:     eml         email of logged in user
+                    ast         attack start date-time
+                    aen         attack end date-time
+                    alv         attack level
+                    awv         attack wave
+                    dbc         database connection
+        RETURNS:    (object)    attack object
+        PURPOSE:    updates an existing attack in the database.
+                    uses the logged in user email to verify that 
+                    we are not writing data to another user's account.
+        ============================================  */
         private function updateAttack($eml, $aid, $ast, $aen, $alv, $awv, $dbc=null) {
             $dbc = $dbc ? : Database::connect();
             try {
@@ -256,45 +313,40 @@
             }
         }
 
-        private function addLinkedData($eml, $aid, $typ, $arr, $dbc=null) {
+    /*  ============================================
+        FUNCTION:   addLinkedData
+        PARAMS:     eml         email of logged in user
+                    aid         attack id
+                    typ         the type of linked data to get
+                    arr         the array of linked data to add to the database
+                    dbc         database connection
+                    replace     indicates if we should remove all existing
+                                linked data before adding these records
+        RETURNS:    (none)   
+        PURPOSE:    adds the requested linked data to the database.
+                    Linked data is lookup data associated with an attack.
+                    uses the logged in user email to verify that 
+                    we are not writing data to another user's account.
+        ============================================  */
+        private function addLinkedData($eml, $aid, $typ, $arr, $dbc=null, $replace=false) {
             $dbc = $dbc ? : Database::connect();
-            try {
-                $sql = "CALL addAttackLink (:eml, :aid, :typ, :lid)";
-                $qry = $dbc->prepare($sql);
-                $qry->bindValue(":eml", $eml);
-                $qry->bindValue(":aid", $aid);
-                $qry->bindValue(":typ", $typ);
-                
-                foreach ($arr as $rec) {
-                    $qry->bindValue(":lid", $rec);
+            $qSuccess = true;
+            
+            if ($replace) {
+                try {
+                    $sql = "CALL removeAllAttackLinks (:eml, :aid, :typ)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qry->bindValue(":aid", $aid);
+                    $qry->bindValue(":typ", $typ);
                     $qSuccess = $qry->execute(); 
-                                        
-                    if ($qSuccess) {
-                        chlogErr::processRowCount("Added ".$typ." link ".$rec." for attack ".$aid, $qry->rowCount(),
-                            ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
-                    } else {
-                        $errmsg = "Failed to add ".$typ." link for attack ".$aid." - query failed";
-                        Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                        throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
-                    }
+                } catch (\Exception $e) {
+                    Logger::log(getNiceErrorMessage($e), $eml); 
+                    throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);                
                 }
-            } catch (\Exception $e) {
-                Logger::log(getNiceErrorMessage($e), $eml); 
-                throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);                
             }
-        }
-
-        
-        private function updateLinkedData($eml, $aid, $typ, $arr, $dbc=null) {
-            $dbc = $dbc ? : Database::connect();
-            try {
-                $sql = "CALL removeAllAttackLinks (:eml, :aid, :typ)";
-                $qry = $dbc->prepare($sql);
-                $qry->bindValue(":eml", $eml);
-                $qry->bindValue(":aid", $aid);
-                $qry->bindValue(":typ", $typ);
-                $qSuccess = $qry->execute(); 
                 
+            try {
                 if ($qSuccess) {
                     $sql = "CALL addAttackLink (:eml, :aid, :typ, :lid)";
                     $qry = $dbc->prepare($sql);
@@ -302,23 +354,21 @@
                     $qry->bindValue(":aid", $aid);
                     $qry->bindValue(":typ", $typ);
 
-                    if ($arr) {
-                        foreach ($arr as $rec) {
-                            $qry->bindValue(":lid", $rec);
-                            $qSuccess = $qry->execute(); 
+                    foreach ($arr as $rec) {
+                        $qry->bindValue(":lid", $rec);
+                        $qSuccess = $qry->execute(); 
 
-                            if ($qSuccess) {
-                                chlogErr::processRowCount("Added ".$typ." link ".$rec." for attack ".$aid, $qry->rowCount(),
-                                    ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
-                            } else {
-                                $errmsg = "Failed to add ".$typ." link for attack ".$aid." - query failed";
-                                Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                                throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
-                            }
+                        if ($qSuccess) {
+                            chlogErr::processRowCount("Added ".$typ." link ".$rec." for attack ".$aid, $qry->rowCount(),
+                                ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED, false);          
+                        } else {
+                            $errmsg = "Failed to add ".$typ." link for attack ".$aid." - query failed";
+                            Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                            throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
                         }
                     }
                 } else {
-                    $errmsg = "Failed to remove all ".$typ." link for attack ".$aid." - query failed";
+                    $errmsg = "Failed to remove ".$typ." links for attack ".$aid." - query failed";
                     Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
                     throw new \Exception(ChlogErr::EM_ATTACKUPDFAILED, ChlogErr::EC_ATTACKUPDFAILED);
                 }
@@ -329,6 +379,22 @@
         }
 
         
+    /*  ============================================
+        FUNCTION:   addLinkedTreatment
+        PARAMS:     eml         email of logged in user
+                    aid         attack id
+                    arr         the array of linked data to add to the database
+                    fields      the fields array from the $_POST variable. needed to get 
+                                the field values from the repeating group of treatments
+                    dbc         database connection
+                    replace     indicates if we should remove all existing
+                                linked treatment data before adding these records
+        RETURNS:    (none)   
+        PURPOSE:    adds the requested linked treatment data to the database.
+                    Linked data is lookup data associated with an attack.
+                    uses the logged in user email to verify that 
+                    we are not writing data to another user's account.
+        ============================================  */
         private function addLinkedTreatment($eml, $aid, $arr, $fields, $dbc=null, $replace=false) {            
             $dbc = $dbc ? : Database::connect();
             $qSuccess = true;
@@ -359,11 +425,6 @@
                             $prp = safeget::kvp($fields, "selPre_".$rec, "(none)", false);
                             $dos = safeget::kvp($fields, "txtDos_".$rec, "(none)", false);
                             $adm = safeget::kvp($fields, "txtAdm_".$rec, "", false);
-
-                            Logger::log("selTre_".$rec, $tid);
-                            Logger::log("selPre_".$rec, $prp);
-                            Logger::log("txtDos_".$rec, $dos);
-                            Logger::log("txtAdm_".$rec, $adm);
 
                             $qry->bindValue(":tid", $tid);
                             $qry->bindValue(":prp", $prp);

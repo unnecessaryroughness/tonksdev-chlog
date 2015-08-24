@@ -21,7 +21,11 @@
         PURPOSE:    returns the relevant HTML markup for display, from the view object
         ============================================  */
         public function process($type, $fields) {
-            
+
+            if (parent::notLoggedIn()) {
+                return parent::notLoggedIn();
+            }
+
             switch ($type) {
 
                 default:

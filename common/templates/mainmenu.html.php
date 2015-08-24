@@ -1,7 +1,7 @@
 <div id="chlog-mainmenu-toggle" onclick="toggleMenu()"><img src="/common/threelines-grey.jpg">Main Menu</div>
 <nav id="chlog-mainmenu">
     <ul>
-        <li><a href="/">Home</a>
+        <li><a href="/">My Dashboard</a>
         </li><li class="dummya" submenu="chlog-attack-menu">Attack
         </li><li class="dummya" submenu="chlog-treatment-menu">Treatment
         </li><li class="dummya" submenu="chlog-reporting-menu">Reporting

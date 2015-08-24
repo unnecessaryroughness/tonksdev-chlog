@@ -2,7 +2,7 @@ TODO:
 ======
 
 BUGS
-    * Dropdowns for hours/mins on iphone truncate the last digit.
+    * 
     
         
 UI FRAMEWORK
@@ -12,9 +12,6 @@ UI FRAMEWORK
     * Sass
         + Reuse of variables in module-level scss
 
-    * Views
-        + Allow views to return multiple CSS references
-        
 
 ADMINISTER LISTS
     GENERAL
@@ -30,48 +27,18 @@ ADMINISTER LISTS
        
 
 ATTACK
-    DATABASE
-        ==> ensure security of these SPs by insisting on receiving the
-            user email address for every request. The UI supplies the email
-            as a parameter, based on the currently logged in user in PHP session. 
-            The user cannot change the currently logged in user email address
-            without supplying the password, and as it is held on the server
-            there is no way for the user to spoof this.
-            
-        + build retrieval SPs for returning:
-            x all attacks for a user
-            x basic attack details
-            x triggers of an attack
-            x locations of an attack
-            x symptoms of an attack
-            x treatments for an attack
-            x side effects of treatments for an attack
-
-        x build an updating SP to allow basic attack details to be updated
-        
-        x build a generic attack-link SP for adding link records for:
-            x triggers of an attack
-            x locations of an attack
-            x symptoms of an attack     
-        
-        x build a generic attack-link SP for removing link records for all of above.
-        
-        x build a bespoke SP for adding treatments for an attack to handle dosage, etc.
-        
-        x build a bespoke SP for adding 3 way links for attack/treatment/side-effect
-        
-
-    UI
-        x build basic UI for capturing attack events
-        + capture related triggers leading to the attack
-        + capture pain locations associated with the attack
-        + capture symptoms of the attack
-        + capture treatments administered
+    AMEND ATTACK UI
+        + "administered" field needs to be more user friendly.
+            - currently no format validation
+            - maybe use datetimepicker? need some hacking though, as no php 
         + capture side effects of the treatments administered
         + Investigate graphical way of representing pain locations? 
         + Investigate graphical way of capturing attack waves
         
-
+    REVIEW ATTACKS UI
+        + Present as a list with some basic details shown for each attack
+        + Use articles, rather than a table. 
+        
 USER
     * Make "gravatar" a switchable option, off by default
 

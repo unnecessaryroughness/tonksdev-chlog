@@ -53,9 +53,11 @@ function renderAllTreatments() {
         $(this).text( ($(this).text() == "More >>>" ? "Less <<<" : "More >>>") );
     });
     $(".remTre").on("click", function() {
-        var mySeq = $(this).attr("myseq");
-        jsoTre.record.splice(mySeq, 1);
-        renderAllTreatments();
+        if (window.confirm("Are you sure you want to remove this treatment?")) {
+            var mySeq = $(this).attr("myseq");
+            jsoTre.record.splice(mySeq, 1);
+            renderAllTreatments();
+        }
     });
 }
 

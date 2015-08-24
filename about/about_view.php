@@ -39,7 +39,7 @@
             </p>
             <p>
                 <strong>
-                    chLOG will never ask you for any personally identifiable information.
+                    chLOG will never require you to supply any personally identifiable information.
                 </strong>
             </p>
             <p>

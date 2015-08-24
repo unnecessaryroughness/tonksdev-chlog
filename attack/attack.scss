@@ -81,10 +81,15 @@
             td {
                 background: $chlog-mainmenublue;
                 
+                select.selTre {
+                    margin-bottom: 0;
+                }
+
                 .dropdownrows {
-                    margin: 0 0.5em;   
+                    margin: 0.5em;   
                     padding: 0.5em;
                     background: #eee;
+                    border-radius: 5px;
                 }
                 
                 div.dropdownrows {
@@ -98,6 +103,7 @@
                 }
                 
                 .remTre {
+                    margin: 0;
                     width: 100%;   
                     background: #faa;
                 }                

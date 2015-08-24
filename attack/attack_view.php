@@ -68,9 +68,11 @@
 
             $dtp1 = new datetimepicker_view("dtp1", "Attack Started:");
             $dtp2 = new datetimepicker_view("dtp2", "Attack Was Over:");
+            $titletext = strlen($this->attack->id) > 0 ? "Amend" : "Record";
+            
             
             return <<<HTML
-            <h2>Record an Attack</h2>        
+            <h2>{$titletext} an Attack</h2>        
 
                 <form id="frmAttack" action="." method="POST">
                 
@@ -149,7 +151,7 @@
                         </tbody></table>
                     </div>
                     <div class="TreatmentButtons">
-                        <button type="button" id="cmdAddTreatment" name="action" value="addTre">Add Treatment</button>
+                        <button type="button" id="cmdAddTreatment" name="action" value="addTre">Add Another Treatment</button>
                     </div>
                 </section>
                 

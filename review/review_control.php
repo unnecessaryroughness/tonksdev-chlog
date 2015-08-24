@@ -21,6 +21,10 @@
         ============================================  */
         public function process($type, $fields) {
 
+            if (parent::notLoggedIn()) {
+                return parent::notLoggedIn();
+            }
+            
             switch ($type) {
                 
                 case "update":
@@ -67,13 +71,13 @@
                             //no user email
                             $errmsg = "Failed to retrieve list of my attacks - no email address";
                             Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                            throw new \Exception(ChlogErr::EM_GETATTACKSNOUSER, ChlogErr::EC_GETATTACKSNOUSER);
+                            return new Error_View(ChlogErr::EC_GETATTACKSNOUSER, ChlogErr::EM_GETATTACKSNOUSER);
                         } 
                     } else {
                         //no user object in session
                         $errmsg = "Failed to retrieve list of attacks - no user object";
-                        Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                        throw new \Exception(ChlogErr::EM_GETATTACKSNOUSER, ChlogErr::EC_GETATTACKSNOUSER);
+                        Logger::log($errmsg); 
+                        return new Error_View(ChlogErr::EC_GETATTACKSNOUSER, ChlogErr::EM_GETATTACKSNOUSER);
                     }
                     
                     //turn into a list of attack objects

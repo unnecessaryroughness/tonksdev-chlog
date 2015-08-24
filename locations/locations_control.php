@@ -20,7 +20,11 @@
         PURPOSE:    returns the relevant view object for display
         ============================================  */
         public function process($type, $fields) {
-
+            
+            if (parent::notLoggedIn()) {
+                return parent::notLoggedIn();
+            }
+            
             switch ($type) {
                 
                 case "update":

@@ -89,10 +89,13 @@
 
 #tblTreatments tbody tr td {
   background: #ddf; }
+  #tblTreatments tbody tr td select.selTre {
+    margin-bottom: 0; }
   #tblTreatments tbody tr td .dropdownrows {
-    margin: 0 0.5em;
+    margin: 0.5em;
     padding: 0.5em;
-    background: #eee; }
+    background: #eee;
+    border-radius: 5px; }
   #tblTreatments tbody tr td div.dropdownrows {
     display: none; }
   #tblTreatments tbody tr td .dropdownlink {
@@ -100,6 +103,7 @@
     margin-left: 1em;
     cursor: pointer; }
   #tblTreatments tbody tr td .remTre {
+    margin: 0;
     width: 100%;
     background: #faa; }
 
