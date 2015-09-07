@@ -58,9 +58,9 @@ namespace chlog;
               case 'email':
                 return $this->email;
               case 'startdt':
-                return $this->startdt;
+                return substr($this->startdt, 0, -3);
               case 'enddt':
-                return $this->enddt;
+                return substr($this->enddt, 0, -3);
               case 'level':
                 return $this->level;
               case 'wave':

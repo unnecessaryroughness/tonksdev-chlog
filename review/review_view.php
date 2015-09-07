@@ -54,13 +54,28 @@
             $ins = "";
             
             foreach ($this->records as $rec) {
-                $ins .= "<p><a href='/attack/?id=".$rec->id ."'>Attack #".$rec->id."</a></p>";   
+                $slnk = "<a href='/attack/?id=".$rec->id ."'>";
+                $elnk = "</a>";
+                
+                $ins .= "<article id='a{$rec->id}'>{$slnk}";
+                $ins .=     "<span class='spnRef'>{$rec->id}</span>";
+                $ins .=     "<span class='spnLev'>{$rec->level}</span>";
+                $ins .=     "<span class='spnFrom'>{$rec->startdt}</span>";
+                $ins .=     "<span class='spnTo'>{$rec->enddt}</span>";
+                $ins .= "{$elnk}</article>";   
             }
             
             return <<<HTML
             <h2>Review My Attacks</h2>        
             
-            {$ins}
+            <div class="divAttackListHeader">
+                <span class="spnRef">Ref#</span><span class="spnLev">Level</span><span class="spnFrom">From</span><span class="spnTo">To</span>
+            </div>
+            
+            <div class="divAttackList">
+                {$ins}
+            </div>
+
 
             <script src="review.js"></script>
 HTML;
