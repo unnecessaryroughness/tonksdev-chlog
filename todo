@@ -27,6 +27,11 @@ ADMINISTER LISTS
        
 
 ATTACK
+    MY ATTACK IS OVER UI
+        + create controller (no view required)
+        + use getMyOpenAttack SP to retrieve current attack record
+        + redirect to "attack" edit page with transaction id of found open attack record  
+
     AMEND ATTACK UI
         + "administered" field needs to be more user friendly.
             - currently no format validation
@@ -35,9 +40,6 @@ ATTACK
         + Investigate graphical way of representing pain locations? 
         + Investigate graphical way of capturing attack waves
         
-    REVIEW ATTACKS UI
-        + Present as a list with some basic details shown for each attack
-        + Use articles, rather than a table. 
         
 USER
     * Make "gravatar" a switchable option, off by default
