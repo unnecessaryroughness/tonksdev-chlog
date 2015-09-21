@@ -108,6 +108,25 @@
                         return new Error_View(ChlogErr::EC_GETATTACKSNOUSER, ChlogErr::EM_GETATTACKSNOUSER);
                     }
                 
+                case "delete": 
+                    //remove Attack based on id passed
+                    $aid = safeget::kvp($fields, "txtID", null, false);
+                    
+                    if ($aid && $eml && $dbc) {
+                        try {
+                            self::removeAttack($aid, $eml, $dbc);
+                            return new Redirect_View("/");
+                        } catch (\Exception $e) {
+                            Logger::log(getNiceErrorMessage($e), $usr->email); 
+                            return new Error_View($e->getCode(), getNiceErrorMessage($e));
+                        }
+                    } else {
+                        //no user email
+                        $errmsg = "Failed to delete attack - email {$eml} / id {$aid} ".($dbc ? " dbc ok " : " no dbc ");
+                        Logger::log($errmsg); 
+                        return new Error_View(ChlogErr::EC_GETATTACKSNOUSER, ChlogErr::EM_GETATTACKSNOUSER);
+                    }
+                    break;
                 
                 case "cancel":
                     return new Redirect_View("/");
@@ -456,6 +475,44 @@
         }
 
 
+    /*  ============================================
+        FUNCTION:   removeAttack
+        PARAMS:     aid         attack id
+                    eml         email of logged in user
+                    dbc         database connection
+        RETURNS:    (none)    
+        PURPOSE:    removes the requested attack from the database.
+                    uses the logged in user email to verify that 
+                    we are not zapping another user's data.
+        ============================================  */
+        private function removeAttack($aid, $eml, $dbc=null) {
+            $dbc = $dbc ? : Database::connect();
+            
+            if ($eml && $aid) {
+                //delete a record
+                try {
+                    $sql = "CALL removeAttack (:eml, :aid)";
+                    $qry = $dbc->prepare($sql);
+                    $qry->bindValue(":eml", $eml);
+                    $qry->bindValue(":aid", $aid);
+                    $qSuccess = $qry->execute(); 
+
+                    if ($qSuccess) {
+                        chlogErr::processRowCount("Removed Attack ".$aid, $qry->rowCount(),
+                            ChlogErr::EM_ATTACKDELFAILED, ChlogErr::EC_ATTACKDELFAILED, true);          
+                        
+                    } else {
+                        $errmsg = "Failed to remove attack ".$aid." - query failed";
+                        Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                        throw new \Exception(ChlogErr::EM_ATTACKDELFAILED, ChlogErr::EC_ATTACKDELFAILED);
+                    }
+
+                } catch (\Exception $e) {
+                    Logger::log(getNiceErrorMessage($e), $eml); 
+                    throw new \Exception(ChlogErr::EM_ATTACKDELFAILED, ChlogErr::EC_ATTACKDELFAILED);
+                }
+            }
+        }
         
         
     }

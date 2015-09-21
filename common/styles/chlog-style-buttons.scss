@@ -32,6 +32,16 @@ button {
             color: #fff;
         }
     }
+    
+    &.delete {
+        background: $chlog-deletered;
+        color: $chlog-darkgrey;
+        
+        &:hover {
+            background: $chlog-darkgrey;
+            color: $chlog-deletered;
+        }
+    }
 }
 
 /* 

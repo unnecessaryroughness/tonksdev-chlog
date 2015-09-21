@@ -26,6 +26,12 @@ $(function() {
         renderAllTreatments();
     });
     
+    $("#cmdDelete").on("click", function(e) {
+        if (!window.confirm("Are you sure you want to delete this attack record?")) {
+            e.preventDefault();
+        }
+    });
+    
     //size boxes
     resizeAttackGroups(); 
 });
@@ -108,7 +114,7 @@ function resizeAttackGroups() {
     var LocH = $("#tblLocations").parent().height();
     
     if (TrigH > LocH) {
-        $("#tblLocations").parent().height(TrigH-1);   
+        $("#tblLocations").parent().height(TrigH+1);   
     } else {
         $("#tblTriggers").parent().height(LocH-1);   
     }

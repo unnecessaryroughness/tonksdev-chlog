@@ -72,7 +72,7 @@
                 $pdo = new \PDO('mysql:host=' . $hostname . ';dbname=' . $dbname, $uname, $pwd);
                 $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                 $pdo->exec('SET NAMES "utf8"');
-                logger::log("Connected to database [".$envname."]");
+                //logger::log("Connected to database [".$envname."]");
                 return $pdo;
                 
             } catch (\PDOException $e) {

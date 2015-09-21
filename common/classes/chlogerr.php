@@ -108,6 +108,7 @@
         const EC_GETATTACKSNOUSER   = 5005;
         const EC_GETATTACKFAILED    = 5006;
         const EC_GT1OPENATTACK      = 5007;
+        const EC_ATTACKDELFAILED    = 5008;
         
         //ATTACK ERROR MESSAGES
         const EM_ATTACKADDFAILED    = "Sorry, I was unable to store those attack details";
@@ -117,6 +118,7 @@
         const EM_GETATTACKSNOUSER   = "Sorry, I was unable to figure out your user details, so I can't retrieve details of your attacks.";
         const EM_GETATTACKFAILED    = "Sorry, I was unable to retrieve that attack.";
         const EM_GT1OPENATTACK      = "Sorry, I could not find an open attack record.";
+        const EM_ATTACKDELFAILED    = "Sorry, I was unable to delete that attack record.";
         
         //ATTACK ERROR ARRAY
         public static $EA_ATTACKERRORS = array(
@@ -125,7 +127,9 @@
                             self::EC_ATTACKUPDFAILED        => self::EM_ATTACKUPDFAILED,
                             self::EC_GETMYATTACKSFAILED     => self::EM_GETMYATTACKSFAILED,
                             self::EC_GETATTACKSNOUSER       => self::EM_GETATTACKSNOUSER,
-                            self::EC_GETATTACKFAILED        => self::EM_GETATTACKFAILED
+                            self::EC_GETATTACKFAILED        => self::EM_GETATTACKFAILED,
+                            self::EC_GT1OPENATTACK          => self::EM_GT1OPENATTACK,
+                            self::EC_ATTACKDELFAILED        => self::EM_ATTACKDELFAILED
             );
         
         
@@ -133,15 +137,15 @@
         public static function processRowcount($subject="(none)", $rowcount=0, $errmsg="err", 
                                         $errcode=0, $zeroiserror=false, $gt1isok=false) {
             if ($rowcount == 1) {
-                Logger::log("Updated ".$subject." ok");    
+                //Logger::log("Updated ".$subject." ok");    
             } elseif ($rowcount > 1) {
-                Logger::log("More than one ".$subject." record updated. Looks suspicious."); 
                 if (!$gt1isok) {
+                    Logger::log("More than one ".$subject." record updated. Could be suspicious."); 
                     throw new \Exception($errmsg, $errcode);
                 }
             } else { 
-                Logger::log("Nothing to update for ".$subject." - ".$rowcount." rows updated"); 
                 if ($zeroiserror) {
+                    Logger::log("Nothing to update for ".$subject." - ".$rowcount." rows updated"); 
                     throw new \Exception($errmsg, $errcode);
                 }
             }

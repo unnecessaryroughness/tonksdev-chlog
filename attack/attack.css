@@ -114,9 +114,20 @@
     margin: 0 0 0.5em 0;
     width: 100%; }
 
+.divUCDbuttongroup .cancel, .divUCDbuttongroup .update, .divUCDbuttongroup .delete {
+  float: right;
+  width: 5.5em; }
+
 @media (min-width: 620px) {
   #tblTreatments tbody tr td .remTre:hover {
     background: #444;
-    color: #f88; } }
+    color: #f88; }
+
+  .divUCDbuttongroup .cancel, .divUCDbuttongroup .update {
+    float: right;
+    width: 8em; }
+  .divUCDbuttongroup .delete {
+    float: left;
+    width: 8em; } }
 
 /*# sourceMappingURL=attack.css.map */

@@ -157,9 +157,10 @@
                 </section>
                 
                 
-                <div class="endfloat divAlignRight">
+                <div class="endfloat divUCDbuttongroup">
                     <button type="submit" id="cmdUpdate" name="action" value="update" class="update">Update</button>
                     <button type="submit" id="cmdCancel" name="action" value="cancel" class="cancel">Cancel</button>
+                    <button type="submit" id="cmdDelete" name="action" value="delete" class="delete">Delete</button>
                 </div>
                 
                 <div class="endfloat"></div>

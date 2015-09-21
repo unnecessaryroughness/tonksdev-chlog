@@ -124,6 +124,14 @@
 }
 
 
+.divUCDbuttongroup {
+    .cancel, .update, .delete {
+        float: right;   
+        width: 5.5em;
+    }
+}
+
+
 @media (min-width: 620px) {
     #tblTreatments {
         tbody {
@@ -135,6 +143,18 @@
                     }
                 }
             }
+        }
+    }
+    
+    .divUCDbuttongroup {
+        .cancel, .update {
+            float: right;   
+            width: 8em;
+        }
+        
+        .delete {
+            float: left;   
+            width: 8em;
         }
     }
 }

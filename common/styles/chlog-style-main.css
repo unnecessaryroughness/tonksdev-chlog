@@ -39,6 +39,12 @@ button {
     button.cancel:hover {
       background: #444;
       color: #fff; }
+  button.delete {
+    background: #faa;
+    color: #444; }
+    button.delete:hover {
+      background: #444;
+      color: #faa; }
 
 /* 
     =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
@@ -297,6 +303,9 @@ h2 {
 
 .fldChar {
   text-align: left; }
+
+.divAlignLeft {
+  float: left; }
 
 .divAlignRight {
   float: right; }
