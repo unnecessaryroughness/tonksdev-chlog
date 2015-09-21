@@ -107,6 +107,7 @@
         const EC_GETMYATTACKSFAILED = 5004;
         const EC_GETATTACKSNOUSER   = 5005;
         const EC_GETATTACKFAILED    = 5006;
+        const EC_GT1OPENATTACK      = 5007;
         
         //ATTACK ERROR MESSAGES
         const EM_ATTACKADDFAILED    = "Sorry, I was unable to store those attack details";
@@ -115,6 +116,7 @@
         const EM_GETMYATTACKSFAILED = "Sorry, I was unable to retrieve a list of your attacks.";
         const EM_GETATTACKSNOUSER   = "Sorry, I was unable to figure out your user details, so I can't retrieve details of your attacks.";
         const EM_GETATTACKFAILED    = "Sorry, I was unable to retrieve that attack.";
+        const EM_GT1OPENATTACK      = "Sorry, I could not find an open attack record.";
         
         //ATTACK ERROR ARRAY
         public static $EA_ATTACKERRORS = array(
@@ -129,12 +131,14 @@
         
         
         public static function processRowcount($subject="(none)", $rowcount=0, $errmsg="err", 
-                                        $errcode=0, $zeroiserror=false) {
+                                        $errcode=0, $zeroiserror=false, $gt1isok=false) {
             if ($rowcount == 1) {
                 Logger::log("Updated ".$subject." ok");    
             } elseif ($rowcount > 1) {
                 Logger::log("More than one ".$subject." record updated. Looks suspicious."); 
-                throw new \Exception($errmsg, $errcode);
+                if (!$gt1isok) {
+                    throw new \Exception($errmsg, $errcode);
+                }
             } else { 
                 Logger::log("Nothing to update for ".$subject." - ".$rowcount." rows updated"); 
                 if ($zeroiserror) {
