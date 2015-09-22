@@ -56,13 +56,18 @@
                 $bio = $this->user->biography;
                 $jdt = $this->user->joindate;
                 $adm = ($this->user->isadmin) ? "YES" : "NO";
+                $ugr = $this->user->gravatar ? " checked " : "";
                 $grv = $this->user->getGravatar("https://placehold.it/80x80", 80);
                 return <<<HTML
 
                     <form id="frmRegister" action="." method="POST">
                         <h2>About You</h2>
 
-                        <label for="imgGravatar">Gravatar:</label>
+                        
+                        
+                        <label for="chkGravatar">Get my profile picture from Gravatar?</label>
+                        <input type="checkbox" id="chkGravatar" name="gravatar" value="1" {$ugr}> Yes</input>
+                        
                         <img id="imgGravatar" src="$grv"> 
                         <a class="gravlink" href="https://en.gravatar.com/">(change this image)</a>
                         

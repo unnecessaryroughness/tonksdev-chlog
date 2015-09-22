@@ -16,6 +16,18 @@ input[type="textbox"][readonly] {
     border: 0;
 }
 
+input[type="checkbox"] {
+    margin-bottom: 1em;   
+}
+
+img {
+    display: block;   
+    margin-bottom: 0.5em;
+}
+
+#frmRegister a {
+    margin-bottom: 1em;
+}
 
 .gravlink {
     display: block;

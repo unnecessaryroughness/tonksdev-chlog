@@ -13,11 +13,7 @@
         PURPOSE:    constructs the class. No special functions.
         ============================================  */
         public function __construct($recs) {
-            if ($recs) {
-                $this->records = $recs;
-            } else {
-                throw new \Exception (ChlogErr::EM_FAILEDTOSTARTVIEW, ChlogErr::EC_FAILEDTOSTARTVIEW);   
-            }
+            $this->records = $recs;
         }
 
 

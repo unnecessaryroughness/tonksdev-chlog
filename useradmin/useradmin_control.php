@@ -33,12 +33,14 @@
                     $pw3 = safeget::kvp($fields, "passconf2", null, false);
                     $nnm = safeget::kvp($fields, "nickname", "unknown", false);
                     $bio = safeget::kvp($fields, "biography", "Not given", false);
+                    $grv = safeget::kvp($fields, "gravatar", "0", false);
                     $usr = safeget::session("user", null, null, false);
                 
                     if ($pwd) {
                         if (isset($usr)) {
                             $usr->setNickName($nnm);
                             $usr->setBiography($bio);
+                            $usr->setGravatar($grv);
                             
                             try {
                                 //Update basic details

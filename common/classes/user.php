@@ -10,6 +10,7 @@
         protected $isactive  = 0;
         protected $biography = "";
         protected $joindate  = null;
+        protected $gravatar  = null;
         protected $dbconn    = null;
         protected $isdirty   = false;
         
@@ -20,13 +21,14 @@
                     adm - is admin
         RETURNS:    boolean
         ============================================  */
-        public function __construct($eml="invalid", $nnm="unnamed", $adm=0, $act=1, $bio="", $jdt=null) {
+        public function __construct($eml="invalid", $nnm="unnamed", $adm=0, $act=1, $bio="", $jdt=null, $grv=null) {
             $this->email = $eml;
             $this->nickname = $nnm;
             $this->isadmin = $adm;
             $this->isactive = $act;
             $this->biography = $bio;
             $this->joindate = $jdt;
+            $this->gravatar = $grv;
         }
 
         public function DBConn()    { return is_null($this->dbconn) ? Database::connect() : $this->dbconn; }
@@ -53,6 +55,8 @@
                 return $this->isdirty;
               case 'joindate':
                 return $this->joindate;
+              case 'gravatar':
+                return $this->gravatar;
               default:
                 throw new \Exception('Invalid property: '.$field);
             }
@@ -64,6 +68,7 @@
         public function setEmail($eml)       { $this->email = $eml;     $this->isdirty = true; return $this; }
         public function setNickName($nnm)    { $this->nickname = $nnm;  $this->isdirty = true; return $this; }
         public function setBiography($bio)   { $this->biography = $bio; $this->isdirty = true; return $this; }
+        public function setGravatar($grv)    { $this->gravatar = $grv;  $this->isdirty = true; return $this; }
         public function setDBConn(\PDO $dbc) { $this->dbconn = $dbc;    return $this; }
         public function disconnectDB()       { $this->dbconn = null;    return $this; }
             
@@ -75,7 +80,11 @@
         RETURNS:    (string) gravatar URL
         ============================================  */
         public function getGravatar($defaultimg, $size) {
-            return "http://www.gravatar.com/avatar/".md5(strtolower(trim($this->email)))."?d=".urlencode($defaultimg)."&s=".$size;       
+            if ($this->gravatar) {
+                return "http://www.gravatar.com/avatar/".md5(strtolower(trim($this->email)))."?d=".urlencode($defaultimg)."&s=".$size;       
+            } else {
+                return $defaultimg;
+            }   
         }
         
         
@@ -158,6 +167,7 @@
                     $qSuccess = user::updateUser($this->email, 
                                      $this->nickname, 
                                      $this->biography, 
+                                     $this->gravatar,
                                      $pwd, null, null, 
                                      $this->DBConn());   
                     $this->isdirty = false;
@@ -213,7 +223,8 @@
                                              $userdata["isadmin"],
                                              $userdata["active"],
                                              $userdata["biography"],
-                                             $userdata["joindate"]);
+                                             $userdata["joindate"],
+                                             $userdata["gravatar"]);
                             return $user;   
                         } else {
                             $errmsg = "User ".$eml." has not been activated.";
@@ -270,7 +281,8 @@
                                      $userdata["isadmin"],
                                      $userdata["active"],
                                      $userdata["biography"],
-                                     $userdata["joindate"]);
+                                     $userdata["joindate"],
+                                     $userdata["gravatar"]);
                     return $user;   
                 } else { 
                     $errmsg = "Failed to retrieve user record " . $eml;
@@ -290,6 +302,7 @@
         PARAMS:     eml - email
                     nnm - nickname
                     bio - biography
+                    grv - gravatar on/off
                     pwd - old password
                     nwd - new password
                     np2 - new password check
@@ -298,7 +311,7 @@
         PURPOSE:    Updates all updateable fields for the user. 
                     Current valid password must be supplied, but new password is optional.
         ============================================  */
-        public static function updateUser($eml, $nnm, $bio, $pwd, $npw=null, $np2=null, \PDO $dbc=null) {
+        public static function updateUser($eml, $nnm, $bio, $grv, $pwd, $npw=null, $np2=null, \PDO $dbc=null) {
         
             //if the 'dbc' parameter was not supplied then connect to the 
             //default database using default parameters.
@@ -322,11 +335,12 @@
                     
                     if (self::verifyPW($eml, $pwd)) {
 
-                        $sql = "CALL updateUser(:eml, :nnm, :bio, :npw)";
+                        $sql = "CALL updateUser(:eml, :nnm, :bio, :grv, :npw)";
                         $qry = $dbc->prepare($sql);
                         $qry->bindValue(":eml", $eml);
                         $qry->bindValue(":nnm", $nnm);
                         $qry->bindValue(":bio", $bio);
+                        $qry->bindValue(":grv", $grv);
                         $qry->bindValue(":npw", Security::chlogHash($npw));
                         $qSuccess = $qry->execute(); 
 

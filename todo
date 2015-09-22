@@ -2,7 +2,7 @@ TODO:
 ======
 
 BUGS
-    * 
+    * Debug generally with a new user account with no data, etc. 
     
         
 UI FRAMEWORK
@@ -31,14 +31,13 @@ ATTACK
         + "administered" field needs to be more user friendly.
             - currently no format validation
             - maybe use datetimepicker? need some hacking though, as no php 
-        + capture side effects of the treatments administered
         + Investigate graphical way of representing pain locations? 
         + Investigate graphical way of capturing attack waves
         
         
 USER
-    * Make "gravatar" a switchable option, off by default
-
+    * Password Strength Controls
+    
 
 SQL DB
     + Performance tuning, indices, etc.

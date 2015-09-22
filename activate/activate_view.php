@@ -11,7 +11,7 @@
 
             <h2>User Activated</h2>
             <hr>
-            <p>Now please <a href="login/">login</a></p>
+            <p>Now please <a href="/login/">login</a></p>
 HTML;
         }
         
