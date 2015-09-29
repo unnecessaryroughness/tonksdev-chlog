@@ -34,7 +34,7 @@
         <label for="txtStartDate">{$this->dtpcaption}</label>
         <input type="text" id="{$nm}_txtStartDate" name="{$nm}_txtStartDate" 
                 class="fldMedium" value="{$defdate}">@<select id="{$nm}_selStartHour" 
-                name="{$nm}_selStartHour" class="timeDropdown"">
+                name="{$nm}_selStartHour" class="timeDropdown">
                 </select>:<select id="{$nm}_selStartMin" name="{$nm}_selStartMin" 
                 class="timeDropdown"></select>
                 
@@ -60,8 +60,8 @@
             var dToday = new Date();
             c1.populateCalendar(dToday.getFullYear(), dToday.getMonth());
             
-            $("#{$cnm}_thMonthPrev").on("click", function() { c1.populatePrevious(); });
-            $("#{$cnm}_thMonthNext").on("click", function() { c1.populateNext(); });
+            $("#{$cnm}_thMonthPrev").on("click", function() { $("#{$nm}_txtStartDate").focus(); c1.populatePrevious(); });
+            $("#{$cnm}_thMonthNext").on("click", function() { $("#{$nm}_txtStartDate").focus(); c1.populateNext(); });
 
             $("#{$cnm}").on("caldate:change", function() {
                 $("#{$nm}_txtStartDate").val($("#{$cnm}_txtCalDate").val());
@@ -78,10 +78,10 @@
                 $("#{$cnm}").slideDown();
             });
             
-            $("#{$nm}_txtStartDate").on("blur", function() {
+            $("#{$nm}_selStartHour").on("focus", function() {
                 $("#{$cnm}").slideUp();
             });
-            
+                        
             $("#{$nm}_selStartHour").on("change", function() {
                 $("#{$nm}_txtFullDateTime").val({$nm}_genFullDT());
             });

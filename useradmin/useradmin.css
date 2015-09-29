@@ -16,7 +16,7 @@ input[type="textbox"][readonly] {
 input[type="checkbox"] {
   margin-bottom: 1em; }
 
-img {
+#frmRegister img {
   display: block;
   margin-bottom: 0.5em; }
 

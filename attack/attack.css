@@ -18,7 +18,7 @@
   height: 21px;
   width: 26px;
   text-align: center;
-  padding: 2px; }
+  padding: 2px !important; }
 
 .thCalHeader {
   background: #444;
@@ -26,19 +26,19 @@
   font-weight: bold; }
 
 .tdCalDay {
-  background: #eee;
-  color: #444; }
+  background: #eee !important;
+  color: #444 !important; }
 
 .tdCalToday {
-  background: #ccf;
-  color: #008;
+  background: #ccf !important;
+  color: #008 !important;
   border: 2px solid #008;
   border-radius: 15px;
   font-weight: bold;
   padding: 0px; }
 
 .tdCalSelected {
-  background: #bbb;
+  background: #bbb !important;
   color: #444; }
 
 .timeDropdown {
@@ -117,6 +117,9 @@
 .divUCDbuttongroup .cancel, .divUCDbuttongroup .update, .divUCDbuttongroup .delete {
   float: right;
   width: 5.5em; }
+
+#dtp_placeholder {
+  display: none; }
 
 @media (min-width: 620px) {
   #tblTreatments tbody tr td .remTre:hover {

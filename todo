@@ -1,53 +1,10 @@
 TODO:
 ======
 
-BUGS
-    * Debug generally with a new user account with no data, etc. 
-    
-        
-UI FRAMEWORK
-    * Javascript improvements
-        + Data entry form field validation 
-        
-    * Sass
-        + Reuse of variables in module-level scss
 
+TRELLO board:
 
-ADMINISTER LISTS
-    GENERAL
-        
-    ATTACK WAVES
-        - investigate the small inline charts found in this article: 
-            http://www.sitepoint.com/11-best-jquery-charting-libraries/
-    
-    * Mega Menu
-        + different colours for each section? 
-        + icons on the menus?
-        + descriptions under the menu items (in a smaller font)
-       
-
-ATTACK
-    AMEND ATTACK UI
-        + "administered" field needs to be more user friendly.
-            - currently no format validation
-            - maybe use datetimepicker? need some hacking though, as no php 
-        + Investigate graphical way of representing pain locations? 
-        + Investigate graphical way of capturing attack waves
-        
-        
-USER
-    * Password Strength Controls
-    
-
-SQL DB
-    + Performance tuning, indices, etc.
-
-
-PENDING PRODUCTION DATABASE CHANGES
-    + (none)
-    
-
-
+https://trello.com/b/x59vy4xn
 
 
     

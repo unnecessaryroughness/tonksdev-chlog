@@ -445,8 +445,8 @@
                             $tid = safeget::kvp($fields, "selTre_".$rec, "(none)", false);
                             $prp = safeget::kvp($fields, "selPre_".$rec, "(none)", false);
                             $dos = safeget::kvp($fields, "txtDos_".$rec, "(none)", false);
-                            $adm = safeget::kvp($fields, "txtAdm_".$rec, "", false);
-
+                            $adm = safeget::kvp($fields, "dtp_".$rec."_txtFullDateTime", "", false);
+                            
                             $qry->bindValue(":tid", $tid);
                             $qry->bindValue(":prp", $prp);
                             $qry->bindValue(":dos", $dos);

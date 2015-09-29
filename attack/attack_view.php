@@ -68,6 +68,7 @@
 
             $dtp1 = new datetimepicker_view("dtp1", "Attack Started:");
             $dtp2 = new datetimepicker_view("dtp2", "Attack Was Over:");
+            $dtp3 = new datetimepicker_view("dtp3", "Treatment Administered:");
             $titletext = strlen($this->attack->id) > 0 ? "Amend" : "Record";
             
             
@@ -153,6 +154,9 @@
                     </div>
                     <div class="TreatmentButtons">
                         <button type="button" id="cmdAddTreatment" name="action" value="addTre">Add Another Treatment</button>
+                    </div>
+                    <div id="dtp_placeholder">
+                        {$dtp3->html($this->attack->startdt)}
                     </div>
                 </section>
                 

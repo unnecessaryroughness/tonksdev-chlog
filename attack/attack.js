@@ -32,6 +32,7 @@ $(function() {
         }
     });
     
+    
     //size boxes
     resizeAttackGroups(); 
 });
@@ -69,6 +70,10 @@ function renderAllTreatments() {
 }
 
 function renderTreatment(eTable, oRec, seq) {
+    var dtpctrl = $("#dtp_placeholder").html();
+    dtpctrl = dtpctrl.replace(/dtp3_/gi, "dtp_" + seq + "_");
+    dtpctrl = dtpctrl.replace(/\(i==.*?\+/gi, "");
+    
     var row = '<tr><td class="treatmentcell">' + 
                     '<select id="selTre_' + seq + '" name="selTre_' + seq + '" myseq="' + seq + ' " class="selTre">'+ renderTreatmentTypes(oRec.id) + '</select>' + 
                     '<span class="dropdownlink">More >>></span>' + 
@@ -77,13 +82,16 @@ function renderTreatment(eTable, oRec, seq) {
                     '<select id="selPre_' + seq + '" name="selPre_' + seq + '">' + renderPreparationTypes(oRec.preparation) + '</select>'+
                     '<label for="txtDos_' + seq + '">Dosage</label>' + 
                     '<input type="text" id="txtDos_' + seq + '" name="txtDos_' + seq + '" class="fldWidest" value="' + oRec.dosage + '">'+
-                    '<label for="txtAdm_' + seq + '">Administered</label>' + 
-                    '<input type="text" id="txtAdm_' + seq + '" name="txtAdm_' + seq + '" class="fldWidest" value="' + oRec.administered + '">'+
+                    dtpctrl + 
                     '<input type="hidden" id="txtTreSeq_' + seq + '" name="txtTreSeq[]" class="fldWidest" value="' + seq + '">'+
                     '<button type="button" id="cmdRemoveTre_' + seq + '" myseq="' + seq + '" class="remTre">Remove</button>' +
                     '</div>';
     
     $(eTable).append(row);
+    $("#dtp_" + seq + "_txtFullDateTime").val(oRec.administered);
+    $("#dtp_" + seq + "_txtStartDate").val(oRec.administered.substring(0, 10));
+    $("#dtp_" + seq + "_selStartHour").val(oRec.administered.substring(11, 13));
+    $("#dtp_" + seq + "_selStartMin").val(oRec.administered.substring(14, 16));
 }
 
 
