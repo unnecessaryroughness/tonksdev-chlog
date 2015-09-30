@@ -6,9 +6,10 @@
     Accomodates mobile-first, and widescreen (620px+) 
 
    ==================================================== */
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
 * {
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: "Montserrat", sans-serif;
   padding: 0;
   margin: 0; }
 
@@ -62,6 +63,7 @@ button {
 #chlog-mainmenu-toggle {
   display: block;
   background: #fff;
+  font-family: "Montserrat", sans-serif;
   color: #666;
   padding: 10px 15px;
   margin-bottom: 0.3em;
@@ -76,31 +78,34 @@ button {
   margin-bottom: 0.3em;
   float: left;
   width: 40%;
-  background: #ddf; }
+  background: #0067a3; }
   #chlog-mainmenu ul {
     list-style: none; }
     #chlog-mainmenu ul li {
       display: block; }
       #chlog-mainmenu ul li.dummya {
+        font-family: "Montserrat", sans-serif;
         display: block;
         padding: 0.2em 0.8em;
         line-height: 1.9em;
-        color: #666; }
+        color: #cadfeb; }
       #chlog-mainmenu ul li a, #chlog-mainmenu ul li a:link, #chlog-mainmenu ul li a:visited, #chlog-mainmenu ul li a:active, #chlog-mainmenu ul li a:focus {
+        font-family: "Montserrat", sans-serif;
         display: block;
         padding: 0.2em 0.8em;
         line-height: 1.9em;
-        color: #666;
+        color: #cadfeb;
         text-decoration: none; }
       #chlog-mainmenu ul li.chlog-mainmenu-highlighted {
-        background: #c4c4e5;
+        background: #cadfeb;
+        color: #0067a3;
         border-bottom: 3px solid #ede859; }
 
 /* MEGAMENUS */
 .chlog-submenu {
   float: left;
   width: 58%;
-  background: #c4c4e5;
+  background: #cadfeb;
   display: none;
   padding: 0.5em; }
   .chlog-submenu section {
@@ -109,6 +114,7 @@ button {
     margin: 0; }
     .chlog-submenu section .chlog-submenu-header {
       color: #3a515f;
+      font-family: "Montserrat", sans-serif;
       font-size: 1em;
       font-weight: normal;
       padding-bottom: 0.3em;
@@ -120,7 +126,8 @@ button {
       margin-bottom: 1em; }
       .chlog-submenu section ul > li a, .chlog-submenu section ul > li a:link, .chlog-submenu section ul > li a:hover, .chlog-submenu section ul > li a:visited, .chlog-submenu section ul > li a:focus {
         text-decoration: none;
-        color: #666; }
+        color: #666;
+        font-family: "Montserrat", sans-serif; }
       .chlog-submenu section ul > li a:hover {
         color: #ede859; }
 
@@ -143,7 +150,7 @@ button {
     #chlog-mainmenu ul {
       list-style: none;
       margin: 0;
-      background: #ddf; }
+      background: #0067a3; }
       #chlog-mainmenu ul li {
         display: inline-block;
         color: #666;
@@ -153,14 +160,17 @@ button {
           display: inline-block;
           text-align: left;
           padding: 0 0.8em;
-          height: 3em;
-          line-height: 3em;
+          height: 2em;
+          line-height: 2em;
+          color: #cadfeb;
           transition: background 0.5s; }
         #chlog-mainmenu ul li.dummya:hover, #chlog-mainmenu ul li a:hover {
-          background: #c4c4e5;
+          background: #cadfeb;
+          color: #0067a3;
           border-bottom: 3px solid #ede859; }
         #chlog-mainmenu ul li.chlog-mainmenu-highlighted {
-          background: #c4c4e5;
+          background: #cadfeb;
+          color: #0067a3;
           border-bottom: 3px solid #ede859; }
 
   /* MEGAMENUS */
@@ -260,7 +270,7 @@ p a {
   margin: 0.3em 0 0.3em 0; }
 
 h2 {
-  color: #3a515f;
+  color: #0067a3;
   margin: 0.5em 0 0.8em 0;
   border-bottom: 1px solid #666; }
 
@@ -314,14 +324,15 @@ h2 {
    header style rules 
    ======================= */
 .chlog-header {
-  background: #5b7f95;
-  padding: 0.5em 0.8em;
+  background: #0067a3;
+  padding: 0.2em 0.8em;
   overflow: hidden; }
   .chlog-header a {
     text-decoration: none;
-    font-size: 2em;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8em;
     font-weight: bold;
-    color: #fff;
+    color: #eaeff2;
     display: inline-block;
     float: left; }
 
@@ -330,12 +341,21 @@ h2 {
   color: #ede859;
   display: block; }
 
-.chlog-header-environment {
-  font-size: 2em;
+.chlog-header-loggedinuser {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10pt;
   font-weight: bold;
-  color: #eee;
+  color: #cadfeb;
+  padding: 0 0.8em;
   display: inline-block;
   float: right; }
+  .chlog-header-loggedinuser a {
+    font-size: 10pt;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    color: #cadfeb;
+    float: right; }
 
 .chlog-header-user {
   padding: 0 0.8em;
@@ -375,6 +395,11 @@ h2 {
 
   #chlog-main {
     width: 95%;
-    margin: auto; } }
+    margin: auto; }
+
+  .chlog-header-loggedinuser {
+    margin-top: 1.5em; }
+    .chlog-header-loggedinuser a:hover {
+      color: #ede859; } }
 
 /*# sourceMappingURL=chlog-style-main.css.map */

@@ -71,9 +71,9 @@ $(function(){
 function displayRecords(){
     $("#tblLookups").html("");
     $("#tblLookups").append('<tr class="header">' +
-                                '<th class="fldNumeric">Hide</th>' +
-                                '<th class="fldChar">Description</th>' +
-                                '<th class="fldButton" colspan="2">Re-Order</th>' +
+                                '<th id="rowHide" class="fldNumeric">Hide</th>' +
+                                '<th id="rowDesc" class="fldChar">Description</th>' +
+                                '<th id="rowButton" class="fldButton" colspan="2">Re-Order</th>' +
                             '</tr>');
     
     for (i=0; i<jso.record.length; i++) {
@@ -87,7 +87,7 @@ function displayRecords(){
 
         $("#tblLookups").append("<tr id='row_" + i + "' class='row'></tr>");
         $("#row_"+i).append("<td><input type='checkbox' class='fldChk' id='chkHid' name='hidden' onclick='hideRecord("+i+")'" + (hid ? " checked " : "") + "></td>");
-        $("#row_"+i).append("<td><input type='text' " + dro + " class='fldWide' id='txtDesc name='description' onblur='updateDesc("+i+",this)' value='" + des + "'></td>");
+        $("#row_"+i).append("<td><input type='text' " + dro + " class='lkuDesc' id='txtDesc name='description' onblur='updateDesc("+i+",this)' value='" + des + "'></td>");
         $("#row_"+i).append("<td>" + (i == 0 ? "" : buttonUp) + "</td>");
         $("#row_"+i).append("<td>" + (i == jso.record.length-1 ? "" : buttonDown) + "</td>");
     }

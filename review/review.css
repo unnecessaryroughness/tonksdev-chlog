@@ -1,21 +1,24 @@
 .divAttackListHeader {
-  padding: 0.3em 0.3em;
+  padding: 0.1em 0.6em;
+  font-size: 0.9em;
   font-weight: bold;
-  background: #5b7f95;
-  color: #ede859; }
+  background: #0067a3;
+  color: #cadfeb; }
   .divAttackListHeader span {
     margin-right: 0.2em; }
 
 .divAttackList {
   height: 20em;
   border: 0px solid #444;
+  background: #ddd;
   overflow-y: scroll;
-  padding: 0.3em 0; }
+  padding: 0.3em 0.3em;
+  font-size: 0.9em; }
   .divAttackList article {
     margin-bottom: 0em;
     padding: 0.2em 0.3em; }
     .divAttackList article:nth-child(odd) {
-      background: #ddf; }
+      background: #eee; }
     .divAttackList article span {
       margin-right: 0.2em; }
 
@@ -33,11 +36,11 @@
 
 .spnFrom {
   display: inline-block;
-  width: 8.5em; }
+  width: 9em; }
 
 .spnTo {
   display: inline-block;
-  width: 8em; }
+  width: 9em; }
 
 @media (min-width: 620px) {
   .divAttackListHeader {
@@ -49,7 +52,8 @@
   .spnRef {
     display: inline-block;
     width: 4em;
-    text-align: right; }
+    text-align: right;
+    display: none; }
 
   .spnLev {
     display: inline-block;
@@ -59,11 +63,11 @@
 
   .spnFrom {
     display: inline-block;
-    width: 10em;
+    width: 11em;
     margin-left: 2em; }
 
   .spnTo {
     display: inline-block;
-    width: 10em; } }
+    width: 11em; } }
 
 /*# sourceMappingURL=review.css.map */

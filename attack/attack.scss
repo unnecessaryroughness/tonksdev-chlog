@@ -3,7 +3,7 @@
 
 .attackgroup {
     float: left;
-    border: 1px solid  $chlog-bordergrey;   
+    border: 0px solid $chlog-bordergrey;   
     border-radius: 5px;
     width: 30%;
     margin: 1.5%;
@@ -11,16 +11,18 @@
     overflow: hidden;
 
     header {
-        background: $chlog-darkblue;   
-        color: $chlog-contrast;
-        padding: 0.5em;
-        font-size: 1.1em;
+        background: $chlog-signature;
+        color: $chlog-signaturelight;
+        padding: 0.2em 0.5em;
+        font-size: 0.9em;
         font-weight: bold;
         text-align: center;
     }
 
     .sectionbody {
+        background: $chlog-containerbackground;   
         padding: 0.5em;
+        font-size: 0.9em;
     }
 }
 
@@ -55,7 +57,7 @@
         tr {
 
             &:nth-child(odd) {
-                background: $chlog-mainmenublue;
+                background: $chlog-alternatebackground;
             }
 
             td {
@@ -79,7 +81,7 @@
     tbody {
         tr {
             td {
-                background: $chlog-mainmenublue;
+                background: $chlog-alternatebackground;
                 
                 select.selTre {
                     margin-bottom: 0;
@@ -116,6 +118,7 @@
 .TreatmentButtons {
     width: 100%;
     padding: 0 0.5em;
+    background: $chlog-containerbackground;
     
     #cmdAddTreatment {
         margin: 0 0 0.5em 0;

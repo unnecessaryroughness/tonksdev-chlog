@@ -1,11 +1,20 @@
-label {
-    margin-bottom: 0.4em;
+@import "../common/styles/chlog-style-globalvars.scss";
+
+
+#frmRegister label {
+    background: $chlog-signature;
+    color: $chlog-signaturelight;
+    padding: 0.2em;
+    display: block;
+    max-width: 400px;
+    margin-top: 0.4em;
+    margin-bottom: 0.2em;
     font-size: 0.8em;
     font-weight: bold;
 }
 
-input[type="textbox"], input[type="password"] {
-    font-size: 1em;
+#frmRegister input[type="textbox"], #frmRegister input[type="password"] {
+    font-size: 0.9em;
     height: 2em;
     width: 100%;
     margin-bottom: 1em;   
@@ -17,6 +26,7 @@ input[type="textbox"][readonly] {
 }
 
 input[type="checkbox"] {
+    margin-top: 0.5em;
     margin-bottom: 1em;   
 }
 
@@ -25,16 +35,12 @@ input[type="checkbox"] {
     margin-bottom: 0.5em;
 }
 
-#frmRegister a {
-    margin-bottom: 1em;
-}
-
 .gravlink {
     display: block;
     font-size: 0.8em;
     color: #666;
     width: 15em;
-    margin-bottom: 1em;   
+    margin-bottom: 1.5em;   
 }
 
 .gravlink:hover {
@@ -42,10 +48,10 @@ input[type="checkbox"] {
 }
 
 
-textarea {
+#frmRegister textarea {
     width: 100%;
     height: 5em;
-    font-size: 1em;
+    font-size: 0.9em;
     margin-bottom: 1em;
 }
 
@@ -66,11 +72,11 @@ button.update {
 
 @media (min-width: 620px) {
 
-    input[type="textbox"], input[type="password"] {
+    #frmRegister input[type="textbox"], #frmRegister input[type="password"] {
         width: 20em;
     }
     
-    textarea {
+    #frmRegister textarea {
         width: 20em;
     }
 

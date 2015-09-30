@@ -7,9 +7,16 @@
 
    ==================================================== */
 
+
+// =======================
+//   import variables 
+// =======================
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import "chlog-style-globalvars.scss";
+
 * {
     box-sizing: border-box;   
-    font-family: sans-serif;
+    font-family: $chlog-mainfont, sans-serif;
     padding: 0;
     margin: 0;
 }
@@ -18,10 +25,7 @@
     clear: both;   
 }
 
-// =======================
-//   import variables 
-// =======================
-@import "chlog-style-globalvars.scss";
+
 
 // =======================
 //   import generic button styles 
@@ -71,7 +75,7 @@ p a {
 }
 
 h2 {
-    color: $chlog-darkblue;
+    color: $chlog-signature;
     margin: 0.5em 0 0.8em 0;   
     border-bottom: 1px solid $chlog-greytext;
 }
@@ -142,15 +146,16 @@ h2 {
    header style rules 
    ======================= */
 .chlog-header {
-    background: $chlog-blue;   
-    padding: 0.5em 0.8em;
+    background: $chlog-signature;   
+    padding: 0.2em 0.8em;
     overflow: hidden;
 
     a {
         text-decoration: none;   
-        font-size: 2em;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.8em;
         font-weight: bold;
-        color: #fff;
+        color: $chlog-mainlogo;
         display: inline-block;
         float: left;
     }
@@ -163,12 +168,24 @@ h2 {
     display: block;
 }
 
-.chlog-header-environment {
-    font-size: 2em;
+.chlog-header-loggedinuser {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10pt;
     font-weight: bold;
-    color: #eee;
+    color: $chlog-signaturelight;
+    padding: 0 0.8em;
     display: inline-block;
     float: right;   
+
+    a {
+        font-size: 10pt;
+        text-decoration: none;
+        margin: 0;
+        padding: 0;
+        color: $chlog-signaturelight;
+        float: right;
+    }
+    
 }
 
 .chlog-header-user {
@@ -224,6 +241,13 @@ h2 {
         width: 95%;
         margin: auto;
     }
-    
+
+    .chlog-header-loggedinuser {
+        margin-top: 1.5em;
+
+        a:hover {
+            color: $chlog-contrast;
+        }
+    }
 }
 

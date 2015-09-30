@@ -1,11 +1,21 @@
+@import "chlog-style-globalvars.scss";
+
+#lookup-content-area {
+    background: $chlog-containerbackground;
+}
+
 table {
+
+    width: 100%;
+    border-collapse: collapse;
     
     tr {
         height: 1.2em;   
         
         th {
-            background: #ddd;
-            font-size: 1em;
+            background: $chlog-signature;
+            color: $chlog-signaturelight;
+            font-size: 0.9em;
             padding: 0.2em 0.5em;
         }
             
@@ -13,9 +23,11 @@ table {
             padding: 0.1em;
             
             input[type="text"] {
-                font-size: 1em;
+                font-size: 0.9em;
                 height: 1.8em;
                 margin: 0;
+                border: 1px solid #666;
+                padding: 0 0.2em;
             }
             
             input[type="checkbox"] {
@@ -25,13 +37,18 @@ table {
         }
         
         button {
-            font-size: 1em;
+            font-size: 0.9em;
             border: 1px solid #666;
             background: #fff;
             margin: 0.1em;
             height: 1.8em;
             width: 2.7em;
         }
+        
+    }
+    
+    .lkuDesc {
+        width: 100%;   
     }
 }
 

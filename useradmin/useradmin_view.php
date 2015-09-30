@@ -63,16 +63,14 @@
                     <form id="frmRegister" action="." method="POST">
                         <h2>About You</h2>
 
+                        <label for="txtEmail">Email:</label>
+                        <input type="textbox" readonly id="txtEmail" name="email" value="$eml">
                         
-                        
-                        <label for="chkGravatar">Get my profile picture from Gravatar?</label>
+                        <label for="chkGravatar">Use Gravatar profile picture?</label>
                         <input type="checkbox" id="chkGravatar" name="gravatar" value="1" {$ugr}> Yes</input>
                         
                         <img id="imgGravatar" src="$grv"> 
                         <a class="gravlink" href="https://en.gravatar.com/">(change this image)</a>
-                        
-                        <label for="txtEmail">Email:</label>
-                        <input type="textbox" readonly id="txtEmail" name="email" value="$eml">
 
                         <label for="txtJoinDate">Join Date:</label>
                         <input type="textbox" readonly id="txtJoinDate" name="joindate" value="$jdt">

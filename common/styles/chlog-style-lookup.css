@@ -1,25 +1,36 @@
-table tr {
-  height: 1.2em; }
-  table tr th {
-    background: #ddd;
-    font-size: 1em;
-    padding: 0.2em 0.5em; }
-  table tr td {
-    padding: 0.1em; }
-    table tr td input[type="text"] {
-      font-size: 1em;
+#lookup-content-area {
+  background: #ddd; }
+
+table {
+  width: 100%;
+  border-collapse: collapse; }
+  table tr {
+    height: 1.2em; }
+    table tr th {
+      background: #0067a3;
+      color: #cadfeb;
+      font-size: 0.9em;
+      padding: 0.2em 0.5em; }
+    table tr td {
+      padding: 0.1em; }
+      table tr td input[type="text"] {
+        font-size: 0.9em;
+        height: 1.8em;
+        margin: 0;
+        border: 1px solid #666;
+        padding: 0 0.2em; }
+      table tr td input[type="checkbox"] {
+        display: block;
+        margin: auto; }
+    table tr button {
+      font-size: 0.9em;
+      border: 1px solid #666;
+      background: #fff;
+      margin: 0.1em;
       height: 1.8em;
-      margin: 0; }
-    table tr td input[type="checkbox"] {
-      display: block;
-      margin: auto; }
-  table tr button {
-    font-size: 1em;
-    border: 1px solid #666;
-    background: #fff;
-    margin: 0.1em;
-    height: 1.8em;
-    width: 2.7em; }
+      width: 2.7em; }
+  table .lkuDesc {
+    width: 100%; }
 
 #lookup-content-area {
   width: 100%; }

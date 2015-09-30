@@ -1,19 +1,31 @@
 // =======================
 //   variables 
 // =======================
-$chlog-blue:            #5b7f95;
-$chlog-darkblue:        #3a515f;
-$chlog-contrast:        #ede859;
+$chlog-logofont:            "Montserrat";
+$chlog-menufont:            "Montserrat";
+$chlog-mainfont:            "Montserrat";
+
+$chlog-signature:           #0067a3;
+$chlog-mainlogo:            #eaeff2;
+$chlog-signaturelight:                #cadfeb;
+$chlog-mainmenu:            #0067a3;
+$chlog-mainmenutext:        #cadfeb;
+$chlog-mainmenufocus:       #cadfeb;
+$chlog-mainmenufocustext:   #0067a3;
+
+$chlog-containerbackground: #ddd;
+$chlog-alternatebackground: #eee;
+
+$chlog-bordergrey:      #666;
+$chlog-greytext:        #666;
+$chlog-darkgrey:        #444;
 
 $chlog-buttondefault:   #ccc;
 $chlog-updateorange:    #f90;
 $chlog-cancelgrey:      #bbb;
 $chlog-deletered:       #faa;
 
-$chlog-mainmenublue:    #ddf;
-$chlog-mainmenufocus:   #c4c4e5;
 
-$chlog-bordergrey:      #666;
-$chlog-greytext:        #666;
-$chlog-darkgrey:        #444;
-
+//legacy
+$chlog-darkblue:        #3a515f;
+$chlog-contrast:        #ede859;

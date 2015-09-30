@@ -5,6 +5,7 @@
 #chlog-mainmenu-toggle {
 	display: block;
 	background: #fff;
+    font-family: $chlog-logofont, sans-serif;
 	color: $chlog-greytext;
 	padding: 10px 15px;
 	margin-bottom: 0.3em;
@@ -23,7 +24,7 @@
     margin-bottom: 0.3em;
     float: left;
     width: 40%;
-    background: $chlog-mainmenublue;
+    background: $chlog-mainmenu;
 
     ul {
         list-style: none;   
@@ -32,22 +33,25 @@
             display: block;
 
             &.dummya {
+                font-family: $chlog-menufont, sans-serif;
                 display: block;
                 padding: 0.2em 0.8em;
                 line-height: 1.9em;
-                color: $chlog-greytext;    
+                color: $chlog-mainmenutext;
             }
             
             a, a:link, a:visited, a:active, a:focus{
+                font-family: $chlog-menufont, sans-serif;
                 display: block;
                 padding: 0.2em 0.8em;
                 line-height: 1.9em;
-                color: $chlog-greytext;
+                color: $chlog-mainmenutext;
                 text-decoration: none;
             }
 
             &.chlog-mainmenu-highlighted {
                 background: $chlog-mainmenufocus;
+                color: $chlog-mainmenufocustext;
                 border-bottom: 3px solid $chlog-contrast;
             }
         }
@@ -71,6 +75,7 @@
         
         .chlog-submenu-header {
             color: $chlog-darkblue;
+            font-family: $chlog-menufont, sans-serif;
             font-size: 1em;
             font-weight: normal;
             padding-bottom: 0.3em;
@@ -86,6 +91,7 @@
             a, a:link, a:hover, a:visited, a:focus {
                 text-decoration: none;
                 color: $chlog-greytext;
+                font-family: $chlog-menufont, sans-serif;
             }
             
             a:hover {
@@ -119,7 +125,7 @@
         ul {
             list-style: none;   
             margin: 0;
-            background: $chlog-mainmenublue;
+            background: $chlog-mainmenu;
             
             li {
                 display: inline-block;
@@ -131,18 +137,21 @@
                     display: inline-block;
                     text-align: left;
                     padding: 0 0.8em;
-                    height: 3em;
-                    line-height: 3em;
+                    height: 2em;
+                    line-height: 2em;
+                    color: $chlog-mainmenutext;
                     transition: background 0.5s;
                 }
                 
                 &.dummya:hover, a:hover {
                     background: $chlog-mainmenufocus;
+                    color: $chlog-mainmenufocustext;
                     border-bottom: 3px solid $chlog-contrast;
                 }
                 
                 &.chlog-mainmenu-highlighted {
                     background: $chlog-mainmenufocus;
+                    color: $chlog-mainmenufocustext;
                     border-bottom: 3px solid $chlog-contrast;
                 }
             }
