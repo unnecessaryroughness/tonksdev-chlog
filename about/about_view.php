@@ -10,6 +10,9 @@
             return <<<HTML
 
             <h2>Welcome to chLOG</h2>
+            
+            <div id="divLogo">ch</div>
+            
             <p>
                 chLOG is a multi-device web application specifically for tracking Cluster Headaches.
             </p>
@@ -33,9 +36,8 @@
                 and to allow greater insight to be gained into an individual's cluster patterns.
             </p>
             <p>
-                chLOG is a web based application designed to run on any device, from a small-screen
-                smartphone to a large widescreen monitor. chLOG is free to use and free from 
-                advertising. 
+                chLOG is a web based application designed to run on any device, is free to use,
+                and free from advertising. 
             </p>
             <p>
                 <strong>

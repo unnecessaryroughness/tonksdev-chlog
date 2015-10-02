@@ -13,4 +13,20 @@ p {
   p strong {
     color: #d00; }
 
+#divLogo {
+  display: block;
+  float: left;
+  margin-right: 0.5em;
+  margin-bottom: 0.2em;
+  width: 100px;
+  height: 100px;
+  background: #0067a3;
+  color: #eaeff2;
+  font-family: "Montserrat";
+  font-weight: bold;
+  font-size: 3em;
+  padding-top: 42px;
+  padding-right: 7px;
+  text-align: right; }
+
 /*# sourceMappingURL=about.css.map */

@@ -11,8 +11,9 @@
 // =======================
 //   import variables 
 // =======================
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
 @import "chlog-style-globalvars.scss";
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Exo+2);
 
 * {
     box-sizing: border-box;   
@@ -152,7 +153,7 @@ h2 {
 
     a {
         text-decoration: none;   
-        font-family: 'Montserrat', sans-serif;
+        font-family: $chlog-logofont, sans-serif;
         font-size: 1.8em;
         font-weight: bold;
         color: $chlog-mainlogo;
@@ -169,7 +170,7 @@ h2 {
 }
 
 .chlog-header-loggedinuser {
-    font-family: 'Montserrat', sans-serif;
+    font-family: $chlog-menufont, sans-serif;
     font-size: 10pt;
     font-weight: bold;
     color: $chlog-signaturelight;

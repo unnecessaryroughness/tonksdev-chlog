@@ -44,8 +44,8 @@ function resetKipShading() {
         $(this).css("color", "#000"); 
         
         if ($(this).text() == $("#rngLevel").val()) {
-            $(this).css("background-color", "#3a515f");
-            $(this).css("color", "#ede859");
+            $(this).css("background-color", "#0067a3");
+            $(this).css("color", "#cadfeb");
         }
     });
 }

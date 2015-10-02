@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, maximum-scale=1">
-<!--	<meta name="apple-mobile-web-app-title" content="CHlog">-->
-<!--	<link rel="apple-touch-icon" sizes="72x72" href="/common/images/chlog.png">-->
+	<meta name="apple-mobile-web-app-title" content="chLOG">
+	<link rel="apple-touch-icon" sizes="180x180" href="/common/chLog180.png">
     <script src="/jquery/jquery-1.11.3.min.js"></script>
   
     <link rel="stylesheet" href="/common/styles/chlog-style-main.css">
