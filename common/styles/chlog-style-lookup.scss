@@ -2,6 +2,7 @@
 
 #lookup-content-area {
     background: $chlog-containerbackground;
+    border-radius: 5px;
 }
 
 table {
@@ -17,6 +18,14 @@ table {
             color: $chlog-signaturelight;
             font-size: 0.9em;
             padding: 0.2em 0.5em;
+            
+            &#rowHide {
+                border-radius: 5px 0 0 0;   
+            }
+            
+            &#rowButton {
+                border-radius: 0 5px 0 0;   
+            }
         }
             
         td {

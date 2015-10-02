@@ -4,23 +4,41 @@
 #frmRegister label {
     background: $chlog-signature;
     color: $chlog-signaturelight;
-    padding: 0.2em;
+    padding: 0.2em 0.5em;
     display: block;
     max-width: 400px;
     margin-top: 0.4em;
-    margin-bottom: 0.2em;
-    font-size: 0.8em;
+    margin-bottom: 0;
+    font-size: 0.9em;
     font-weight: bold;
+    border-radius: 5px 5px 0 0;
+}
+
+.fieldArea {
+    background: $chlog-containerbackground;   
+    max-width: 400px;
+    padding: 0.8em 0.5em 0;
+    border-radius: 0 0 5px 5px;
+    margin-bottom: 1em;
+    
+    .gravlink {
+        display: block;
+        font-size: 0.8em;
+        color: #666;
+        width: 15em;
+        margin-bottom: 1.5em;   
+        height: 2em;
+    }
 }
 
 #frmRegister input[type="textbox"], #frmRegister input[type="password"] {
     font-size: 0.9em;
     height: 2em;
     width: 100%;
-    margin-bottom: 1em;   
 }
 
 input[type="textbox"][readonly] {
+    background: $chlog-containerbackground;   
     color: #666;   
     border: 0;
 }
@@ -35,13 +53,6 @@ input[type="checkbox"] {
     margin-bottom: 0.5em;
 }
 
-.gravlink {
-    display: block;
-    font-size: 0.8em;
-    color: #666;
-    width: 15em;
-    margin-bottom: 1.5em;   
-}
 
 .gravlink:hover {
     color: #f00;   
@@ -71,13 +82,9 @@ button.update {
 }
 
 @media (min-width: 620px) {
-
-    #frmRegister input[type="textbox"], #frmRegister input[type="password"] {
-        width: 20em;
-    }
     
     #frmRegister textarea {
-        width: 20em;
+        width: 100%;
     }
 
     button {

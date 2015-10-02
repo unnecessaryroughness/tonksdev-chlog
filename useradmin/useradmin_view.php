@@ -64,35 +64,52 @@
                         <h2>About You</h2>
 
                         <label for="txtEmail">Email:</label>
-                        <input type="textbox" readonly id="txtEmail" name="email" value="$eml">
+                        <div class="fieldArea">
+                            <input type="textbox" readonly id="txtEmail" name="email" value="$eml">
+                        </div>
                         
                         <label for="chkGravatar">Use Gravatar profile picture?</label>
-                        <input type="checkbox" id="chkGravatar" name="gravatar" value="1" {$ugr}> Yes</input>
-                        
-                        <img id="imgGravatar" src="$grv"> 
-                        <a class="gravlink" href="https://en.gravatar.com/">(change this image)</a>
+                        <div class="fieldArea">
+                            <input type="checkbox" id="chkGravatar" name="gravatar" value="1" {$ugr}> Yes</input>
+                            <img id="imgGravatar" src="$grv"> 
+                            <a class="gravlink" href="https://en.gravatar.com/">(change this image)</a>
+                        </div>                        
 
                         <label for="txtJoinDate">Join Date:</label>
-                        <input type="textbox" readonly id="txtJoinDate" name="joindate" value="$jdt">
-
+                        <div class="fieldArea">
+                            <input type="textbox" readonly id="txtJoinDate" name="joindate" value="$jdt">
+                        </div>
+                        
                         <label for="txtIsAdmin">Is Admin:</label>
-                        <input type="textbox" readonly id="txtIsAdmin" name="isadmin" value="$adm">
-
+                        <div class="fieldArea">
+                            <input type="textbox" readonly id="txtIsAdmin" name="isadmin" value="$adm">
+                        </div>
+                        
                         <label for="txtNickname">Nickname:</label>
-                        <input type="textbox" id="txtNickname" name="nickname" required value="$nnm">
-
+                        <div class="fieldArea">
+                            <input type="textbox" id="txtNickname" name="nickname" required value="$nnm">
+                        </div>
+                        
                         <label for="txtBiography">Biography:</label>
-                        <textarea id="txtBiography" name="biography">$bio</textarea>
-
+                        <div class="fieldArea">
+                            <textarea id="txtBiography" name="biography">$bio</textarea>
+                        </div>
+                        
                         <label for="txtPassword">Current Password:</label>
-                        <input type="password" id="txtPassword" name="password" required value="">
-
+                        <div class="fieldArea">
+                            <input type="password" id="txtPassword" name="password" required value="">
+                        </div>
+                        
                         <label for="txtPassConf">New Password:</label>
-                        <input type="password" id="txtPassConf" name="passconf" value="">
-
+                        <div class="fieldArea">
+                            <input type="password" id="txtPassConf" name="passconf" value="">
+                        </div>
+                        
                         <label for="txtPassConf">Confirm New Password:</label>
-                        <input type="password" id="txtPassConf2" name="passconf2" value="">
-
+                        <div class="fieldArea">
+                            <input type="password" id="txtPassConf2" name="passconf2" value="">
+                        </div>
+                        
                         <div>
                             <button type="submit" id="cmdUpdate" name="action" value="update" class="update">Update</button>    
                             <button type="submit" id="cmdCancel" name="action" value="cancel" class="cancel">Cancel</button>    

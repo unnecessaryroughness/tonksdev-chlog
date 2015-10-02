@@ -1,5 +1,6 @@
 #lookup-content-area {
-  background: #ddd; }
+  background: #ddd;
+  border-radius: 5px; }
 
 table {
   width: 100%;
@@ -11,6 +12,10 @@ table {
       color: #cadfeb;
       font-size: 0.9em;
       padding: 0.2em 0.5em; }
+      table tr th#rowHide {
+        border-radius: 5px 0 0 0; }
+      table tr th#rowButton {
+        border-radius: 0 5px 0 0; }
     table tr td {
       padding: 0.1em; }
       table tr td input[type="text"] {

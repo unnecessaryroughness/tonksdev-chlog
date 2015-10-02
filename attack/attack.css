@@ -124,7 +124,19 @@
 #dtp_placeholder {
   display: none; }
 
+@media (min-width: 330px) {
+  .attackgroup {
+    width: 97%; } }
 @media (min-width: 620px) {
+  .attackgroup {
+    float: left;
+    border: 0px solid #666;
+    border-radius: 5px;
+    width: 30%;
+    margin: 1.5%;
+    min-width: 275px;
+    overflow: hidden; }
+
   #tblTreatments tbody tr td .remTre:hover {
     background: #444;
     color: #f88; }
