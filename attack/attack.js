@@ -21,6 +21,8 @@ $(function() {
     renderAllTreatments();
     
     $("#cmdAddTreatment").on("click", function() {
+        updateAllTreatments();
+        
         jsoTre.record.push({id: jsoTlist.record[0].id, description: "", preparation: "", 
                             dosage: "", administered: $("#dtp1_txtFullDateTime").val()});
         renderAllTreatments();
@@ -50,6 +52,17 @@ function resetKipShading() {
     });
 }
                            
+
+function updateAllTreatments() {
+    for (var i=0; i<jsoTre.record.length; i++) {
+        jsoTre.record[i].id = $("#selTre_" + i + " option:selected").val();
+        jsoTre.record[i].description = $("#selTre_" + i + " option:selected").text();
+        jsoTre.record[i].preparation = $("#selPre_" + i + " option:selected").val();
+        jsoTre.record[i].dosage = $("#txtDos_" + i + "").val();
+        jsoTre.record[i].administered = $("#dtp_" + i + "_txtFullDateTime").val();
+    }   
+}
+
 
 function renderAllTreatments() {
     $("#tblTreatments").html("");
