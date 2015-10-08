@@ -17,27 +17,8 @@ function draw1wAttackBarChart() {
     var dToday = new Date();
     
     //get array of 7 days prior to (and including) today
-    var d1WeekAgo = new Date();
-    d1WeekAgo.setDate(dToday.getDate() - 7);
-    
-    //populate array with data from text field - leave non matches at zero
-    var aTmpData = [['Day', 'Attacks: ', {role: 'annotation'} ]];
-    
-    for (var i=6; i>=0; i--) {
-        var dDate = new Date();
-        dDate.setDate(dToday.getDate() - i);
-        dUTC = dDate.toISOString().match(/[^T]*/);
+    var aTmpData = populateColChartArray(jso1w, 7);
 
-        var acnt = 0
-        for (var n=0; n<jso1w.length; n++) {
-            acnt = (jso1w[n].date == dUTC) ? parseInt(jso1w[n].cnt) : 0;
-        }
-        
-        aTmpData.push([dDate.getDate() + "/" + dDate.getMonth(), parseInt(acnt), parseInt(acnt)]);
-    }
-    
-    console.log(aTmpData);
-    
     //convert into google data table
     var data = google.visualization.arrayToDataTable(aTmpData);
     
@@ -59,37 +40,18 @@ function draw1mAttackBarChart() {
     //get today's date
     var dToday = new Date();
     
-    //get array of 7 days prior to (and including) today
-    var d1MonthAgo = new Date();
-    d1MonthAgo.setMonth(dToday.getMonth() - 1);
+    //figure out how many days it has been since (today-1 month)
+    var d1MonthAgo = getTimeAgo(dToday, 1, "month");
     var dDiff = Math.round((dToday - d1MonthAgo)/(1000*60*60*24));
     
-    //populate array with data from text field - leave non matches at zero
-    var aTmpData = [['Day', 'Attacks: ', {role: 'annotation'} ]];
-    
-    for (var i=dDiff; i>=0; i--) {
-        var dDate = new Date();
-        dDate.setDate(dToday.getDate() - i);
-        dUTC = dDate.toISOString().match(/[^T]*/);
-
-        
-        var acnt = 0
-        for (var n=0; n<jso1m.length; n++) {
-            if (jso1m[n].date == dUTC) {
-                acnt = parseInt(jso1m[n].cnt);
-                break;
-            }
-        }
-        
-        aTmpData.push([dDate.getDate() + "/" + dDate.getMonth(), parseInt(acnt), ""]);
-    }
+    var aTmpData = populateColChartArray(jso1m, dDiff);
     
     //convert into google data table
     var data = google.visualization.arrayToDataTable(aTmpData);
     
     var options = {
         title: "Attacks in the past month",
-        titleTextStyle: {fontSize: 14},
+        titleTextStyle: {fontSize: 14, bold: true},
         chartArea: {"width": "85%", "height": "80%", "left": "40"}, 
         legend: { position: 'none' },
         bar: { groupWidth: '85%' }
@@ -97,4 +59,60 @@ function draw1mAttackBarChart() {
     
     var chart = new google.visualization.ColumnChart($("#chart-2")[0]);
     chart.draw(data, options);
+}
+
+
+function drawAttackBarChart(chartWM) {
+    
+    //get today's date
+    var dToday = new Date();
+
+
+}
+
+
+function getTimeAgo(today, interval, intervaltype) {
+    if (today && interval && intervaltype) {
+        var dTimeAgo = new Date();
+        
+        switch (intervaltype.toLowerCase()) {
+            case "month":
+                dTimeAgo.setMonth(today.getMonth() - interval);
+                break;
+            case "day":
+                dTimeAgo.setDate(today.getDate() - interval);
+                break;
+            default:
+                dTimeAgo = today;
+        }
+        
+        return dTimeAgo;
+    }
+}
+
+
+function populateColChartArray(attackarray, daysago) {
+
+    daysago = daysago || 7;
+    daysago--;
+
+    var outputarray = [['Day', 'Attacks: ', {role: 'annotation'} ]];
+
+    for (var i=daysago; i>=0; i--) {
+        var dDate = new Date();
+        dDate.setDate(dDate.getDate() - i);
+        dUTC = dDate.toISOString().match(/[^T]*/);
+
+        var acnt = 0
+        for (var n=0; n<attackarray.length; n++) {
+            if (attackarray[n].date == dUTC) {
+                acnt = parseInt(attackarray[n].cnt);
+                break;
+            }
+        }
+
+        outputarray.push([dDate.getDate() + "/" + (dDate.getMonth()+1), parseInt(acnt), ""]);
+    }
+    
+    return outputarray;
 }

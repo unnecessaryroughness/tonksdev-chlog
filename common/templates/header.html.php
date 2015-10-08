@@ -5,6 +5,7 @@
                         htmlout("[".$_SESSION["environment"]->envid."]");
                     } ?>
         </a>
+        <div class="usersplit"></div>
         <span class="chlog-header-loggedinuser">
             <?php 
                     $unn = chlog\safeget::session("user", "nickname", "not logged in");

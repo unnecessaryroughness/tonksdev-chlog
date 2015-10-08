@@ -16,18 +16,22 @@
     min-height: 10em;   
 }
 
+p.dashtitle {
+    display: inline-block;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+    font-family: $chlog-menufont;
+    background: $chlog-signature;
+    color: $chlog-signaturelight;
+    text-align: center;
+    padding: 5px 0;
+}
 
 #chlog-dashboard {
     overflow: hidden;
     background: $chlog-containerbackground;
     padding: 10px 10px 10px 10px;
-    border-radius: 5px;
-    
-    p {
-        font-family: $chlog-menufont;
-        text-align: center;
-        margin: 0 0 10px 0;
-    }
+    border-radius: 0 0 5px 5px;
 }
 
 .chlog-dashboard-chart {
@@ -59,6 +63,10 @@
         min-height: 25em;   
     }
 
+    p.dashtitle {
+        margin-top: 1em;
+    }
+    
     .chlog-dashboard-chart {
         float: left;
         border: 1px solid $chlog-bordergrey;

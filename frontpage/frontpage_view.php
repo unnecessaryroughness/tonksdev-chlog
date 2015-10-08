@@ -57,7 +57,8 @@
             return <<<HTML
             <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   
-            <div id="chlog-dashboard"><p>My Cluster Headache Dashboard<p>
+            <p class="dashtitle">My Cluster Headache Dashboard<p>
+            <div id="chlog-dashboard">
             
                 <div id="chart-1" class="chlog-dashboard-chart"></div>
                 <div id="chart-2" class="chlog-dashboard-chart"></div>

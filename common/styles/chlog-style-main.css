@@ -343,6 +343,9 @@ h2 {
   color: #ede859;
   display: block; }
 
+.usersplit {
+  clear: both; }
+
 .chlog-header-loggedinuser {
   font-family: "Montserrat", sans-serif;
   font-size: 10pt;
@@ -402,6 +405,9 @@ h2 {
   .chlog-header-loggedinuser {
     margin-top: 1.5em; }
     .chlog-header-loggedinuser a:hover {
-      color: #ede859; } }
+      color: #ede859; }
+
+  .usersplit {
+    clear: none; } }
 
 /*# sourceMappingURL=chlog-style-main.css.map */

@@ -11,15 +11,21 @@
 #chlog-content-area {
   min-height: 10em; }
 
+p.dashtitle {
+  display: inline-block;
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  font-family: "Montserrat";
+  background: #0067a3;
+  color: #cadfeb;
+  text-align: center;
+  padding: 5px 0; }
+
 #chlog-dashboard {
   overflow: hidden;
   background: #ddd;
   padding: 10px 10px 10px 10px;
-  border-radius: 5px; }
-  #chlog-dashboard p {
-    font-family: "Montserrat";
-    text-align: center;
-    margin: 0 0 10px 0; }
+  border-radius: 0 0 5px 5px; }
 
 .chlog-dashboard-chart {
   position: relative;
@@ -44,6 +50,9 @@
 
   #chlog-content-area {
     min-height: 25em; }
+
+  p.dashtitle {
+    margin-top: 1em; }
 
   .chlog-dashboard-chart {
     float: left;

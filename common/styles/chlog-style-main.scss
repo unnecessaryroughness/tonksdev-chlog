@@ -169,6 +169,10 @@ h2 {
     display: block;
 }
 
+.usersplit {
+    clear: both;   
+}
+
 .chlog-header-loggedinuser {
     font-family: $chlog-menufont, sans-serif;
     font-size: 10pt;
@@ -249,6 +253,10 @@ h2 {
         a:hover {
             color: $chlog-contrast;
         }
+    }
+    
+    .usersplit {
+        clear: none;   
     }
 }
 
