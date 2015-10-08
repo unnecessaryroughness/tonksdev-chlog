@@ -29,7 +29,62 @@
             switch ($type) {
 
                 default:
-                    return new Frontpage_View();    
+                    
+                    //get stats for view
+                    $usr = safeget::session("user", null, null, false);
+                    $eml = $usr->email;
+                    $dbc = Database::connect();
+                    
+                    if (strlen($eml) > 0) {
+                    
+                        //get attacks in 1 week
+                        try {
+                            $sql = "CALL getAttacksInPeriod (:eml, :int, :ityp)";
+                            $qry = $dbc->prepare($sql);
+                            $qry->bindValue(":eml", $eml);
+                            $qry->bindValue(":int", "1");
+                            $qry->bindValue(":ityp", "WEEK");
+                            $qSuccess = $qry->execute(); 
+
+                            if ($qSuccess) {
+                                $a1wRecs = $qry->fetchall(\PDO::FETCH_ASSOC);
+                            } else {
+                                $errmsg = "Failed to retrieve a list of my attacks this week for dashboard - query failed";
+                                Logger::log($errmsg); 
+                                throw new \Exception(ChlogErr::EM_GETMYATTACKSFAILED, ChlogErr::EC_GETMYATTACKSFAILED);
+                            }
+
+                        } catch (\Exception $e) {
+                            Logger::log(getNiceErrorMessage($e), $usr->email); 
+                            return new Error_View($e->getCode(), getNiceErrorMessage($e));
+                        }
+                        
+                        //get attacks in 1 month
+                        try {
+                            $sql = "CALL getAttacksInPeriod (:eml, :int, :ityp)";
+                            $qry = $dbc->prepare($sql);
+                            $qry->bindValue(":eml", $eml);
+                            $qry->bindValue(":int", "1");
+                            $qry->bindValue(":ityp", "MONTH");
+                            $qSuccess = $qry->execute(); 
+
+                            if ($qSuccess) {
+                                $a1mRecs = $qry->fetchall(\PDO::FETCH_ASSOC);
+                            } else {
+                                $errmsg = "Failed to retrieve a list of my attacks this week for dashboard - query failed";
+                                Logger::log($errmsg); 
+                                throw new \Exception(ChlogErr::EM_GETMYATTACKSFAILED, ChlogErr::EC_GETMYATTACKSFAILED);
+                            }
+
+                        } catch (\Exception $e) {
+                            Logger::log(getNiceErrorMessage($e), $usr->email); 
+                            return new Error_View($e->getCode(), getNiceErrorMessage($e));
+                        }
+
+                    }
+                
+                
+                    return new Frontpage_View($a1wRecs, $a1mRecs);    
                     break;
             }
         }

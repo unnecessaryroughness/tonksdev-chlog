@@ -4,13 +4,20 @@
         
     class Frontpage_View extends ChlogView {
 
+        protected $a1wData = [];
+        protected $a1mData = [];
+        
+        
     /*  ============================================
         FUNCTION:   __construct
         PARAMS:     (none)
         RETURNS:    (object)
         PURPOSE:    constructs the class. No special functions.
         ============================================  */
-        public function __construct() {}
+        public function __construct($a1w, $a1m) {
+            if ($a1w) { $this->a1wData = $a1w; }
+            if ($a1m) { $this->a1mData = $a1m; }
+        }
 
         
     /*  ============================================
@@ -42,9 +49,29 @@
         PURPOSE:    returns the default HTML view 
         ============================================  */
         public function defaulthtml() {
+            
+            $jso1w = json_encode($this->a1wData);
+            $jso1m = json_encode($this->a1mData);
+            
+            
             return <<<HTML
-            <div class="chlog-main-splash">chLOG</div>        
-            <div id="chlog-content-area"></div>
+            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  
+            <div id="chlog-dashboard"><p>My Cluster Headache Dashboard<p>
+            
+                <div id="chart-1" class="chlog-dashboard-chart"></div>
+                <div id="chart-2" class="chlog-dashboard-chart"></div>
+                <div id="chart-3" class="chlog-dashboard-chart"></div>
+                <div id="chart-4" class="chlog-dashboard-chart"></div>
+            
+            </div>
+            
+            <script language="javascript">
+                var jso1w = {$jso1w};
+                var jso1m = {$jso1m};
+            </script>
+            
+            <script language="javascript" src="/frontpage/frontpage.js"></script>
 HTML;
         }
 
