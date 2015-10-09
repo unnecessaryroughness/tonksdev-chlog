@@ -43,7 +43,7 @@
                     }
                 
                     //successfully added user - redirect to the login/loggedin page
-                    return new Redirect_View("/chlog/login/");
+                    return new Redirect_View("/login/");
                     break;
                 
                 default:

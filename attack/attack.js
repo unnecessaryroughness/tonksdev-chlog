@@ -34,6 +34,7 @@ $(function() {
         }
     });
     
+    $("#dtp1_selStartHour").focus();
     
     //size boxes
     resizeAttackGroups(); 

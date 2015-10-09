@@ -113,16 +113,18 @@ class LookupList implements \Iterator, \ArrayAccess, \Countable {
     FUNCTION:   toJSON
     PARAMS:     (none)
     RETURNS:    (string)
-    PURPOSE:    Returns the a JSON notation version of this symptoms list
+    PURPOSE:    Returns the a JSON notation version of this lookup list
     ============================================  */
     public function toJSON() {
         $cnt = 0;
         $json = '{"record": [';
-        foreach ($this->records as $rec) {
-            $json .= str_replace("@@", $cnt, $rec->toJSON()).',';
-            $cnt += 1;
+        if ($this->records) {
+            foreach ($this->records as $rec) {
+                $json .= str_replace("@@", $cnt, $rec->toJSON()).',';
+                $cnt += 1;
+            }
+            $json = substr($json, 0, strlen($json)-1);
         }
-        $json = substr($json, 0, strlen($json)-1);
         $json .= ']}';
         return $json;
     }

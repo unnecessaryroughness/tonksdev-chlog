@@ -84,7 +84,7 @@
                     <div class="sectionbody">
                         <label for="txtID">Attack ID</label>
                         <input type="text" id="txtID" name="txtID" class="fldNarrow" 
-                                readonly value="{$this->attack->id}">
+                                readonly value="{$this->attack->id}" autofocus>
 
                         {$dtp1->html($this->attack->startdt)}
                         {$dtp2->html($this->attack->enddt)}
@@ -186,30 +186,33 @@ HTML;
         PARAMS:     sl      lookup list to render
                     ll      linked list to evaluate for selected/unselected
         RETURNS:    (string)
-        PURPOSE:    returns the default rendering of a symptom list 
+        PURPOSE:    returns the default rendering of a lookup list 
         ============================================  */
         function lookuphtml($sl, $ll=null) {
             $rtn = "";
             $typ = $sl->type;
             $i = 0;
             
-            foreach ($sl->records as $sym) {
-                $i++;
-                $rtn .= "<tr>";
-                $rtn .= "<td><label for='chk".$typ.$i."'>".$sym->description."</label></td>";
-                $rtn .= "<td class='chkcol'><input type='checkbox' id='chk".$typ.$i."' name='chk".$typ."[]' ";
-                $rtn .= "value='".$sym->id."' ";
-                if ($ll) {
-                    foreach ($ll as $rec) {
-                        if ($rec->id == $sym->id) {
-                            $rtn .= "checked";   
+            if ($sl->records) {
+                foreach ($sl->records as $sym) {
+                    $i++;
+                    $rtn .= "<tr>";
+                    $rtn .= "<td><label for='chk".$typ.$i."'>".$sym->description."</label></td>";
+                    $rtn .= "<td class='chkcol'><input type='checkbox' id='chk".$typ.$i."' name='chk".$typ."[]' ";
+                    $rtn .= "value='".$sym->id."' ";
+                    if ($ll) {
+                        foreach ($ll as $rec) {
+                            if ($rec->id == $sym->id) {
+                                $rtn .= "checked";   
+                            }
                         }
                     }
+                    $rtn .= "></td>";
+                    $rtn .= "</tr>\n";    
                 }
-                $rtn .= "></td>";
-                $rtn .= "</tr>\n";    
             }
             
+            $rtn = (strlen($rtn)==0) ? "<tr><td>None: Go to Settings --> Set Up Lists</td></tr>" : $rtn; 
             return $rtn;
         }
 
