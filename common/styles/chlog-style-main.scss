@@ -180,7 +180,9 @@ h2 {
     color: $chlog-signaturelight;
     padding: 0 0.8em;
     display: inline-block;
-    float: right;   
+    float: right;       
+    width: 50%;
+    text-align: right;
 
     a {
         font-size: 10pt;

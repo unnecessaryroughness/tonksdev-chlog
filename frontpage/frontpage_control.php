@@ -61,7 +61,7 @@
                         
                         //get attacks in 1 month
                         try {
-                            $sql = "CALL getAttacksInPeriod (:eml, :int, :ityp)";
+                            $sql = "CALL getAllAttacksInPeriod (:eml, :int, :ityp)";
                             $qry = $dbc->prepare($sql);
                             $qry->bindValue(":eml", $eml);
                             $qry->bindValue(":int", "1");

@@ -353,7 +353,9 @@ h2 {
   color: #cadfeb;
   padding: 0 0.8em;
   display: inline-block;
-  float: right; }
+  float: right;
+  width: 50%;
+  text-align: right; }
   .chlog-header-loggedinuser a {
     font-size: 10pt;
     text-decoration: none;

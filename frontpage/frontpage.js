@@ -7,7 +7,8 @@ $(function() {
 
 function drawCharts() {
     draw1wAttackBarChart();
-    draw1mAttackBarChart();
+    //draw1mAttackBarChart();
+    draw1mScatterChart();
 }
 
 
@@ -21,9 +22,9 @@ function draw1wAttackBarChart() {
 
     //convert into google data table
     var data = google.visualization.arrayToDataTable(aTmpData);
-    
+        
     var options = {
-        title: "Attacks in the past week",
+        title: "Number of Attacks in the Past Week",
         titleTextStyle: {fontSize: 14},
         chartArea: {"width": "85%", "height": "80%", "left": "40"}, 
         legend: { position: 'none' },
@@ -44,13 +45,13 @@ function draw1mAttackBarChart() {
     var d1MonthAgo = getTimeAgo(dToday, 1, "month");
     var dDiff = Math.round((dToday - d1MonthAgo)/(1000*60*60*24));
     
-    var aTmpData = populateColChartArray(jso1m, dDiff);
+    var aTmpData = populateColChartArray(jso1m, dToday, dDiff);
     
     //convert into google data table
     var data = google.visualization.arrayToDataTable(aTmpData);
     
     var options = {
-        title: "Attacks in the past month",
+        title: "Number of Attacks in the Past Month",
         titleTextStyle: {fontSize: 14, bold: true},
         chartArea: {"width": "85%", "height": "80%", "left": "40"}, 
         legend: { position: 'none' },
@@ -58,6 +59,32 @@ function draw1mAttackBarChart() {
     };
     
     var chart = new google.visualization.ColumnChart($("#chart-2")[0]);
+    chart.draw(data, options);
+}
+
+function draw1mScatterChart() {
+    
+    //get today's date
+    var dToday = new Date();
+    
+    //figure out how many days it has been since (today-1 month)
+    var d1MonthAgo = getTimeAgo(dToday, 1, "month");
+    
+    var aTmpData = populateScatterArray(jso1m, dToday);
+    
+    //convert into google data table
+    var data = google.visualization.arrayToDataTable(aTmpData);
+    
+    var options = {
+        title: "Level of Attacks in the Past Month",
+        titleTextStyle: {fontSize: 14, bold: true},
+        chartArea: {"width": "85%", "height": "80%", "left": "40"}, 
+        legend: "none",
+        hAxis: {title: "Days Ago", titleTextStyle: {bold: true}},
+        vAxis: {title: "Level", minValue: 0, maxValue: 10, format: "short",  titleTextStyle: {bold: true}}
+    };
+    
+    var chart = new google.visualization.ScatterChart($("#chart-2")[0]);
     chart.draw(data, options);
 }
 
@@ -112,6 +139,19 @@ function populateColChartArray(attackarray, daysago) {
         }
 
         outputarray.push([dDate.getDate() + "/" + (dDate.getMonth()+1), parseInt(acnt), ""]);
+    }
+    
+    return outputarray;
+}
+
+function populateScatterArray(attackarray, d2d, d1m) {
+
+    var outputarray = [['Day', 'Level']];
+
+    for (var i=0; i<attackarray.length; i++) {
+        var aDate = new Date(attackarray[i].date.substr(0, 10));
+        var dDiff = Math.round((d2d - aDate)/(1000*60*60*24)) -1;
+        outputarray.push([dDiff, parseInt(attackarray[i].level)]);
     }
     
     return outputarray;
