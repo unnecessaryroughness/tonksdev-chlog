@@ -1,4 +1,4 @@
-google.load("visualization", "1.0", {"packages": ["corechart"]});
+    google.load("visualization", "1.0", {"packages": ["corechart"]});
 
 $(function() {
     google.setOnLoadCallback(drawCharts());
@@ -80,8 +80,8 @@ function draw1mScatterChart() {
         titleTextStyle: {fontSize: 14, bold: true},
         chartArea: {"width": "85%", "height": "80%", "left": "40"}, 
         legend: "none",
-        hAxis: {title: "Days Ago", titleTextStyle: {bold: true}},
-        vAxis: {title: "Level", minValue: 0, maxValue: 10, format: "short",  titleTextStyle: {bold: true}}
+        hAxis: {title: "Days Ago", titleTextStyle: {bold: true}, gridlines: {count: 6}},
+        vAxis: {title: "Level", minValue: 0, maxValue: 10, format: "short",  titleTextStyle: {bold: true}, gridlines: {count: 6}}
     };
     
     var chart = new google.visualization.ScatterChart($("#chart-2")[0]);
@@ -150,7 +150,13 @@ function populateScatterArray(attackarray, d2d, d1m) {
 
     for (var i=0; i<attackarray.length; i++) {
         var aDate = new Date(attackarray[i].date.substr(0, 10));
-        var dDiff = Math.round((d2d - aDate)/(1000*60*60*24)) -1;
+        aDate.setHours(parseInt(attackarray[i].date.substr(11, 13)));
+        aDate.setMinutes(parseInt(attackarray[i].date.substr(14, 16)));
+        
+        var dDiff = Math.round((d2d - aDate)/(1000*60*60*24));
+        
+        console.log(attackarray[i].date + " > " + aDate + " diff > " + dDiff);
+        
         outputarray.push([dDiff, parseInt(attackarray[i].level)]);
     }
     
