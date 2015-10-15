@@ -76,9 +76,11 @@ button {
 
 #chlog-mainmenu {
   display: none;
+  position: absolute;
+  z-index: 1;
   margin-bottom: 0.3em;
   float: left;
-  width: 40%;
+  width: 130px;
   background: #0067a3; }
   #chlog-mainmenu ul {
     list-style: none; }
@@ -104,7 +106,10 @@ button {
 
 /* MEGAMENUS */
 .chlog-submenu {
-  float: left;
+  position: absolute;
+  left: 130px;
+  min-height: 250px;
+  z-index: 1;
   width: 58%;
   background: #cadfeb;
   display: none;
@@ -145,6 +150,7 @@ button {
 
   #chlog-mainmenu {
     display: block;
+    position: static;
     width: 100%;
     float: none;
     margin-bottom: 0; }

@@ -1,11 +1,12 @@
 @import "../common/styles/chlog-style-globalvars.scss";
 
 .divAttackListHeader {
-    padding: 0.1em 0.6em;
+    padding: 0.2em 0.6em;
     font-size: 0.9em;
     font-weight: bold;
     background: $chlog-signature;
     color: $chlog-signaturelight;
+    border-radius: 5px 5px 0 0;
     
     span {
         margin-right: 0.2em;

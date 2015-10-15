@@ -1,9 +1,10 @@
 .divAttackListHeader {
-  padding: 0.1em 0.6em;
+  padding: 0.2em 0.6em;
   font-size: 0.9em;
   font-weight: bold;
   background: #0067a3;
-  color: #cadfeb; }
+  color: #cadfeb;
+  border-radius: 5px 5px 0 0; }
   .divAttackListHeader span {
     margin-right: 0.2em; }
 
