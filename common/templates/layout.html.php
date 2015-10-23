@@ -28,7 +28,10 @@
 
           <!-- Include the main content -->
           <section id="chlog-main">
-            <?php echo ($vw->html()) ? $vw->html() : "" ?>
+            <?php 
+                $h = $vw->html(); 
+                echo $h ? $h : "" 
+            ?>
           </section>
           
           <?php require $_SERVER["DOCUMENT_ROOT"]."/common/templates/footer.html.php" ?>

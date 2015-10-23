@@ -131,7 +131,18 @@
                             self::EC_GT1OPENATTACK          => self::EM_GT1OPENATTACK,
                             self::EC_ATTACKDELFAILED        => self::EM_ATTACKDELFAILED
             );
+
+
+        //TREATMENT PLAN ERROR CODES
+        const EC_TREATPLANFAILED    = 6001;
         
+        //TREATMENT PLAN ERROR MESSAGES
+        const EM_TREATPLANFAILED    = "Sorry, I was unable to retrieve your treatment plan";
+        
+        //TREATMENT PLAN ERROR ARRAY
+        public static $EA_TREATMENTPLANERRORS = array(
+                            self::EC_TREATPLANFAILED        => self::EM_TREATPLANFAILED
+            );
         
         
         public static function processRowcount($subject="(none)", $rowcount=0, $errmsg="err", 

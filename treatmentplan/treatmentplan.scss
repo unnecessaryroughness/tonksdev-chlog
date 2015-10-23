@@ -1,0 +1,88 @@
+@import "../common/styles/chlog-style-globalvars.scss";
+
+
+.grpTreatmentL {
+    float: left;   
+    width: 300px;
+}
+
+.grpTreatmentR {
+    float: left;   
+    min-width: 450px;
+    width: 100%;
+}
+
+#selTreatment {
+    height: 5em;
+    width: 100%;
+}
+
+
+
+#tblDosages {
+    border-collapse: collapse;
+    width: 100%;
+    background: $chlog-containerbackground;
+    
+    tr {
+        th {
+            background: $chlog-signature;   
+            color: $chlog-signaturelight;        
+            padding: 0.1em;
+            margin: 0;
+            text-align: center;
+            
+            &.thsel {
+                border-radius: 5px 0 0 0;   
+            }
+            
+            &.thfrom, &.thto, &.thuni {
+                min-width: 7em;   
+            }
+            
+            &.thdos, &.thxday {
+                min-width: 4em;   
+            }
+            
+            &.thxday {
+                border-radius: 0 5px 0 0;   
+            }
+            
+        }   
+        
+        td {
+            margin: 0;
+            
+            input {
+                margin: 0;   
+                width: 100%;
+                text-align: center;
+            }
+        }
+    }
+}
+
+.dosetxt {
+    width: 7em;   
+    
+}
+
+.dosetxtsmall {
+    width: 3em;   
+}
+
+
+
+@media (min-width: 1050px) {
+    .grpTreatmentL {
+        float: left;   
+        min-width: 250px;
+        width: 25%;
+    }
+    
+    .grpTreatmentR {
+        float: right;   
+        width: 70%;
+    }
+}
+

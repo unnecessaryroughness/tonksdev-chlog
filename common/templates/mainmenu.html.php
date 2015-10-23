@@ -29,7 +29,7 @@
     <section>
         <div class="chlog-submenu-header">Treatment Options</div>
         <ul>
-            <li><a href="/">My Treatment Plan</a></li>
+            <li><a href="/treatmentplan/">My Treatment Plan</a></li>
         </ul>
     </section>
 </nav>

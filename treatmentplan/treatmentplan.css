@@ -1,0 +1,55 @@
+.grpTreatmentL {
+  float: left;
+  width: 300px; }
+
+.grpTreatmentR {
+  float: left;
+  min-width: 450px;
+  width: 100%; }
+
+#selTreatment {
+  height: 5em;
+  width: 100%; }
+
+#tblDosages {
+  border-collapse: collapse;
+  width: 100%;
+  background: #ddd; }
+  #tblDosages tr th {
+    background: #0067a3;
+    color: #cadfeb;
+    padding: 0.1em;
+    margin: 0;
+    text-align: center; }
+    #tblDosages tr th.thsel {
+      border-radius: 5px 0 0 0; }
+    #tblDosages tr th.thfrom, #tblDosages tr th.thto, #tblDosages tr th.thuni {
+      min-width: 7em; }
+    #tblDosages tr th.thdos, #tblDosages tr th.thxday {
+      min-width: 4em; }
+    #tblDosages tr th.thxday {
+      border-radius: 0 5px 0 0; }
+  #tblDosages tr td {
+    margin: 0; }
+    #tblDosages tr td input {
+      margin: 0;
+      width: 100%;
+      text-align: center; }
+
+.dosetxt {
+  width: 7em; }
+
+.dosetxtsmall {
+  width: 3em; }
+
+@media (min-width: 1050px) {
+  .grpTreatmentL {
+    float: left;
+    min-width: 250px;
+    width: 25%; }
+
+  .grpTreatmentR {
+    float: right;
+    width: 70%; } }
+
+/*# sourceMappingURL=treatmentplan.css.map */

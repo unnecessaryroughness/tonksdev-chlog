@@ -1,4 +1,4 @@
-    google.load("visualization", "1.0", {"packages": ["corechart"]});
+google.load("visualization", "1.0", {"packages": ["corechart"]});
 
 $(function() {
     google.setOnLoadCallback(drawCharts());
@@ -154,8 +154,6 @@ function populateScatterArray(attackarray, d2d, d1m) {
         aDate.setMinutes(parseInt(attackarray[i].date.substr(14, 16)));
         
         var dDiff = Math.round((d2d - aDate)/(1000*60*60*24));
-        
-        console.log(attackarray[i].date + " > " + aDate + " diff > " + dDiff);
         
         outputarray.push([dDiff, parseInt(attackarray[i].level)]);
     }

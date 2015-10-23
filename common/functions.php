@@ -55,7 +55,9 @@
                             chlog\ChlogErr::$EA_NAVERRORS,
                             chlog\ChlogErr::$EA_DATAERRORS,
                             chlog\ChlogErr::$EA_LOOKUPERRORS,
-                            chlog\ChlogErr::$EA_ATTACKERRORS);
+                            chlog\ChlogErr::$EA_ATTACKERRORS,
+                            chlog\ChlogErr::$EA_TREATMENTPLANERRORS
+                           );
         
         foreach ($errsources as $es) {
             if (isset($es[$e->getCode()])) {
