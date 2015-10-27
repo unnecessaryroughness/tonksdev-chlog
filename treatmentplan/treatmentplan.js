@@ -31,6 +31,12 @@ $(function() {
     $("#selTreatment").val($("#selTreatment option:first").val());
     populateDoseList(planjso, $("#selTreatment option:selected").val());
     
+    
+    $("#btnUpdDos").on("click", function() {
+        $("#hidJSO").val(JSON.stringify(planjso));
+    });
+    
+    
 });
   
   

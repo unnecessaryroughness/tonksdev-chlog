@@ -78,9 +78,10 @@
                                 <th class="thxday">x/Day</th>
                             </tr>
                         </table>
+                        <input type="text" id="hidJSO" name="hidJSO" value=""></input>
                         <button type="button" id="btnAddDos">New</button>
-                        <button type="button" id="btnUpdDos">Update</button>
-                        <button type="button" id="btnRemDos">Remove</button>
+                        <button type="update" id="btnUpdDos" name="action" value="update">Update</button>
+                        <button type="update" id="btnRemDos" name="action" value="remove">Remove</button>
                     </div>
                 </form>
                 

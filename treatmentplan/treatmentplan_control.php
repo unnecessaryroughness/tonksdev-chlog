@@ -34,6 +34,48 @@
                 
                 
             switch ($type) {
+                case "update": 
+                    //easiest way to refresh the plan is to remove everything and 
+                    //recreate all of the records. Avoids having to figure out
+                    //which records to add/update/remove.
+
+                    //1. remove all usertreatmentplan records for this email address
+                    
+                    
+                    //2. recreate records based on the JSO returned from the view
+                    $jso = json_decode(safeget::post("hidJSO"), true);
+                    $tre = $jso["treatments"];
+                    
+                    //iterate over every treatment
+                    foreach ($tre as $tkey => $tval) {
+                        
+                        //same id and name for every dosage of this treatment
+                        $upid = $tval["id"];
+                        $upnm = $tval["name"];
+                        
+                        //iterate over every dosage of this treatment
+                        foreach ($tval["doses"] as $dkey => $dval) {
+                            
+                            //get the variables for this treatment
+                            $updf = $dval["dfrom"];
+                            $updt = $dval["dto"];
+                            $upun = $dval["units"];
+                            $upds = $dval["dosage"];
+                            $upxd = $dval["timesperday"];
+
+                            //if all variables have a value, go ahead and update
+                            if ($upid && $upnm && $updf && $updt && $upun && $upds && $upxd) {
+                                Logger::log("id: {$upid}; name: {$upnm}; dfrom:{$updf}; dto:{$updt}; units:{$upun}; dosage:{$upds}; perday: {$upxd}");
+                                
+                                
+                                //2, 
+                            }
+
+                        }
+                    }
+                    
+                    //return new Redirect_View("/treatmentplan/");
+                    break;
                     
                 default:
                     try {
