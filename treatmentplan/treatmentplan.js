@@ -4,25 +4,10 @@ $(function() {
     
     //google.setOnLoadCallback(drawCharts());
     
-    var today = new Date();
-    
     refreshRenderValues();
-    
-    var cData = prepareChartData(planjso);
-    
-    var cOptions = {
-            chart: {
-              title: 'Treatment Plan Chart',
-              subtitle: 'Today\'s Date: ' + (today.getMonth()+1) + "/" + today.getDate()
-            },
-            width: "100%",
-            height: 300
-          };
-
-    var chart = new google.charts.Line($("#divChart")[0]);
-    chart.draw(cData, cOptions);
-    
+    refreshChart(planjso);
     populateTreatmentList(planjso);
+    
     
     $("#selTreatment").on("change", function(i, v) {
         populateDoseList(planjso, $("#selTreatment option:selected").val());
@@ -32,10 +17,43 @@ $(function() {
     populateDoseList(planjso, $("#selTreatment option:selected").val());
     
     
-    $("#btnUpdDos").on("click", function() {
+    $("#btnAddDos").on("click", function(e) {
+        addDosRecord();
+    });
+    
+    $("#tblDosages input").on("blur", function(e) {
+        planjso = updateTreatmentList(planjso);
         $("#hidJSO").val(JSON.stringify(planjso));
     });
     
+    $("#btnUpdDos").on("click", function(e) {
+    });
+    
+    $("#btnAddTre").on("click", function(e) {
+        modalwin = getModal();
+        modalwin.open({content: $("#modalDialog").html()}); 
+        $("#modalcontent #cmdCancel").on("click", function() { modalwin.close(); });
+        $("#modalcontent #cmdAdd").on("click", function() { 
+            if ($("#modalcontent #selNewTre").val().length > 0) {
+                addTreRecord($("#modalcontent #selNewTre option:selected").val(), 
+                             $("#modalcontent #selNewTre option:selected").text());    
+            }
+            modalwin.close();
+        });
+        $("#modalcontent #txtNewRecord").focus();
+        $("#modalcontent #txtNewRecord").keypress(function(e){
+            switch (e.keyCode) {
+                case 13:
+                    $("#modalcontent #cmdAdd").click();   
+                    break;
+                case 27:
+                    $("#modalcontent #cmdCancel").click();
+                    break;
+                default:
+                    break;
+            }
+        });
+    });
     
 });
   
@@ -124,6 +142,24 @@ function prepareChartData(idata) {
 }
 
 
+function refreshChart(jso) {
+    var today = new Date();
+    var cData = prepareChartData(jso);
+    
+    var cOptions = {
+            chart: {
+              title: 'Treatment Plan Chart',
+              subtitle: 'Today\'s Date: ' + (today.getMonth()+1) + "/" + today.getDate()
+            },
+            width: "100%",
+            height: 300
+          };
+
+    var chart = new google.charts.Line($("#divChart")[0]);
+    chart.draw(cData, cOptions);
+}
+
+
 
 function getRenderValue(idata, dayinquestion, treatmentindex) {
 
@@ -146,7 +182,6 @@ function getRenderValue(idata, dayinquestion, treatmentindex) {
 function populateTreatmentList(jso) {
     for (var t=0; t<jso.treatments.length; t++) {
         var thisTre = jso.treatments[t];
-        console.log(thisTre);
         $("#selTreatment").append($("<option/>", {value: thisTre.id, text: thisTre.name} ));   
     }
 }
@@ -178,7 +213,74 @@ function populateDoseList(jso, doseid) {
             });
         }
     });
+}
+
+
+function updateTreatmentList(jso) {
+
+    var selOpt = $("#selTreatment option:selected"); 
+    var idTre = $(selOpt).val();
+    var oTre = getTreatmentWithID(idTre, jso);
     
-    console.log(jso);
+    if (!oTre) {
+        oTre = {id: $(selOpt).val(), name: $(selOpt).text(), doses: []};
+        jso.treatments.push(oTre);
+    }
+
+    //oTre is now pointing at the treatment object shown on screen
+    oTre.doses = [];
+    $("#tblDosages tr[class!='trHeader']").each(function(i, o) {
+        oTre.doses.push({dfrom: $("#txtDfrom_" + i).val(), 
+                           dto: $("#txtDto_" + i).val(),
+                           units: $("#txtUnits_" + i).val(),
+                           dosage: $("#txtDosage_" + i).val(),
+                           timesperday: $("#txtXday_" + i).val(),
+                           totaldose: 0,
+                           maxdosevalue: 0,
+                           rendervalue: 0});
+    });
+    
+    return jso;
+}
+
+function getTreatmentWithID(id, tjso) {
+    var rtnval = false;
+    $.each(tjso.treatments, function() {
+        if ($(this).attr("id") == id) {
+            rtnval = this;
+        }
+    });
+    return rtnval;
+}
+
+
+function addTreRecord(id, name) {
+    $("#selTreatment").append($("<option/>", {value: id, text: name}));
+}
+
+function addDosRecord() {
+    var oTable = $("#tblDosages");
+    var iNextRow = $(oTable).children("tr").length + 1;
+    var oTableRows = $("#tblDosages tr[class != 'trHeader']");
+    
+    var fldSelect = "<input type='checkbox' class='dynfld' id='chkSelect_" + iNextRow + "'></input>";
+    var fldDfrom  = "<input type='text' class='dynfld' id='txtDfrom_" + iNextRow + "' value=''></input>";
+    var fldDto    = "<input type='text' class='dynfld' id='txtDto_" + iNextRow + "' value=''></input>";
+    var fldUnits  = "<input type='text' class='dynfld' id='txtUnits_" + iNextRow + "' value=''></input>";
+    var fldDosage = "<input type='text' class='dynfld' id='txtDosage_" + iNextRow + "' value=''></input>";
+    var fldXday   = "<input type='text' class='dynfld' id='txtXday_" + iNextRow + "' value=''></input>";
+    
+    oTable.append("<tr><td>" + fldSelect + "</td>" + 
+                  "<td>" + fldDfrom + "</td>" + 
+                  "<td>" + fldDto + "</td>" + 
+                  "<td>" + fldUnits + "</td>" + 
+                  "<td>" + fldDosage + "</td>" + 
+                  "<td>" + fldXday + "</td>" + 
+                  "</tr>");
+    
+    $("#tblDosages .dynfld").on("blur", function(e) {
+        planjso = updateTreatmentList(planjso);
+        $("#hidJSO").val(JSON.stringify(planjso));
+    });
     
 }

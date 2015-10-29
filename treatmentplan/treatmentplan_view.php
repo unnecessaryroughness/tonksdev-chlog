@@ -5,6 +5,7 @@
     class Treatmentplan_View extends ChlogView {
 
         protected $PlanRecs = null;
+        protected $Treatments = null;
         
     /*  ============================================
         FUNCTION:   __construct
@@ -12,8 +13,9 @@
         RETURNS:    (object)
         PURPOSE:    constructs the class. No special functions.
         ============================================  */
-        public function __construct($planrecs) {
+        public function __construct($planrecs, $treatments) {
             $this->PlanRecs = $planrecs;
+            $this->Treatments = $treatments;
         }
 
         
@@ -47,12 +49,13 @@
         ============================================  */
         protected function defaulthtml() {
             $planjso = $this->buildPlanObjJSO($this->PlanRecs);
+            $treatmentOpts = $this->buildTreatmentsOpts();
             
             return <<<HTML
 
                 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-                <form id="frmRegister" action="." method="POST">
+                <form id="frmTplan" action="." method="POST">
                     <h2>My Treatment Plan</h2>
                     <div id="divChart"></div>
                     <div id="rawJSO"></div>
@@ -80,17 +83,30 @@
                         </table>
                         <input type="text" id="hidJSO" name="hidJSO" value=""></input>
                         <button type="button" id="btnAddDos">New</button>
-                        <button type="update" id="btnUpdDos" name="action" value="update">Update</button>
-                        <button type="update" id="btnRemDos" name="action" value="remove">Remove</button>
+                        <button type="submit" id="btnUpdDos" name="action" value="update">Update</button>
+                        <button type="submit" id="btnRemDos" name="action" value="remove">Remove</button>
                     </div>
                 </form>
                 
                 <div class="endfloat"></div>
                 
+                
+                <div id="modalDialog" class="hidden-modal">
+                    <h2>Add New Treatment</h2>
+                    <form>
+                        <label for="txtNewTreatment">New Treatment Type:</label>
+                        <select id="selNewTre">{$treatmentOpts}</select>
+                    </form>
+                    <button id="cmdAdd" class="update">Add</button>
+                    <button id="cmdCancel">Cancel</button>
+                </div>
+                
+                
                 <script language="javascript">
                     planjso = {$planjso}; 
                 </script>
                 
+                <script language="javascript" src="/common/templates/modal.js"></script>
                 <script language="javascript" src="/treatmentplan/treatmentplan.js"></script>
 HTML;
         }
@@ -142,6 +158,14 @@ HTML;
             }
         }
         
+        
+        private function buildTreatmentsOpts() {
+            $rtnVal = "";
+            foreach ($this->Treatments as $tre) {
+                $rtnVal .= "<option value='{$tre->id}'>{$tre->description}</option>";
+            }
+            return $rtnVal;
+        }
         
     }
         

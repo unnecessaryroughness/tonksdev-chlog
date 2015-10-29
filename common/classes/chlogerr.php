@@ -135,13 +135,20 @@
 
         //TREATMENT PLAN ERROR CODES
         const EC_TREATPLANFAILED    = 6001;
+        const EC_REMTPLANFAILED     = 6002;
+        const EC_ADDTPLANFAILED     = 6003;
         
         //TREATMENT PLAN ERROR MESSAGES
         const EM_TREATPLANFAILED    = "Sorry, I was unable to retrieve your treatment plan";
+        const EM_REMTPLANFAILED     = "Sorry, I was unable to update your treatment plan";
+        const EM_ADDTPLANFAILED     = "Sorry, I was unable to update your treatment plan";
+        
         
         //TREATMENT PLAN ERROR ARRAY
         public static $EA_TREATMENTPLANERRORS = array(
-                            self::EC_TREATPLANFAILED        => self::EM_TREATPLANFAILED
+                            self::EC_TREATPLANFAILED        => self::EM_TREATPLANFAILED,
+                            self::EC_REMTPLANFAILED         => self::EM_REMTPLANFAILED,
+                            self::EC_ADDTPLANFAILED         => self::EM_ADDTPLANFAILED
             );
         
         
