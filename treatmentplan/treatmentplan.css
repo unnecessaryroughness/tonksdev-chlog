@@ -11,6 +11,9 @@
   height: 5em;
   width: 100%; }
 
+#btnRefresh {
+  width: 10em; }
+
 #tblDosages {
   border-collapse: collapse;
   width: 100%;

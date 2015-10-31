@@ -81,10 +81,11 @@
                                 <th class="thxday">x/Day</th>
                             </tr>
                         </table>
-                        <input type="text" id="hidJSO" name="hidJSO" value=""></input>
+                        <input type="hidden" id="hidJSO" name="hidJSO" value=""></input>
                         <button type="button" id="btnAddDos">New</button>
                         <button type="submit" id="btnUpdDos" name="action" value="update">Update</button>
                         <button type="submit" id="btnRemDos" name="action" value="remove">Remove</button>
+                        <button type="button" id="btnRefresh">Refresh Chart</button>
                     </div>
                 </form>
                 
@@ -138,7 +139,7 @@ HTML;
                 $jso .= "units: '{$rec["dosageunits"]}',";
                 $jso .= "dosage: {$rec["dosage"]},";
                 $jso .= "timesperday: {$rec["timesperday"]},";
-                $jso .= "totaldose: ".($rec["dosage"] * $rec["timesperday"]).",";
+                $jso .= "totaldose: 0,";
                 $jso .= "maxdosevalue: 0,";
                 $jso .= "rendervalue: 0";
                 $jso .= "},";

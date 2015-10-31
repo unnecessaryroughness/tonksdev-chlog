@@ -37,77 +37,80 @@
                     //easiest way to refresh the plan is to remove everything and 
                     //recreate all of the records. Avoids having to figure out
                     //which records to add/update/remove.
-
-                    //1. remove all usertreatmentplan records for this email address
-                    try {
-                        $sql = "CALL removeMyTreatmentPlan (:eml)";
-                        $qry = $dbc->prepare($sql);
-                        $qry->bindValue(":eml", $eml);
-                        $qSuccess = $qry->execute(); 
-
-                        if (!$qSuccess) {
-                            $errmsg = "Failed to delete treatment plan - query failed";
-                            Logger::log($errmsg); 
-                            throw new \Exception(ChlogErr::EM_REMTPLANFAILED, ChlogErr::EC_REMTPLANFAILED);
-                        }
-                    } catch (\Exception $e) {
-                        Logger::log(getNiceErrorMessage($e), $eml); 
-                        return new Error_View($e->getCode(), getNiceErrorMessage($e));
-                    }
                     
-                    //2. recreate records based on the JSO returned from the view
                     $jso = json_decode(safeget::post("hidJSO", "{}", false), true);
-                    $tre = $jso["treatments"];
-                    
-                    try {
-                        //iterate over every treatment
-                        foreach ($tre as $tkey => $tval) {
+                    if (isset($jso["treatments"])) {
 
-                            //same id and name for every dosage of this treatment
-                            $upid = $tval["id"];
-                            $upnm = $tval["name"];
+                        //1. remove all usertreatmentplan records for this email address
+                        try {
+                                $sql = "CALL removeMyTreatmentPlan (:eml)";
+                                $qry = $dbc->prepare($sql);
+                                $qry->bindValue(":eml", $eml);
+                                $qSuccess = $qry->execute(); 
 
-                            //iterate over every dosage of this treatment
-                            foreach ($tval["doses"] as $dkey => $dval) {
+                                if (!$qSuccess) {
+                                    $errmsg = "Failed to delete treatment plan - query failed";
+                                    Logger::log($errmsg); 
+                                    throw new \Exception(ChlogErr::EM_REMTPLANFAILED, ChlogErr::EC_REMTPLANFAILED);
+                                }
+                        } catch (\Exception $e) {
+                            Logger::log(getNiceErrorMessage($e), $eml); 
+                            return new Error_View($e->getCode(), getNiceErrorMessage($e));
+                        }
 
-                                //get the variables for this treatment
-                                $updf = $dval["dfrom"];
-                                $updt = $dval["dto"];
-                                $upun = $dval["units"];
-                                $upds = $dval["dosage"];
-                                $upxd = $dval["timesperday"];
+                        //2. recreate records based on the JSO returned from the view
+                        $tre = $jso["treatments"];
 
-                                //if all variables have a value, go ahead and update
-                                if ($upid && $upnm && $updf && $updt && $upun && $upds && $upxd) {
-                                    Logger::log("id: {$upid}; name: {$upnm}; dfrom:{$updf}; dto:{$updt}; units:{$upun}; dosage:{$upds}; perday: {$upxd}");
+                        try {
+                            //iterate over every treatment
+                            foreach ($tre as $tkey => $tval) {
 
-                                    //3. fire updates to database
-                                        $sql = "CALL addMyTreatmentPlan (:eml, :id, :df, :dt, :un, :do, :xd)";
-                                        $qry = $dbc->prepare($sql);
-                                        $qry->bindValue(":eml", $eml);
-                                        $qry->bindValue(":id", $upid);
-                                        $qry->bindValue(":df", $updf);
-                                        $qry->bindValue(":dt", $updt);
-                                        $qry->bindValue(":un", $upun);
-                                        $qry->bindValue(":do", $upds);
-                                        $qry->bindValue(":xd", $upxd);
-                                        $qSuccess = $qry->execute(); 
+                                //same id and name for every dosage of this treatment
+                                $upid = $tval["id"];
+                                $upnm = $tval["name"];
 
-                                        if (!$qSuccess) {
-                                            $errmsg = "Failed to add new treatment plan record - query failed";
-                                            Logger::log($errmsg); 
-                                            throw new \Exception(ChlogErr::EM_ADDTPLANFAILED, ChlogErr::EC_ADDTPLANFAILED);
+                                //iterate over every dosage of this treatment
+                                foreach ($tval["doses"] as $dkey => $dval) {
+
+                                    //get the variables for this treatment
+                                    $updf = $dval["dfrom"];
+                                    $updt = $dval["dto"];
+                                    $upun = $dval["units"];
+                                    $upds = $dval["dosage"];
+                                    $upxd = $dval["timesperday"];
+
+                                    //if all variables have a value, go ahead and update
+                                    if ($upid && $upnm && $updf && $updt && $upun && $upds && $upxd) {
+                                        Logger::log("id: {$upid}; name: {$upnm}; dfrom:{$updf}; dto:{$updt}; units:{$upun}; dosage:{$upds}; perday: {$upxd}");
+
+                                        //3. fire updates to database
+                                            $sql = "CALL addMyTreatmentPlan (:eml, :id, :df, :dt, :un, :do, :xd)";
+                                            $qry = $dbc->prepare($sql);
+                                            $qry->bindValue(":eml", $eml);
+                                            $qry->bindValue(":id", $upid);
+                                            $qry->bindValue(":df", $updf);
+                                            $qry->bindValue(":dt", $updt);
+                                            $qry->bindValue(":un", $upun);
+                                            $qry->bindValue(":do", $upds);
+                                            $qry->bindValue(":xd", $upxd);
+                                            $qSuccess = $qry->execute(); 
+
+                                            if (!$qSuccess) {
+                                                $errmsg = "Failed to add new treatment plan record - query failed";
+                                                Logger::log($errmsg); 
+                                                throw new \Exception(ChlogErr::EM_ADDTPLANFAILED, ChlogErr::EC_ADDTPLANFAILED);
+                                            }
+
                                         }
 
                                     }
-
-                                }
+                            }
+                        } catch (\Exception $e) {
+                            Logger::log(getNiceErrorMessage($e), $eml); 
+                            return new Error_View($e->getCode(), getNiceErrorMessage($e));
                         }
-                    } catch (\Exception $e) {
-                        Logger::log(getNiceErrorMessage($e), $eml); 
-                        return new Error_View($e->getCode(), getNiceErrorMessage($e));
-                    }
                     
+                    }
                     return new Redirect_View("/treatmentplan/");
                     break;
                     
