@@ -1,5 +1,6 @@
 .dtpCalendar {
-  display: none; }
+  display: none;
+  background: #fff; }
 
 .divCalendar {
   box-sizing: border-box;

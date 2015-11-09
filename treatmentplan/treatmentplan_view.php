@@ -102,13 +102,15 @@
                     <button id="cmdCancel">Cancel</button>
                 </div>
                 
+                <div id="divTempCal"></div>
                 
-                <script language="javascript">
+                <script>
                     planjso = {$planjso}; 
                 </script>
                 
-                <script language="javascript" src="/common/templates/modal.js"></script>
-                <script language="javascript" src="/treatmentplan/treatmentplan.js"></script>
+                <script src="/common/templates/modal.js"></script>
+                <script src="/common/templates/calendar.js"></script>
+                <script src="/treatmentplan/treatmentplan.js"></script>
 HTML;
         }
 

@@ -94,7 +94,6 @@ function refreshRenderValues(jso) {
     jso.dayspread = Math.round((maxdate - mindate)/(1000*60*60*24));
     
     //$("#rawJSO").text(JSON.stringify(planjso));
-    console.log(jso);
     return jso;
 }
 
@@ -190,20 +189,53 @@ function populateDoseList(jso, doseid) {
         if (o.id == doseid) {
             $.each(o.doses, function(ddi, ddo) {
                 var fldSelect = "<input type='checkbox' id='chkSelect_" + ddi + "'></input>";
-                var fldDfrom = "<input type='text' id='txtDfrom_" + ddi + "' value='" + ddo.dfrom + "'></input>";
-                var fldDto = "<input type='text' id='txtDto_" + ddi + "' value='" + ddo.dto + "'></input>";
-                var fldUnits = "<input type='text' id='txtUnits_" + ddi + "' value='" + ddo.units + "'></input>";
-                var fldDosage = "<input type='text' id='txtDosage_" + ddi + "' value='" + ddo.dosage + "'></input>";
-                var fldXday = "<input type='text' id='txtXday_" + ddi + "' value='" + ddo.timesperday + "'></input>";
+                var fldDfrom = "<input type='text' class='txtDate' id='txtDfrom_" + ddi + "' value='" + ddo.dfrom + "'></input>";
+                var fldDto = "<input type='text' class='txtDate' id='txtDto_" + ddi + "' value='" + ddo.dto + "'></input>";
+                var fldUnits = "<input type='text' class='txtText' id='txtUnits_" + ddi + "' value='" + ddo.units + "'></input>";
+                var fldDosage = "<input type='text' class='txtInt' id='txtDosage_" + ddi + "' value='" + ddo.dosage + "'></input>";
+                var fldXday = "<input type='text' class='txtInt' id='txtXday_" + ddi + "' value='" + ddo.timesperday + "'></input>";
+                var fldDFCal = "<button type='button' id='btnDFCal_" + ddi + "' class='calpicker'>...</button>";
+                var fldDTCal = "<button type='button' id='btnDTCal_" + ddi + "' class='calpicker'>...</button>";
                 
                 oTable.append("<tr><td>" + fldSelect + "</td>" + 
-                              "<td>" + fldDfrom + "</td>" + 
-                              "<td>" + fldDto + "</td>" + 
+                              "<td class='tdleft'>" + fldDfrom + fldDFCal + "</td>" + 
+                              "<td class='tdleft'>" + fldDto + fldDTCal + "</td>" + 
                               "<td>" + fldUnits + "</td>" + 
                               "<td>" + fldDosage + "</td>" + 
                               "<td>" + fldXday + "</td>" + 
                               "</tr>");
             });
+        }
+    });
+    
+    $(".txtDate").attr("pattern", "^[0-9]{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[0-1])$")
+                 .attr("oninvalid", "setCustomValidity('Use format yyyy-mm-dd')");
+    
+    $(".txtText").attr("pattern", "^.{0,45}$")
+                 .attr("oninvalid", "setCustomValidity('Maximum 45 characters')");
+    
+    $(".txtInt").attr("pattern", "^[0-9]{0,11}$")
+                 .attr("oninvalid", "setCustomValidity('Maximum 11 whole numbers')");
+    
+    $(".calpicker").on("click", function(e) {
+        var oCalElem = $("#divTempCal .dtpCalendar");
+        if ($(oCalElem).is(":visible")){
+            $(oCalElem).hide();
+        } else {
+            var dToday = new Date();
+            var mytextbox = $(this).siblings("input");
+            var tcal = new Chlog_Calendar("tc1", $(mytextbox));
+            $("#divTempCal").html(tcal.renderMe());
+            tcal.populateCalendar(dToday.getFullYear(), dToday.getMonth());
+            tcal.highlightDate($(mytextbox).val());
+            tcal.setEventHandlers();
+            $("#divTempCal .dtpCalendar")
+                .css({
+                    position: "absolute",
+                    left: $(mytextbox).position().left,
+                    top: $(mytextbox).position().top + $(mytextbox).outerHeight(),
+                })
+                .show();
         }
     });
     

@@ -1,4 +1,5 @@
 @import "../common/styles/chlog-style-globalvars.scss";
+@import "../common/styles/chlog-style-calendar.scss";
 
 
 .grpTreatmentL {
@@ -53,12 +54,16 @@
         }   
         
         td {
-            margin: 0;
-            
+            margin: 0 auto;
+
             input {
                 margin: 0;   
                 width: 100%;
                 text-align: center;
+                
+                &.txtDate {
+                    width: 80%;   
+                }
             }
         }
     }
@@ -71,6 +76,14 @@
 
 .dosetxtsmall {
     width: 3em;   
+}
+
+.calpicker {
+    display: inline-block;
+    width: 18%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 

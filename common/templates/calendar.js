@@ -7,8 +7,10 @@ Reusable calendar component - supporting Javascript functions
 */
 
 //CLASS DEFINITION
-function Chlog_Calendar(id) {
+function Chlog_Calendar(id, ctrl) {
     this.id = id;
+    this.rendered = false;
+    this.boundcontrol = ctrl;
     
     this.monthlist = ["January", "February", "March", "April", "May", "June", "July",
                       "August", "September", "October", "November", "December"];
@@ -37,7 +39,7 @@ function Chlog_Calendar(id) {
         this.cellDateXref = [];
 
         $("#" + this.id + "_thMonthName").html(this.monthlist[this.month] + " " + this.year);
-        
+
         //calculate the day of the week for the 1st day of the month and store in this.firstDOM
         var date = new Date(this.year, this.month, 1);
         this.firstDOM = date.getDay();
@@ -143,4 +145,104 @@ function Chlog_Calendar(id) {
         }
     }
 
+    
+    this.renderMe = function() {
+        var sRender = '\
+        <div id="{nm}" class="dtpCalendar"> \
+            <table class="tblCalendar"> \
+                <tr> \
+                    <th class="tCell thCalHeader" id="{nm}_thMonthPrev"><</th> \
+                    <th class="tCell thCalHeader" colspan="5" id="{nm}_thMonthName">Month</th> \
+                    <th class="tCell thCalHeader" id="{nm}_thMonthNext">></th> \
+                </tr> \
+                <tr> \
+                    <th class="tCell thCalHeader">S</th> \
+                    <th class="tCell thCalHeader">M</th> \
+                    <th class="tCell thCalHeader">T</th> \
+                    <th class="tCell thCalHeader">W</th> \
+                    <th class="tCell thCalHeader">T</th> \
+                    <th class="tCell thCalHeader">F</th> \
+                    <th class="tCell thCalHeader">S</th> \
+                </tr> \
+                <tr> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c1-0"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c1-1"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c1-2"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c1-3"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c1-4"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c1-5"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c1-6"></td> \
+                </tr> \
+                <tr> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c2-0"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c2-1"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c2-2"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c2-3"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c2-4"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c2-5"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c2-6"></td> \
+                </tr> \
+                <tr> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c3-0"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c3-1"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c3-2"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c3-3"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c3-4"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c3-5"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c3-6"></td> \
+                </tr> \
+                <tr> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c4-0"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c4-1"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c4-2"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c4-3"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c4-4"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c4-5"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c4-6"></td> \
+                </tr> \
+                <tr> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c5-0"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c5-1"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c5-2"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c5-3"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c5-4"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c5-5"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c5-6"></td> \
+                </tr> \
+                <tr> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c6-0"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c6-1"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c6-2"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c6-3"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c6-4"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c6-5"></td> \
+                    <td class="tCell tdCalDay" parentid="{nm}" id="{nm}_c6-6"></td> \
+                </tr> \
+            </table>  \
+            <div id="hiddenFields"> \
+                <input type="hidden" parentid="{nm}" name="prefix" value="{nm}"> \
+                <input type="hidden" parentid="{nm}" name="{nm}_txtCalDate" id="{nm}_txtCalDate"> \
+                <input type="hidden" parentid="{nm}" name="{nm}_txtLastDate" id="{nm}_txtLastDate"> \
+            </div> \
+        </div>'
+    
+        sRender = sRender.replace(/{nm}/g, this.id);
+        this.rendered = true;
+        return sRender;
+    }
+    
+    this.setEventHandlers = function() {
+        var o = this;
+        var bdctrl = this.boundcontrol;
+        $("#" + this.id + "_thMonthPrev").on("click", function() { o.populatePrevious(); });
+        $("#" + this.id + "_thMonthNext").on("click", function() { o.populateNext(); });
+        $("#" + this.id).on("caldate:change", function() { 
+            if (bdctrl) {
+                var dtctrl = $("#" + this.id + "_txtCalDate");  
+                $(bdctrl).val($(dtctrl).val());
+            }
+            $(this).hide(); 
+        });
+    }
+    
 }
