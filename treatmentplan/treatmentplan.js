@@ -227,7 +227,9 @@ function populateDoseList(jso, doseid) {
             var tcal = new Chlog_Calendar("tc1", $(mytextbox));
             $("#divTempCal").html(tcal.renderMe());
             tcal.populateCalendar(dToday.getFullYear(), dToday.getMonth());
-            tcal.highlightDate($(mytextbox).val());
+            if ($(mytextbox).val().length > 0) {
+                tcal.highlightDate($(mytextbox).val());
+            }
             tcal.setEventHandlers();
             $("#divTempCal .dtpCalendar")
                 .css({
