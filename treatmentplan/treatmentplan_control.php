@@ -73,11 +73,11 @@
                                 foreach ($tval["doses"] as $dkey => $dval) {
 
                                     //get the variables for this treatment
-                                    $updf = $dval["dfrom"];
-                                    $updt = $dval["dto"];
-                                    $upun = $dval["units"];
-                                    $upds = $dval["dosage"];
-                                    $upxd = $dval["timesperday"];
+                                    $updf = html($dval["dfrom"]);
+                                    $updt = html($dval["dto"]);
+                                    $upun = html($dval["units"]);
+                                    $upds = html($dval["dosage"]);
+                                    $upxd = html($dval["timesperday"]);
 
                                     //if all variables have a value, go ahead and update
                                     if ($upid && $upnm && $updf && $updt && $upun && $upds && $upxd) {

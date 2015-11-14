@@ -84,7 +84,7 @@
                         <input type="hidden" id="hidJSO" name="hidJSO" value=""></input>
                         <button type="button" id="btnAddDos">New</button>
                         <button type="submit" id="btnUpdDos" name="action" value="update">Update</button>
-                        <button type="submit" id="btnRemDos" name="action" value="remove">Remove</button>
+                        <button type="button" id="btnRemDos" name="action" value="remove">Remove</button>
                         <button type="button" id="btnRefresh">Refresh Chart</button>
                     </div>
                 </form>

@@ -22,7 +22,6 @@ $(function() {
         refreshChart(); 
     });
     
-    
     $("#btnAddTre").on("click", function(e) {
         modalwin = getModal();
         modalwin.open({content: $("#modalDialog").html()}); 
@@ -48,6 +47,23 @@ $(function() {
             }
         });
     });
+    
+    $("#btnRemDos").on("click", function(e) {
+        var idTre = $("#selTreatment option:selected").val(); 
+        var oTre = getTreatmentWithID(idTre, planjso);
+        
+        $("#tblDosages input[type='checkbox']").each(function(i,o) {
+            if ($(this).is(":checked")) {
+                oTre.doses.splice(i, 1);
+            }
+        });
+        
+        planjso = refreshRenderValues(planjso);
+        populateDoseList(planjso, idTre);
+        $("#hidJSO").val(JSON.stringify(planjso));
+        refreshChart(); 
+    });
+    
     
 });
   
@@ -191,7 +207,7 @@ function populateDoseList(jso, doseid) {
                 var fldSelect = "<input type='checkbox' id='chkSelect_" + ddi + "'></input>";
                 var fldDfrom = "<input type='text' class='txtDate' id='txtDfrom_" + ddi + "' value='" + ddo.dfrom + "'></input>";
                 var fldDto = "<input type='text' class='txtDate' id='txtDto_" + ddi + "' value='" + ddo.dto + "'></input>";
-                var fldUnits = "<input type='text' class='txtText' id='txtUnits_" + ddi + "' value='" + ddo.units + "'></input>";
+                var fldUnits = "<input type='text' class='txtText' id='txtUnits_" + ddi + "' required value='" + ddo.units + "'></input>";
                 var fldDosage = "<input type='text' class='txtInt' id='txtDosage_" + ddi + "' value='" + ddo.dosage + "'></input>";
                 var fldXday = "<input type='text' class='txtInt' id='txtXday_" + ddi + "' value='" + ddo.timesperday + "'></input>";
                 var fldDFCal = "<button type='button' id='btnDFCal_" + ddi + "' class='calpicker'>...</button>";
@@ -211,7 +227,7 @@ function populateDoseList(jso, doseid) {
     $(".txtDate").attr("pattern", "^[0-9]{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[0-1])$")
                  .attr("oninvalid", "setCustomValidity('Use format yyyy-mm-dd')");
     
-    $(".txtText").attr("pattern", "^.{0,45}$")
+    $(".txtText").attr("pattern", "^[a-zA-Z0-9]{1,45}$")
                  .attr("oninvalid", "setCustomValidity('Maximum 45 characters')");
     
     $(".txtInt").attr("pattern", "^[0-9]{0,11}$")
@@ -291,25 +307,44 @@ function addTreRecord(id, name) {
 
 
 function addDosRecord(jso) {
-    var idTre = $("#selTreatment option:selected").val(); 
+    var selOpt = $("#selTreatment option:selected"); 
+    var idTre = $(selOpt).val(); 
     var oTre = getTreatmentWithID(idTre, jso);
     
     if (!oTre) {
-        var selOpt = $("#selTreatment option:selected"); 
         oTre = {id: $(selOpt).val(), name: $(selOpt).text(), doses: []};
         jso.treatments.push(oTre);
     }
    
     if (oTre) {
-        oTre.doses.push({dfrom: "", 
-                           dto: "",
-                           units: "",
+        
+        //get finish date of previous treatment
+        var oLastDos = oTre.doses[oTre.doses.length-1];
+        if (oLastDos) {
+            var sLastUnits = oLastDos.units;
+            var dLastDate = oLastDos.dto;
+            var dNewDate = new Date(dLastDate);
+            dNewDate.setDate(dNewDate.getDate()+1);
+        } else {
+            var dNewDate = new Date();   
+            var sLastUnits = "";
+        }
+        var sNewDate = dNewDate.getFullYear()+"-"
+                        +("00"+(dNewDate.getMonth()+1).toString()).slice(-2) + "-"
+                        +("00"+(dNewDate.getDate()).toString()).slice(-2);
+        
+        oTre.doses.push({dfrom: sNewDate, 
+                           dto: sNewDate,
+                           units: sLastUnits,
                            dosage: "",
                            timesperday: "",
                            totaldose: 0,
                            maxdosevalue: 0,
                            rendervalue: 0});
+        
+        var iMaxDose = oTre.doses.length -1;
     }
     
     populateDoseList(jso, idTre);
+    $("#txtDfrom_"+iMaxDose).focus();
 }
