@@ -2,15 +2,22 @@
 @import "../common/styles/chlog-style-calendar.scss";
 
 
+#divChartCheck {
+    width: 100%;
+    text-align: right;
+}
+
+
 .grpTreatmentL {
     float: left;   
-    width: 300px;
+    width: 100%;
 }
 
 .grpTreatmentR {
-    float: left;   
-    min-width: 450px;
+    float: left;       
+    min-width: 250px;
     width: 100%;
+    overflow-x: auto;
 }
 
 #selTreatment {
@@ -19,7 +26,7 @@
 }
 
 #btnRefresh {
-    width: 10em;   
+    padding: 0;
 }
 
 #tblDosages {
@@ -86,6 +93,16 @@
     margin: 0;
 }
 
+
+@media (min-width: 400px) {
+    .grpTreatmentL {
+        width: 300px;
+    }
+    
+    #btnRefresh {
+        width: 10em; 
+    }
+}
 
 
 @media (min-width: 1050px) {

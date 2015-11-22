@@ -57,7 +57,15 @@
 
                 <form id="frmTplan" action="." method="POST">
                     <h2>My Treatment Plan</h2>
+                    
+                    
                     <div id="divChart"></div>
+                    <div id="divChartCheck">
+                        <label for="chkFromToday">Start Chart at Today
+                            <input type="checkbox" id="chkFromToday"></input>
+                        </label>
+                    </div>
+                    
                     <div id="rawJSO"></div>
                     
                     <div class="grpTreatmentL">
@@ -81,6 +89,8 @@
                                 <th class="thxday">x/Day</th>
                             </tr>
                         </table>
+                    </div>
+                    <div id="grpTreatmentBtns" class="endfloat grpTreatmentR">
                         <input type="hidden" id="hidJSO" name="hidJSO" value=""></input>
                         <button type="button" id="btnAddDos">New</button>
                         <button type="submit" id="btnUpdDos" name="action" value="update">Update</button>

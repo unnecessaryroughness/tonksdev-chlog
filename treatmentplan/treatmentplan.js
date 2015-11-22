@@ -22,6 +22,12 @@ $(function() {
         refreshChart(); 
     });
     
+    $("#chkFromToday").on("click", function(e) {
+        planjso = refreshRenderValues(planjso);
+        $("#hidJSO").val(JSON.stringify(planjso));
+        refreshChart(); 
+    });
+    
     $("#btnAddTre").on("click", function(e) {
         modalwin = getModal();
         modalwin.open({content: $("#modalDialog").html()}); 
@@ -64,7 +70,16 @@ $(function() {
         refreshChart(); 
     });
     
-    
+
+    $("#btnRemTre").on("click", function(e) {
+        var iTre = getTreatmentWithID($("#selTreatment option:selected").val(), planjso, true);        
+        planjso.treatments.splice(iTre, 1);
+        planjso = refreshRenderValues(planjso);
+        populateTreatmentList();
+        populateDoseList(planjso, $("#selTreatment option:selected").val());
+        $("#hidJSO").val(JSON.stringify(planjso));
+        refreshChart(); 
+    });
 });
   
   
@@ -114,7 +129,9 @@ function refreshRenderValues(jso) {
 }
 
 
-function prepareChartData(idata) {
+function prepareChartData(sFirstDate) {
+    
+    var dFirstDate = new Date(sFirstDate);
     
     var idata = planjso; 
     var aData = new google.visualization.DataTable();
@@ -132,17 +149,19 @@ function prepareChartData(idata) {
         var diq = new Date(idata.mindate);
         diq.setDate(diq.getDate() + d);
         
-        aRow = [diq.getMonth()+1 + "/" + diq.getDate()];
-        
-        //create the columns
-        for (var c=0; c<tlen; c++) {
-            //the value pushed to the column must be the return value
-            //of a function that takes the date (dayspread + d) and the 
-            //treatment index (c) and returns the rendervalue of that treatment 
-            //on that date
-            aRow.push( getRenderValue(idata, diq, c) );        
+        if (diq > dFirstDate) {
+            aRow = [diq.getMonth()+1 + "/" + diq.getDate()];
+
+            //create the columns
+            for (var c=0; c<tlen; c++) {
+                //the value pushed to the column must be the return value
+                //of a function that takes the date (dayspread + d) and the 
+                //treatment index (c) and returns the rendervalue of that treatment 
+                //on that date
+                aRow.push( getRenderValue(idata, diq, c) );        
+            }
+            aData.addRows([aRow]);
         }
-        aData.addRows([aRow]);
     }
     
     //$("#rawJSO").text(JSON.stringify(aData));
@@ -152,7 +171,8 @@ function prepareChartData(idata) {
 
 function refreshChart() {
     var today = new Date();
-    var cData = prepareChartData();
+    var sFirstDate = $("#chkFromToday").is(":checked") ? today.toUTCString() : null;
+    var cData = prepareChartData(sFirstDate);
     
     var cOptions = {
             chart: {
@@ -188,10 +208,12 @@ function getRenderValue(idata, dayinquestion, treatmentindex) {
 
 
 function populateTreatmentList() {
+    $("#selTreatment").html("");
     for (var t=0; t<planjso.treatments.length; t++) {
         var thisTre = planjso.treatments[t];
         $("#selTreatment").append($("<option/>", {value: thisTre.id, text: thisTre.name} ));   
     }
+    $("#selTreatment").val($("#selTreatment option:first").val());
 }
 
 
@@ -290,11 +312,11 @@ function updateTreatmentList(jso) {
     });
 }
 
-function getTreatmentWithID(id, tjso) {
+function getTreatmentWithID(id, tjso, returnIndex) {
     var rtnval = false;
-    $.each(tjso.treatments, function() {
+    $.each(tjso.treatments, function(i,o) {
         if ($(this).attr("id") == id) {
-            rtnval = this;
+            rtnval = (returnIndex) ? i : this;
         }
     });
     return rtnval;

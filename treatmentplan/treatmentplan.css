@@ -45,21 +45,26 @@
 .timeDropdown {
   width: 4em; }
 
+#divChartCheck {
+  width: 100%;
+  text-align: right; }
+
 .grpTreatmentL {
   float: left;
-  width: 300px; }
+  width: 100%; }
 
 .grpTreatmentR {
   float: left;
-  min-width: 450px;
-  width: 100%; }
+  min-width: 250px;
+  width: 100%;
+  overflow-x: auto; }
 
 #selTreatment {
   height: 5em;
   width: 100%; }
 
 #btnRefresh {
-  width: 10em; }
+  padding: 0; }
 
 #tblDosages {
   border-collapse: collapse;
@@ -101,6 +106,12 @@
   padding: 0;
   margin: 0; }
 
+@media (min-width: 400px) {
+  .grpTreatmentL {
+    width: 300px; }
+
+  #btnRefresh {
+    width: 10em; } }
 @media (min-width: 1050px) {
   .grpTreatmentL {
     float: left;
