@@ -80,7 +80,7 @@ function draw1mScatterChart() {
         titleTextStyle: {fontSize: 14, bold: true},
         chartArea: {"width": "85%", "height": "80%", "left": "40"}, 
         legend: "none",
-        hAxis: {title: "Days Ago", titleTextStyle: {bold: true}, gridlines: {count: 6}},
+        hAxis: {title: "Days Ago", minValue: 0, maxValue: 30, titleTextStyle: {bold: true}, gridlines: {count: 6}},
         vAxis: {title: "Level", minValue: 0, maxValue: 10, format: "short",  titleTextStyle: {bold: true}, gridlines: {count: 6}}
     };
     
