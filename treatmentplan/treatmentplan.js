@@ -251,7 +251,7 @@ function populateDoseList(jso, doseid) {
     $(".txtDate").attr("pattern", "^[0-9]{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[0-1])$")
                  .attr("oninvalid", "setCustomValidity('Use format yyyy-mm-dd')");
     
-    $(".txtText").attr("pattern", "^[a-zA-Z0-9]{1,45}$")
+    $(".txtText").attr("pattern", "^.{1,45}$")
                  .attr("oninvalid", "setCustomValidity('Maximum 45 characters')");
     
     $(".txtInt").attr("pattern", "^[0-9]{0,11}$")
