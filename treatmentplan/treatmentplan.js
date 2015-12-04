@@ -199,7 +199,8 @@ function getRenderValue(idata, dayinquestion, treatmentindex) {
         dto.setMinutes(59);
         
         if (dayinquestion >= dfrom && dayinquestion <= dto) {
-            return thisdose.rendervalue;   
+            return thisdose.totaldose;
+//            return thisdose.rendervalue;   
         }
     }
     
