@@ -278,6 +278,10 @@ function populateDoseList(jso, doseid) {
                     top: $(mytextbox).position().top + $(mytextbox).outerHeight(),
                 })
                 .show();
+            $("#tc1").on("caldate:change", function() {
+                updateTreatmentList(jso);
+                $("#hidJSO").val(JSON.stringify(jso));
+            });
         }
     });
     
