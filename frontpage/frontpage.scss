@@ -47,6 +47,23 @@ p.dashtitle {
     padding: 5px;
 }
 
+.chlog-dashboard-chart-title {
+    font-weight: bold;
+    font-size: 11pt;
+    margin: 5px 0 0 0.5em;
+}
+
+#dashtreatments article {
+    margin: 0.5em;
+    border: 0px solid $chlog-bordergrey;
+    min-height: 2em;
+    border-radius: 5px;
+    padding: 0.5em;
+    background: $chlog-signaturelight;
+}
+
+
+
 @media (min-width: 620px) {
     p.dashtitle {
         margin-top: 1em;

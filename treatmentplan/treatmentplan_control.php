@@ -151,7 +151,7 @@
                     } else {
                         $errmsg = "Failed to retrieve treatment plan - query failed";
                         Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
-                        throw new \Exception(ChlogErr::EM_GETMYATTACKSFAILED, ChlogErr::EC_GETMYATTACKSFAILED);
+                        throw new \Exception(ChlogErr::EM_TREATPLANFAILED, ChlogErr::EC_TREATPLANFAILED);
                     }
                     
                 } catch (\Exception $e) {

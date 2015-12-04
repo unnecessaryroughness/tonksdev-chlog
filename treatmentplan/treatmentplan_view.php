@@ -48,7 +48,7 @@
         PURPOSE:    returns the regular HTML view 
         ============================================  */
         protected function defaulthtml() {
-            $planjso = $this->buildPlanObjJSO($this->PlanRecs);
+            $planjso = buildPlanObjJSO($this->PlanRecs);
             $treatmentOpts = $this->buildTreatmentsOpts();
             
             return <<<HTML
@@ -130,7 +130,7 @@ HTML;
         }
         
         
-        private function buildPlanObjJSO($recs) {
+        private function xxxbuildPlanObjJSO($recs) {
 
             $jso  = "{treatments: [";
             $curtre = "__first";

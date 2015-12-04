@@ -99,6 +99,49 @@
         }
     }
 
+
+
+/*  ============================================
+    FUNCTION:   buildPlanObjJSO
+    PARAMS:     recs    a PDO object containing the results
+                        of the getMyTreatmentPlan stored procedure
+    RETURNS:    (string) JSON format of the input data
+    PURPOSE:    Converts the PDO object into a JSON object
+    ============================================  */
+    function buildPlanObjJSO($recs) {
+
+        $jso  = "{treatments: [";
+        $curtre = "__first";
+
+        foreach($recs as $rec) {
+            if ($rec["treatmentid"] != $curtre) {
+                if ($curtre != "__first") {
+                    $jso = substr($jso, 0, -1);
+                    $jso .= "]},";
+                }
+                $curtre = $rec["treatmentid"];
+                $jso .= "{id: {$rec["treatmentid"]}, name: '{$rec["description"]}', doses: [";
+            }
+
+            $jso .= "{";
+            $jso .= "dfrom: '{$rec["datefrom"]}',";
+            $jso .= "dto: '{$rec["dateto"]}',";
+            $jso .= "units: '{$rec["dosageunits"]}',";
+            $jso .= "dosage: {$rec["dosage"]},";
+            $jso .= "timesperday: {$rec["timesperday"]},";
+            $jso .= "totaldose: 0,";
+            $jso .= "maxdosevalue: 0,";
+            $jso .= "rendervalue: 0";
+            $jso .= "},";
+        }
+
+        $jso = substr($jso, 0, -1)."]}]}";
+
+        return $jso;
+    }
+
+
+
 /*  ============================================
     >>> IMMEDIATE CODE <<< 
     ============================================  */

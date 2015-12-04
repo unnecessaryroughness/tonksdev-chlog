@@ -7,8 +7,8 @@ $(function() {
 
 function drawCharts() {
     draw1wAttackBarChart();
-    //draw1mAttackBarChart();
     draw1mScatterChart();
+    drawTPlanTile();
 }
 
 
@@ -31,36 +31,10 @@ function draw1wAttackBarChart() {
         bar: { groupWidth: '85%' }
     };
     
-    var chart = new google.visualization.ColumnChart($("#chart-1")[0]);
-    chart.draw(data, options);
-}
-
-
-function draw1mAttackBarChart() {
-    
-    //get today's date
-    var dToday = new Date();
-    
-    //figure out how many days it has been since (today-1 month)
-    var d1MonthAgo = getTimeAgo(dToday, 1, "month");
-    var dDiff = Math.round((dToday - d1MonthAgo)/(1000*60*60*24));
-    
-    var aTmpData = populateColChartArray(jso1m, dToday, dDiff);
-    
-    //convert into google data table
-    var data = google.visualization.arrayToDataTable(aTmpData);
-    
-    var options = {
-        title: "Number of Attacks in the Past Month",
-        titleTextStyle: {fontSize: 14, bold: true},
-        chartArea: {"width": "85%", "height": "80%", "left": "40"}, 
-        legend: { position: 'none' },
-        bar: { groupWidth: '85%' }
-    };
-    
     var chart = new google.visualization.ColumnChart($("#chart-2")[0]);
     chart.draw(data, options);
 }
+
 
 function draw1mScatterChart() {
     
@@ -69,32 +43,33 @@ function draw1mScatterChart() {
     
     //figure out how many days it has been since (today-1 month)
     var d1MonthAgo = getTimeAgo(dToday, 1, "month");
-    
-    var aTmpData = populateScatterArray(jso1m, dToday);
-    
-    //convert into google data table
-    var data = google.visualization.arrayToDataTable(aTmpData);
-    
-    var options = {
-        title: "Level of Attacks in the Past Month",
-        titleTextStyle: {fontSize: 14, bold: true},
-        chartArea: {"width": "85%", "height": "80%", "left": "40"}, 
-        legend: "none",
-        hAxis: {title: "Days Ago", minValue: 0, maxValue: 30, titleTextStyle: {bold: true}, gridlines: {count: 6}},
-        vAxis: {title: "Level", minValue: 0, maxValue: 10, format: "short",  titleTextStyle: {bold: true}, gridlines: {count: 6}}
-    };
-    
-    var chart = new google.visualization.ScatterChart($("#chart-2")[0]);
-    chart.draw(data, options);
+
+    if (jso1m.length > 0) {
+        var aTmpData = populateScatterArray(jso1m, dToday);
+
+        //convert into google data table
+        var data = google.visualization.arrayToDataTable(aTmpData);
+
+        var options = {
+            title: "Level of Attacks in the Past Month",
+            titleTextStyle: {fontSize: 14, bold: true},
+            chartArea: {"width": "85%", "height": "80%", "left": "40"}, 
+            legend: "none",
+            hAxis: {title: "Days Ago", minValue: 0, maxValue: 30, titleTextStyle: {bold: true}, gridlines: {count: 6}},
+            vAxis: {title: "Level", minValue: 0, maxValue: 10, format: "short",  titleTextStyle: {bold: true}, gridlines: {count: 6}}
+        };
+
+        var chart = new google.visualization.ScatterChart($("#chart-3")[0]);
+        chart.draw(data, options);
+    } else {
+        $("#chart-3").html("<div class='chlog-dashboard-chart-title'>No Attacks in the Past Month</div>");   
+    }
 }
 
 
 function drawAttackBarChart(chartWM) {
-    
     //get today's date
     var dToday = new Date();
-
-
 }
 
 
@@ -160,3 +135,41 @@ function populateScatterArray(attackarray, d2d, d1m) {
     
     return outputarray;
 }
+
+
+function drawTPlanTile() {
+    
+    var dToday = new Date();
+    dToday.setHours(0,0,0,0);
+
+    var aData = new Array();
+    var idata = jsoplan; 
+    var tlen = idata.treatments.length;
+    
+    $(idata.treatments).each(function(tri, tro) {
+        
+        $(this.doses).each(function (dosi, doso) {
+            var dfr = new Date(doso.dfrom);
+            var dto = new Date(doso.dto);
+            var inrange = (+dfr <= +dToday && +dto >= +dToday) ? true : false;
+            
+            if (inrange) {
+                aData.push({treatment: tro.name, units: doso.units, dose: doso.dosage, times: doso.timesperday});   
+            }
+        });
+    });
+
+    
+    $(aData).each(function() {
+        $("#dashtreatments").append("<article>" + 
+                                    this.dose + "x " + this.treatment + 
+                                    (this.units.length > 0 ? " (" + this.units + ")" : "") + 
+                                    ", " + (parseInt(this.times) === 1 ? "once" : this.times + " times") + " per day" + 
+                                    "</article>");
+    });
+    
+    console.log(aData);
+    
+    
+}
+

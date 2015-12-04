@@ -80,6 +80,7 @@ $(function() {
         $("#hidJSO").val(JSON.stringify(planjso));
         refreshChart(); 
     });
+    
 });
   
   
@@ -370,4 +371,31 @@ function addDosRecord(jso) {
     
     populateDoseList(jso, idTre);
     $("#txtDfrom_"+iMaxDose).focus();
+}
+
+
+function getTodaysMeds() {
+    
+    var dToday = new Date();
+    dToday.setHours(0,0,0,0);
+
+    var aData = new Array();
+    var idata = planjso; 
+    var tlen = idata.treatments.length;
+    
+    $(idata.treatments).each(function(tri, tro) {
+        
+        $(this.doses).each(function (dosi, doso) {
+            var dfr = new Date(doso.dfrom);
+            var dto = new Date(doso.dto);
+            var inrange = (+dfr <= +dToday && +dto >= +dToday) ? true : false;
+            
+            if (inrange) {
+                aData.push({treatment: tro.name, dose: doso.dosage, times: doso.timesperday});   
+            }
+        });
+    });
+
+    console.log(aData);
+    
 }

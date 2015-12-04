@@ -81,10 +81,30 @@
                             return new Error_View($e->getCode(), getNiceErrorMessage($e));
                         }
 
+                        //get treatment plan
+                        try {
+                            $sql = "CALL getMyTreatmentPlan (:eml)";
+                            $qry = $dbc->prepare($sql);
+                            $qry->bindValue(":eml", $eml);
+                            $qSuccess = $qry->execute(); 
+
+                            if ($qSuccess) {
+                                $aTPlanRecs = $qry->fetchall(\PDO::FETCH_ASSOC);
+                            } else {
+                                $errmsg = "Failed to retrieve treatment plan - query failed";
+                                Logger::log($errmsg, "rowcount: ".$qry->rowCount()); 
+                                throw new \Exception(ChlogErr::EM_TREATPLANFAILED, ChlogErr::EC_TREATPLANFAILED);
+                            }
+
+                        } catch (\Exception $e) {
+                            Logger::log(getNiceErrorMessage($e), $eml); 
+                            return new Error_View($e->getCode(), getNiceErrorMessage($e));
+                        }
+
                     }
                 
                 
-                    return new Frontpage_View($a1wRecs, $a1mRecs);    
+                    return new Frontpage_View($a1wRecs, $a1mRecs, $aTPlanRecs);    
                     break;
             }
         }
