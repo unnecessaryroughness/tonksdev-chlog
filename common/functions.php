@@ -135,7 +135,11 @@
             $jso .= "},";
         }
 
-        $jso = substr($jso, 0, -1)."]}]}";
+        if (sizeof($recs) > 0) {
+            $jso = substr($jso, 0, -1)."]}]}";
+        } else {
+            $jso = $jso."]}";   
+        }
 
         return $jso;
     }

@@ -16,23 +16,27 @@ function draw1wAttackBarChart() {
     
     //get today's date
     var dToday = new Date();
-    
-    //get array of 7 days prior to (and including) today
-    var aTmpData = populateColChartArray(jso1w, 7);
 
-    //convert into google data table
-    var data = google.visualization.arrayToDataTable(aTmpData);
-        
-    var options = {
-        title: "Number of Attacks in the Past Week",
-        titleTextStyle: {fontSize: 14},
-        chartArea: {"width": "85%", "height": "80%", "left": "40"}, 
-        legend: { position: 'none' },
-        bar: { groupWidth: '85%' }
-    };
-    
-    var chart = new google.visualization.ColumnChart($("#chart-2")[0]);
-    chart.draw(data, options);
+    if (jso1w.length > 0) {
+        //get array of 7 days prior to (and including) today
+        var aTmpData = populateColChartArray(jso1w, 7);
+
+        //convert into google data table
+        var data = google.visualization.arrayToDataTable(aTmpData);
+
+        var options = {
+            title: "Number of Attacks in the Past Week",
+            titleTextStyle: {fontSize: 14},
+            chartArea: {"width": "85%", "height": "80%", "left": "40"}, 
+            legend: { position: 'none' },
+            bar: { groupWidth: '85%' }
+        };
+
+        var chart = new google.visualization.ColumnChart($("#chart-2")[0]);
+        chart.draw(data, options);
+    } else {
+        $("#chart-2").html("<div class='chlog-dashboard-chart-title'>No Attacks in the Past Week</div>");   
+    }
 }
 
 
@@ -143,33 +147,32 @@ function drawTPlanTile() {
     dToday.setHours(0,0,0,0);
 
     var aData = new Array();
-    var idata = jsoplan; 
-    var tlen = idata.treatments.length;
+    var tlen = jsoplan.treatments.length;
     
-    $(idata.treatments).each(function(tri, tro) {
-        
-        $(this.doses).each(function (dosi, doso) {
-            var dfr = new Date(doso.dfrom);
-            var dto = new Date(doso.dto);
-            var inrange = (+dfr <= +dToday && +dto >= +dToday) ? true : false;
-            
-            if (inrange) {
-                aData.push({treatment: tro.name, units: doso.units, dose: doso.dosage, times: doso.timesperday});   
-            }
-        });
-    });
+    if (tlen > 0) {
+        $(jsoplan.treatments).each(function(tri, tro) {
 
-    
-    $(aData).each(function() {
-        $("#dashtreatments").append("<article>" + 
-                                    this.dose + "x " + this.treatment + 
-                                    (this.units.length > 0 ? " (" + this.units + ")" : "") + 
-                                    ", " + (parseInt(this.times) === 1 ? "once" : this.times + " times") + " per day" + 
-                                    "</article>");
-    });
-    
-    console.log(aData);
-    
-    
+            $(this.doses).each(function (dosi, doso) {
+                var dfr = new Date(doso.dfrom);
+                var dto = new Date(doso.dto);
+                var inrange = (+dfr <= +dToday && +dto >= +dToday) ? true : false;
+
+                if (inrange) {
+                    aData.push({treatment: tro.name, units: doso.units, dose: doso.dosage, times: doso.timesperday});   
+                }
+            });
+        });
+
+
+        $(aData).each(function() {
+            $("#dashtreatments").append("<article>" + 
+                                        this.dose + "x " + this.treatment + 
+                                        (this.units.length > 0 ? " (" + this.units + ")" : "") + 
+                                        ", " + (parseInt(this.times) === 1 ? "once" : this.times + " times") + " per day" + 
+                                        "</article>");
+        });
+    } else {
+        $("#chart-1").html("<div class='chlog-dashboard-chart-title'>No Treatment Planned</div>");  
+    }
 }
 
