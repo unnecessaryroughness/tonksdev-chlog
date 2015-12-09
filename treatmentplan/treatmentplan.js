@@ -135,6 +135,7 @@ function prepareChartData(sFirstDate) {
     var dFirstDate = new Date(sFirstDate);
     
     var idata = planjso; 
+    
     var aData = new google.visualization.DataTable();
     aData.addColumn("string", "Day");
     
@@ -150,7 +151,7 @@ function prepareChartData(sFirstDate) {
         var diq = new Date(idata.mindate);
         diq.setDate(diq.getDate() + d);
         
-        if (diq > dFirstDate) {
+        if (diq >= dFirstDate) {
             aRow = [diq.getMonth()+1 + "/" + diq.getDate()];
 
             //create the columns
@@ -173,19 +174,29 @@ function prepareChartData(sFirstDate) {
 function refreshChart() {
     var today = new Date();
     var sFirstDate = $("#chkFromToday").is(":checked") ? today.toUTCString() : null;
-    var cData = prepareChartData(sFirstDate);
     
-    var cOptions = {
-            chart: {
-              title: 'Treatment Plan Chart',
-              subtitle: 'Today\'s Date: ' + (today.getMonth()+1) + "/" + today.getDate()
-            },
-            width: "100%",
-            height: 300
-          };
+    if (planjso.treatments.length > 0) {
+        var cData = prepareChartData(sFirstDate);
 
-    var chart = new google.charts.Line($("#divChart")[0]);
-    chart.draw(cData, cOptions);
+        var cOptions = {
+                chart: {
+                  title: 'Treatment Plan Chart',
+                  subtitle: 'Today\'s Date: ' + (today.getMonth()+1) + "/" + today.getDate()
+                },
+                width: "100%",
+                height: 300,
+                axes: {
+                    y: {
+                        all: {
+                            range: { min: 0 }
+                        }
+                    }
+                }
+              };
+
+        var chart = new google.charts.Line($("#divChart")[0]);
+        chart.draw(cData, cOptions);
+    }
 }
 
 
@@ -331,11 +342,14 @@ function getTreatmentWithID(id, tjso, returnIndex) {
 
 function addTreRecord(id, name) {
     $("#selTreatment").append($("<option/>", {value: id, text: name}));
+    $("#selTreatment").val(id);
+    populateDoseList(planjso, id);
 }
 
 
 function addDosRecord(jso) {
     var selOpt = $("#selTreatment option:selected"); 
+    
     var idTre = $(selOpt).val(); 
     var oTre = getTreatmentWithID(idTre, jso);
     
@@ -345,7 +359,6 @@ function addDosRecord(jso) {
     }
    
     if (oTre) {
-        
         //get finish date of previous treatment
         var oLastDos = oTre.doses[oTre.doses.length-1];
         if (oLastDos) {
@@ -400,6 +413,4 @@ function getTodaysMeds() {
         });
     });
 
-    console.log(aData);
-    
 }

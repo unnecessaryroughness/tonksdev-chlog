@@ -130,39 +130,6 @@ HTML;
         }
         
         
-        private function xxxbuildPlanObjJSO($recs) {
-
-            $jso  = "{treatments: [";
-            $curtre = "__first";
-            
-            foreach($recs as $rec) {
-                if ($rec["treatmentid"] != $curtre) {
-                    if ($curtre != "__first") {
-                        $jso = substr($jso, 0, -1);
-                        $jso .= "]},";
-                    }
-                    $curtre = $rec["treatmentid"];
-                    $jso .= "{id: {$rec["treatmentid"]}, name: '{$rec["description"]}', doses: [";
-                }
-                
-                $jso .= "{";
-                $jso .= "dfrom: '{$rec["datefrom"]}',";
-                $jso .= "dto: '{$rec["dateto"]}',";
-                $jso .= "units: '{$rec["dosageunits"]}',";
-                $jso .= "dosage: {$rec["dosage"]},";
-                $jso .= "timesperday: {$rec["timesperday"]},";
-                $jso .= "totaldose: 0,";
-                $jso .= "maxdosevalue: 0,";
-                $jso .= "rendervalue: 0";
-                $jso .= "},";
-            }
-                
-            $jso = substr($jso, 0, -1)."]}]}";
-                        
-            return $jso;
-        }
-        
-        
         private function findTyp($val, $arr) {
             foreach ($arr as $rec) {
                 if ($rec["id"] == $val) {
@@ -174,8 +141,10 @@ HTML;
         
         private function buildTreatmentsOpts() {
             $rtnVal = "";
-            foreach ($this->Treatments as $tre) {
-                $rtnVal .= "<option value='{$tre->id}'>{$tre->description}</option>";
+            if (sizeof($this->Treatments) > 0) {
+                foreach ($this->Treatments as $tre) {
+                    $rtnVal .= "<option value='{$tre->id}'>{$tre->description}</option>";
+                }
             }
             return $rtnVal;
         }
