@@ -1,4 +1,6 @@
 common/classes/chlog/
+common/classes/backup_db_files/
+common/classes/database.php
 logs/
 jquery/
 .sass-cache/
